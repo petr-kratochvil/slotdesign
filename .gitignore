@@ -1,3 +1,15 @@
+# Output directories
+Debug
+Release
+
+# Visual Studio files
+*.sdf
+*.opensdf
+*.suo
+ipch
+*.user
+*.aps
+
 # Compiled Object files
 *.slo
 *.lo
