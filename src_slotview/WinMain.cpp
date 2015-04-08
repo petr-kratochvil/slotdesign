@@ -9,6 +9,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	if (!WinMainGlobal::InitInstance(hInstance, nCmdShow))
 		return 1;
 
+	WinMainGlobal::InitGraphics();
+	UpdateWindow(WinMainGlobal::hWndMain);
+
 	// Main message loop:
 	MSG msg;
 	while (GetMessage(&msg, NULL, 0, 0))
@@ -41,19 +44,24 @@ bool WinMainGlobal::MyRegisterClass(HINSTANCE hInstance)
 
 bool WinMainGlobal::InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
-   HWND hWnd;
    WinMainGlobal::hInst = hInstance;
 
-   hWnd = CreateWindow(L"MainWindowClass", L"Sizzling Hot", WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX,
+   WinMainGlobal::hWndMain = CreateWindow(L"MainWindowClass", L"Sizzling Hot", WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX,
       CW_USEDEFAULT, 0, 700, 500, NULL, NULL, hInstance, NULL);
 
-   if (!hWnd)
+   if (!WinMainGlobal::hWndMain)
       return false;
 
-   ShowWindow(hWnd, nCmdShow);
-   UpdateWindow(hWnd);
+   WinMainGlobal::win32Graphics = new Win32Graphics(700, 500);
+
+   ShowWindow(WinMainGlobal::hWndMain, nCmdShow);
 
    return true;
+}
+
+void WinMainGlobal::InitGraphics()
+{
+	WinMainGlobal::win32Graphics->init();
 }
 
 LRESULT CALLBACK WinMainGlobal::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -66,7 +74,7 @@ LRESULT CALLBACK WinMainGlobal::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 	{
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
-
+		WinMainGlobal::win32Graphics->paint(hdc);
 		EndPaint(hWnd, &ps);
 		break;
 	case WM_DESTROY:
