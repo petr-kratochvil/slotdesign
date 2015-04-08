@@ -54,14 +54,14 @@ public:
 private:
 	void loadSymbols()
 	{
-		this->bmpSymbol[0] = LoadBitmap(WinMainGlobal::hInst, MAKEINTRESOURCE(SZ_SYMBOL1));
-		this->bmpSymbol[1] = LoadBitmap(WinMainGlobal::hInst, MAKEINTRESOURCE(SZ_SYMBOL2));
-		this->bmpSymbol[2] = LoadBitmap(WinMainGlobal::hInst, MAKEINTRESOURCE(SZ_SYMBOL3));
-		this->bmpSymbol[3] = LoadBitmap(WinMainGlobal::hInst, MAKEINTRESOURCE(SZ_SYMBOL4));
-		this->bmpSymbol[4] = LoadBitmap(WinMainGlobal::hInst, MAKEINTRESOURCE(SZ_SYMBOL5));
-		this->bmpSymbol[5] = LoadBitmap(WinMainGlobal::hInst, MAKEINTRESOURCE(SZ_SYMBOL6));
-		this->bmpSymbol[6] = LoadBitmap(WinMainGlobal::hInst, MAKEINTRESOURCE(SZ_SYMBOL7));
-		this->bmpSymbol[7] = LoadBitmap(WinMainGlobal::hInst, MAKEINTRESOURCE(SZ_SYMBOL8));
+		this->bmpSymbol[0] = LoadBitmap(WinGlobal::hInst, MAKEINTRESOURCE(SZ_SYMBOL1));
+		this->bmpSymbol[1] = LoadBitmap(WinGlobal::hInst, MAKEINTRESOURCE(SZ_SYMBOL2));
+		this->bmpSymbol[2] = LoadBitmap(WinGlobal::hInst, MAKEINTRESOURCE(SZ_SYMBOL3));
+		this->bmpSymbol[3] = LoadBitmap(WinGlobal::hInst, MAKEINTRESOURCE(SZ_SYMBOL4));
+		this->bmpSymbol[4] = LoadBitmap(WinGlobal::hInst, MAKEINTRESOURCE(SZ_SYMBOL5));
+		this->bmpSymbol[5] = LoadBitmap(WinGlobal::hInst, MAKEINTRESOURCE(SZ_SYMBOL6));
+		this->bmpSymbol[6] = LoadBitmap(WinGlobal::hInst, MAKEINTRESOURCE(SZ_SYMBOL7));
+		this->bmpSymbol[7] = LoadBitmap(WinGlobal::hInst, MAKEINTRESOURCE(SZ_SYMBOL8));
 	}
 
 public:

@@ -5,12 +5,12 @@
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
-	WinMainGlobal::MyRegisterClass(hInstance);
-	if (!WinMainGlobal::InitInstance(hInstance, nCmdShow))
+	WinGlobal::MyRegisterClass(hInstance);
+	if (!WinGlobal::InitInstance(hInstance, nCmdShow))
 		return 1;
 
-	WinMainGlobal::InitGraphics();
-	UpdateWindow(WinMainGlobal::hWndMain);
+	WinGlobal::InitGraphics();
+	UpdateWindow(WinGlobal::hWndMain);
 
 	// Main message loop:
 	MSG msg;
@@ -22,7 +22,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	return 0;
 }
 
-bool WinMainGlobal::MyRegisterClass(HINSTANCE hInstance)
+bool WinGlobal::MyRegisterClass(HINSTANCE hInstance)
 {
 	WNDCLASSEX wcex;
 
@@ -42,29 +42,39 @@ bool WinMainGlobal::MyRegisterClass(HINSTANCE hInstance)
 	return RegisterClassEx(&wcex);
 }
 
-bool WinMainGlobal::InitInstance(HINSTANCE hInstance, int nCmdShow)
+bool WinGlobal::InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
-   WinMainGlobal::hInst = hInstance;
+   WinGlobal::hInst = hInstance;
 
-   WinMainGlobal::hWndMain = CreateWindow(L"MainWindowClass", L"Sizzling Hot", WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX,
+   WinGlobal::hWndMain = CreateWindow(L"MainWindowClass", L"Sizzling Hot", WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX,
       CW_USEDEFAULT, 0, 700, 500, NULL, NULL, hInstance, NULL);
 
-   if (!WinMainGlobal::hWndMain)
+   if (!WinGlobal::hWndMain)
       return false;
 
-   WinMainGlobal::win32Graphics = new Win32Graphics(700, 500);
+   WinGlobal::win32Graphics = new Win32Graphics(WinGlobal::width, WinGlobal::height);
 
-   ShowWindow(WinMainGlobal::hWndMain, nCmdShow);
+   ShowWindow(WinGlobal::hWndMain, nCmdShow);
 
    return true;
 }
 
-void WinMainGlobal::InitGraphics()
+void WinGlobal::InitGraphics()
 {
-	WinMainGlobal::win32Graphics->init();
+	WinGlobal::win32Graphics->init();
+	WinGlobal::InitControls();
 }
 
-LRESULT CALLBACK WinMainGlobal::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+void WinGlobal::InitControls()
+{
+	WinGlobal::Controls::buttonStart = CreateWindowEx(WS_EX_CLIENTEDGE, L"BUTTON", L"Start !"
+													  , WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON
+													  , WinGlobal::width / 2 - 50, 350
+													  , 100, 40, WinGlobal::hWndMain, HMENU(NULL), WinGlobal::hInst, NULL);
+	WinGlobal::OldButtonProc = (WNDPROC)SetWindowLong(WinGlobal::Controls::buttonStart, GWL_WNDPROC, (LONG)WinGlobal::ButtonProc);
+}
+
+LRESULT CALLBACK WinGlobal::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	int wmId, wmEvent;
 	PAINTSTRUCT ps;
@@ -72,9 +82,16 @@ LRESULT CALLBACK WinMainGlobal::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 
 	switch (message)
 	{
+	case WM_COMMAND:
+		if (lParam == (LPARAM)WinGlobal::Controls::buttonStart)
+		{
+			InvalidateRect(WinGlobal::hWndMain, NULL, false);
+			UpdateWindow(WinGlobal::hWndMain);
+		}
+		else return DefWindowProc(hWnd, message, wParam, lParam);
 	case WM_PAINT:
 		hdc = BeginPaint(hWnd, &ps);
-		WinMainGlobal::win32Graphics->paint(hdc);
+		WinGlobal::win32Graphics->paint(hdc);
 		EndPaint(hWnd, &ps);
 		break;
 	case WM_DESTROY:
@@ -82,6 +99,22 @@ LRESULT CALLBACK WinMainGlobal::WndProc(HWND hWnd, UINT message, WPARAM wParam, 
 		break;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
+	}
+	return 0;
+}
+
+LRESULT CALLBACK WinGlobal::ButtonProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+	switch (message)
+	{
+	case WM_KEYDOWN:
+		if (wParam == VK_RETURN)
+		{
+			SendMessage(hWnd, BM_CLICK, 0, 0);
+			break;
+		}
+	default:
+		return CallWindowProc(WinGlobal::OldButtonProc, hWnd, message, wParam, lParam);
 	}
 	return 0;
 }
