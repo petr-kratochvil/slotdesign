@@ -7,7 +7,7 @@
 class Settings
 {
 public:
-	static const int symbolCount = 9;
+	static const int symbolCount = 8;
 	static const int windowSize = 3;
 	static const int reelCount = 5;
 	static const int paylineCount = 5;
