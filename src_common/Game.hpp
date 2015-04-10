@@ -42,9 +42,11 @@ public:
 		return this->lastWinAmount;
 	}
 
-	int getTotalWin() const
+	int getCredit() const
 	{
-		return this->stats.statWin.getTotal();
+		return Settings::startingCredit
+				- Settings::priceOfSpin * this->stats.statWin.getCount()
+				+ this->stats.statWin.getTotal();
 	}
 
 	// add values form the last spin to stats

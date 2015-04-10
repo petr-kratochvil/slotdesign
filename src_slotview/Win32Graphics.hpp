@@ -105,7 +105,7 @@ public:
 
 		// Draw number values
 		wchar_t txtWin[50];
-		swprintf(txtWin, L"Kredit: %d", WinGlobal::game->getTotalWin() + Settings::startingCredit);
+		swprintf(txtWin, L"Kredit: %d", WinGlobal::game->getCredit());
 		TextOut(hdc, this->offsetX, 350, txtWin, wcslen(txtWin));
 		swprintf(txtWin, L"Výhra: %d", WinGlobal::game->getLastWinAmount());
 		TextOut(hdc, this->width - 1.5*this->offsetX, 350, txtWin, wcslen(txtWin));

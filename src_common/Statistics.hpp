@@ -30,6 +30,10 @@ public:
 	{
 		return this->data;
 	}
+	long getCount() const
+	{
+		return this->count;
+	}
 };
 
 // StatItem that stores all values, for example to compute variance afterwards
