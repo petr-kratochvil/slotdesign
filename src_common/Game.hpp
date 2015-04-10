@@ -13,10 +13,13 @@ class Game
 	const Payline paylines[Settings::paylineCount];
 	const WinCalculator winCalc;
 	bool windowReady;
+	// how big was the win in the last spin
+	int lastWinAmount;
 	// Game's descendant will probably contain some Reelsets.
 public:
 	Game()
 		: windowReady(false)
+		, lastWinAmount(0)
 	{}
 
 	const Statistics& getStats() const
@@ -34,11 +37,21 @@ public:
 		return this->windowReady;
 	}
 
+	int getLastWinAmount() const
+	{
+		return this->lastWinAmount;
+	}
+
+	int getTotalWin() const
+	{
+		return this->stats.statWin.getTotal();
+	}
+
 	// add values form the last spin to stats
 	void updateStats()
 	{
-		int win = this->winCalc.win(this->window, this->paylines);
-		this->stats.statWin.addData(win);
+		this->lastWinAmount = this->winCalc.win(this->window, this->paylines);
+		this->stats.statWin.addData(this->lastWinAmount);
 	}
 
 	// a player has joyfully pressed the big START! button
@@ -46,7 +59,8 @@ public:
 	{
 		this->spin();
 		this->updateStats();
-		this->stats.writeToFile();
+		// this should be dependent on some on/off option
+		// this->stats.writeToFile();
 	}
 
 	// this function should change this->window

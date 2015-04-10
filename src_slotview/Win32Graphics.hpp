@@ -2,6 +2,7 @@
 #pragma comment(lib,"gdiplus.lib")
 
 #include <assert.h>
+#include <stdio.h>
 #include <windows.h>
 #include <GdiPlus.h>
 #include "WinMain.h"
@@ -77,6 +78,7 @@ public:
 		Gdiplus::Graphics graphics(hdc);
 		graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
 
+		// Draw symbols
 		for (int i = 0; i<Settings::reelCount; i++)
 			for (int j=0; j<Settings::windowSize; j++)
 			{
@@ -87,6 +89,7 @@ public:
 					, 0, 0, DST_BITMAP);
 			}
 
+		// Draw the grid
 		for (int j=0; j<=Settings::windowSize; j++)
 		{
 			graphics.DrawLine(this->penGrid
@@ -100,6 +103,12 @@ public:
 				, this->offsetX + i * this->symbolW, this->offsetY + Settings::windowSize * this->symbolH);
 		}
 
+		// Draw number values
+		wchar_t txtWin[50];
+		swprintf(txtWin, L"Kredit: %d", WinGlobal::game->getTotalWin() + Settings::startingCredit);
+		TextOut(hdc, this->offsetX, 350, txtWin, wcslen(txtWin));
+		swprintf(txtWin, L"Výhra: %d", WinGlobal::game->getLastWinAmount());
+		TextOut(hdc, this->width - 1.5*this->offsetX, 350, txtWin, wcslen(txtWin));
 	}
 };
 

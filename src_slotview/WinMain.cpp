@@ -92,7 +92,7 @@ LRESULT CALLBACK WinGlobal::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPAR
 	case WM_COMMAND:
 		if (lParam == (LPARAM)WinGlobal::Controls::buttonStart)
 		{
-			WinGlobal::game->spin();
+			WinGlobal::game->start();
 			InvalidateRect(WinGlobal::hWndMain, NULL, false);
 			UpdateWindow(WinGlobal::hWndMain);
 		}

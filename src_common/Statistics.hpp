@@ -9,6 +9,10 @@ class StatItem
 	long data;
 	long count;
 public:
+	StatItem()
+		: data(0)
+		, count(0)
+	{}
 	void addData(int d)
 	{
 		this->data += d;
@@ -39,7 +43,9 @@ class StatItemStore : StatItem
 // Evolution of stats after individual spis (to be graphed) will be written to file immediately
 struct Statistics
 {
+	// count the total win
 	StatItem statWin;
+	// count the percentage of individual symbols
 	StatItem statSymbols[Settings::symbolCount];
 	// ...more statistical idicators...
 	void writeToFile() const

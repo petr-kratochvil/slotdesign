@@ -20,6 +20,7 @@ class WinCalculator
 {
 	int paylineWin(const Window& window, const Payline& payline) const
 	{
+		return 4;
 	}
 public:
 	int win(const Window& window, const Payline* paylines) const
@@ -29,6 +30,7 @@ public:
 		{
 			partialWin += this->paylineWin(window, paylines[i]);
 		}
+		return partialWin;
 	}
 };
 

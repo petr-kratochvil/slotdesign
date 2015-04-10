@@ -11,6 +11,8 @@ public:
 	static const int windowSize = 3;
 	static const int reelCount = 5;
 	static const int paylineCount = 5;
+	static const int priceOfSpin = 5;
+	static const int startingCredit = 1000;
 };
 
 #endif
