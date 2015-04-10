@@ -1,12 +1,14 @@
 // link the Gdiplus library
 #pragma comment(lib,"gdiplus.lib")
 
+#include <assert.h>
 #include <windows.h>
 #include <GdiPlus.h>
-#include "src_common/Settings.hpp"
 #include "WinMain.h"
 #include "vs_slotview/resource.h"
-#include "src_common\Random.hpp"
+#include "Settings.hpp"
+#include "Game.hpp"
+#include "Reel.hpp"
 
 #ifndef WIN32GRAPHICS_HPP
 #define WIN32GRAPHICS_HPP
@@ -69,15 +71,21 @@ public:
 	{
 		if (!this->wasInitialized)
 			return;
+		if (!WinGlobal::game->isWindowReady())
+			return;
 
 		Gdiplus::Graphics graphics(hdc);
 		graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
 
 		for (int i = 0; i<Settings::reelCount; i++)
 			for (int j=0; j<Settings::windowSize; j++)
-				DrawState(hdc, NULL, NULL, LPARAM(this->bmpSymbol[Random::gen(0, 7)]), 0
+			{
+				int symbolID = WinGlobal::game->getWindow().getSymbol(i, j);
+				assert((symbolID >= 0) && (symbolID < Settings::symbolCount));
+				DrawState(hdc, NULL, NULL, LPARAM(this->bmpSymbol[symbolID]), 0
 					,this->offsetX + i * this->symbolW, this->offsetY + j * this->symbolH
 					, 0, 0, DST_BITMAP);
+			}
 
 		for (int j=0; j<=Settings::windowSize; j++)
 		{

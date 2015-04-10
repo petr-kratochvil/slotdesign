@@ -10,7 +10,7 @@ class Random
 public:
 	static void init()
 	{
-		srand(time(NULL));
+		srand((unsigned int)time(NULL));
 	}
 	static int gen(int min, int max)
 	{

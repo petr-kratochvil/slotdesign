@@ -1,7 +1,9 @@
 #include <windows.h>
+#include "vs_slotview/resource.h"
+
 #include "Win32Graphics.hpp"
 #include "WinMain.h"
-#include "vs_slotview/resource.h"
+#include "Game.hpp"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -9,6 +11,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	if (!WinGlobal::InitInstance(hInstance, nCmdShow))
 		return 1;
 
+	WinGlobal::InitGame();
 	WinGlobal::InitGraphics();
 	UpdateWindow(WinGlobal::hWndMain);
 
@@ -39,7 +42,7 @@ bool WinGlobal::MyRegisterClass(HINSTANCE hInstance)
 	wcex.lpszClassName	= L"MainWindowClass";
 	wcex.hIconSm		= LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON1));
 
-	return RegisterClassEx(&wcex);
+	return (bool)RegisterClassEx(&wcex);
 }
 
 bool WinGlobal::InitInstance(HINSTANCE hInstance, int nCmdShow)
@@ -74,9 +77,13 @@ void WinGlobal::InitControls()
 	WinGlobal::OldButtonProc = (WNDPROC)SetWindowLong(WinGlobal::Controls::buttonStart, GWL_WNDPROC, (LONG)WinGlobal::ButtonProc);
 }
 
+void WinGlobal::InitGame()
+{
+	WinGlobal::game = new Game();
+}
+
 LRESULT CALLBACK WinGlobal::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
-	int wmId, wmEvent;
 	PAINTSTRUCT ps;
 	HDC hdc;
 
@@ -85,6 +92,7 @@ LRESULT CALLBACK WinGlobal::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPAR
 	case WM_COMMAND:
 		if (lParam == (LPARAM)WinGlobal::Controls::buttonStart)
 		{
+			WinGlobal::game->spin();
 			InvalidateRect(WinGlobal::hWndMain, NULL, false);
 			UpdateWindow(WinGlobal::hWndMain);
 		}
