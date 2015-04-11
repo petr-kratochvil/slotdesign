@@ -10,6 +10,9 @@ ipch
 *.user
 *.aps
 
+# IDEA folder
+.idea
+
 # Compiled Object files
 *.slo
 *.lo
