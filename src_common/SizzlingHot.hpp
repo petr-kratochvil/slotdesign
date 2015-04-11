@@ -5,5 +5,5 @@
 
 class GameSizzlingHot : Game
 {
-}
+};
 #endif

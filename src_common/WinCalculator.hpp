@@ -1,6 +1,8 @@
+#include "Settings.hpp"
+#include "Reel.hpp"
+
 #ifndef WINCALCULATOR_HPP
 #define WINCALCULATOR_HPP
-
 class Payline
 {
 	int line[Settings::reelCount];
