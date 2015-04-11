@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <assert.h>
 #include "Settings.hpp"
 #include "Statistics.hpp"
 #include "Reel.hpp"
@@ -22,6 +24,18 @@ public:
 		: windowReady(false)
 		, lastWinAmount(0)
 	{}
+
+	void loadPaylines(char* fileName)
+	{
+		char filePath[250];
+		strcpy(filePath, Settings::pathInputs);
+		strcat(filePath, fileName);
+		FILE* fr = fopen(filePath, "r");
+		assert(fr != NULL);
+		for (int i = 0; i < Settings::paylineCount; i++)
+			this->paylines[i].load(fr);
+		fclose(fr);
+	}
 
 	const Statistics& getStats() const
 	{

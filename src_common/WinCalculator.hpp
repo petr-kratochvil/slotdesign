@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "Settings.hpp"
 #include "Reel.hpp"
 
@@ -7,8 +8,10 @@ class Payline
 {
 	int line[Settings::reelCount];
 public:
-	void load()
+	void load(FILE* fr)
 	{
+		for (int j = 0; j < Settings::reelCount; j++)
+			fscanf(fr, "%d", &this->line[j]);
 	}
 	// position on payline
 	int linePos(int reel) const

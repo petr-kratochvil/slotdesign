@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <assert.h>
+#include <string.h>
 #include "Settings.hpp"
 #include "Random.hpp"
 
@@ -77,7 +78,10 @@ class ReelSet
 public:
 	void load(char* fileName)
 	{
-		FILE* fr = fopen(fileName, "r");
+		char filePath[250];
+		strcpy(filePath, Settings::pathInputs);
+		strcat(filePath, fileName);
+		FILE* fr = fopen(filePath, "r");
 		assert(fr != NULL);
 		for (int i = 0; i < Settings::reelCount; i++)
 		{
@@ -87,6 +91,7 @@ public:
 		}
 		for (int i = 0; i < Settings::reelCount; i++)
 			this->reels[i]->load(fr);
+		fclose(fr);
 	}
 
 	ReelSet()
