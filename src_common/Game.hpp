@@ -10,8 +10,8 @@ class Game
 {
 	Statistics stats;
 	Window window;
-	const Payline paylines[Settings::paylineCount];
-	const WinCalculator winCalc;
+	Payline paylines[Settings::paylineCount];
+	WinCalculator winCalc;
 	// window is filled with symbols (at least one spin was made)
 	bool windowReady;
 	// how big was the win in the last spin
