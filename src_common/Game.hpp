@@ -12,6 +12,7 @@ class Game
 	Window window;
 	const Payline paylines[Settings::paylineCount];
 	const WinCalculator winCalc;
+	// window is filled with symbols (at least one spin was made)
 	bool windowReady;
 	// how big was the win in the last spin
 	int lastWinAmount;
@@ -65,6 +66,7 @@ public:
 		// this->stats.writeToFile();
 	}
 
+private:
 	// this function should change this->window
 	virtual void spin()
 	{
