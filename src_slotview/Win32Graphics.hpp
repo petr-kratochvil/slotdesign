@@ -25,6 +25,7 @@ class Win32Graphics
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 	ULONG_PTR gdiplusToken;
 	Gdiplus::Pen* penGrid;
+	Gdiplus::Pen* penFrame;
 public:
 	Win32Graphics(int width, int height)
 		: width(width)
@@ -36,6 +37,7 @@ public:
 		for (int i = 0; i < Settings::symbolCount; i++)
 			DeleteObject(this->bmpSymbol[i]);
 		delete this->penGrid;
+		delete this->penFrame;
 	}
 	void init()
 	{
@@ -50,7 +52,8 @@ public:
 
 		// Init Gdiplus
 		Gdiplus::GdiplusStartup(&this->gdiplusToken, &this->gdiplusStartupInput, NULL);
-		this->penGrid = new Gdiplus::Pen(Gdiplus::Color(255, 250, 250, 250), 1.0);
+		this->penGrid = new Gdiplus::Pen(Gdiplus::Color(255, 220, 220, 220), 2.0);
+		this->penFrame = new Gdiplus::Pen(Gdiplus::Color(255, 0, 0, 150), 3.0);
 
 		this->wasInitialized = true;
 	}
@@ -72,22 +75,29 @@ public:
 	{
 		if (!this->wasInitialized)
 			return;
-		if (!WinGlobal::game->isWindowReady())
-			return;
 
 		Gdiplus::Graphics graphics(hdc);
 		graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
 
 		// Draw symbols
-		for (int i = 0; i<Settings::reelCount; i++)
-			for (int j=0; j<Settings::windowSize; j++)
-			{
-				int symbolID = WinGlobal::game->getWindow().getSymbol(i, j);
-				assert((symbolID >= 0) && (symbolID < Settings::symbolCount));
-				DrawState(hdc, NULL, NULL, LPARAM(this->bmpSymbol[symbolID]), 0
-					,this->offsetX + i * this->symbolW, this->offsetY + j * this->symbolH
-					, 0, 0, DST_BITMAP);
+		if (WinGlobal::game->isWindowReady())
+		{
+			for (int i = 0; i<Settings::reelCount; i++)
+				for (int j=0; j<Settings::windowSize; j++)
+				{
+					int symbolID = WinGlobal::game->getWindow().getSymbol(i, j);
+					assert((symbolID >= 0) && (symbolID < Settings::symbolCount));
+					DrawState(hdc, NULL, NULL, LPARAM(this->bmpSymbol[symbolID]), 0
+						,this->offsetX + i * this->symbolW, this->offsetY + j * this->symbolH
+						, 0, 0, DST_BITMAP);
 			}
+		}
+
+		// Draw the frame around
+		int padding = 20;
+		graphics.DrawRectangle(this->penFrame, this->offsetX - padding, this->offsetY - padding
+								, 2 * padding + Settings::reelCount * this->symbolW
+								, 2 * padding + Settings::windowSize * this->symbolH);
 
 		// Draw the grid
 		for (int j=0; j<=Settings::windowSize; j++)
