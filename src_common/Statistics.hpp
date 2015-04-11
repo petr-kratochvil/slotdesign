@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include "Settings.hpp"
 
 #ifndef STATISTICS_HPP
@@ -12,12 +13,32 @@ class StatItem
 	long dataSquared;
 	// data items count
 	long count;
+	// file to write stats to
+	FILE* fw;
 public:
 	StatItem()
 		: data(0)
 		, dataSquared(0)
 		, count(0)
+		, fw(NULL)
 	{}
+	~StatItem()
+	{
+		if (this->fw != NULL)
+			fclose(this->fw);
+	}
+	void setOutputFile(char* fileName)
+	{
+		assert(this->fw == NULL);
+		char filePath[250];
+		strcpy(filePath, Settings::pathOutputs);
+		strcat(filePath, fileName);
+		this->fw = fopen(filePath, "w");
+	}
+	void printToFile() const
+	{
+		fprintf(this->fw, "%d %d\n", this->count, this->data);
+	}
 	void addData(int d)
 	{
 		this->data += d;
@@ -60,8 +81,23 @@ struct Statistics
 	// count the percentage of individual symbols
 	StatItem statSymbols[Settings::symbolCount];
 	// ...more statistical idicators...
-	void writeToFile() const
+	Statistics()
 	{
+		this->statWin.setOutputFile("statWin.txt");
+		char fileName[50];
+		for (int i = 0; i < Settings::symbolCount; i++)
+		{
+			sprintf(fileName, "statSymbol%d.txt", i);
+			this->statSymbols[i].setOutputFile(fileName);
+		}
+	}
+	void printToFile() const
+	{
+		this->statWin.printToFile();
+		for (int i = 0; i < Settings::symbolCount; i++)
+		{
+			this->statSymbols[i].printToFile();
+		}
 	}
 };
 

@@ -14,8 +14,10 @@ public:
 	static const int priceOfSpin = 5;
 	static const int startingCredit = 1000;
 	static const char* pathInputs;
+	static const char* pathOutputs;
 };
 
 const char* Settings::pathInputs = "inputs/SizzlingHot/";
+const char* Settings::pathOutputs = "outputs/";
 
 #endif
