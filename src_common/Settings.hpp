@@ -13,6 +13,7 @@ public:
 	static const int paylineCount = 5;
 	static const int priceOfSpin = 5;
 	static const int startingCredit = 1000;
+	static const char* pathInputs = "inputs/SizzlingHot";
 };
 
 #endif

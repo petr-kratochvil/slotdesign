@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <assert.h>
 #include "Settings.hpp"
 #include "Random.hpp"
 
@@ -33,10 +35,27 @@ class Reel
 	int lastPosition;
 
 public:
-	void load()
+	Reel(int symbolCount)
+		: symbolCount(symbolCount)
 	{
+		this->symbols = (int*)malloc(symbolCount * sizeof(int));
 	}
-
+	~Reel()
+	{
+		delete this->symbols;
+	}
+	// Length of the reel is the number of symbols on it
+	int getLen()
+	{
+		return this->symbolCount;
+	}
+	void load(FILE* fr)
+	{
+		for (int j = 0; j < this->symbolCount ; j++)
+		{
+			fscanf(fr, "%d", &this->symbols[j]);
+		}
+	}
 	ReelSpinResult spin()
 	{
 		ReelSpinResult res;
@@ -51,10 +70,25 @@ public:
 // Set of reels (Game usually has at least 2 sets, one for wins and one for spins win zero win)
 class ReelSet
 {
-	Reel reels[Settings::reelCount];
+	Reel* reels[Settings::reelCount];
 	// Reels need to be shuffled, because they are not identical, so they should appear at random position
 	int reelShuffle[Settings::reelCount];
+
 public:
+	void load(char* fileName)
+	{
+		FILE* fr = fopen(fileName, "r");
+		assert(fr != NULL);
+		for (int i = 0; i < Settings::reelCount; i++)
+		{
+			int reelLength;
+			fscanf(fr, "%d", &reelLength);
+			this->reels[i] = new Reel(reelLength);
+		}
+		for (int i = 0; i < Settings::reelCount; i++)
+			this->reels[i]->load(fr);
+	}
+
 	ReelSet()
 	{
 		for (int i=0; i<Settings::reelCount; i++)
