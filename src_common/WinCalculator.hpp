@@ -27,7 +27,7 @@ class WinCalculator
 	int paylineWin(const Window& window, const Payline& payline) const
 	{
 		int symbol = window.getSymbol(0, payline.linePos(0));
-		for (int i = 1; i<= Settings::reelCount; i++)
+		for (int i = 1; i < Settings::reelCount; i++)
 		{
 			if (symbol == window.getSymbol(i, payline.linePos(i)))
 				continue;
@@ -40,6 +40,87 @@ class WinCalculator
 	{
 		assert((N <= 5) && (N >= 1));
 		return this->payTableBasic[symbol][N-1];
+	}
+	int paylineWin7(const Window& window, const Payline& payline) const
+	{
+		if (window.getSymbol(0, payline.linePos(0)) != 6)
+			return 0;
+		int sevenCount = 1;
+		for (int i = 1; i < Settings::reelCount; i++)
+		{
+			if (window.getSymbol(i, payline.linePos(i)) == 6)
+				sevenCount = i + 1;
+			else
+				break;
+		}
+		if (sevenCount < 3)
+			return 0;
+		int level = Random::gen(1, 4);
+		switch (level)
+		{
+		case 1:
+			switch (sevenCount)
+			{
+			case 3:
+				return 70;
+			case 4:
+				return 150;
+			case 5:
+				return 750;
+			}
+		case 2:
+			switch (sevenCount)
+			{
+			case 3:
+				return 100;
+			case 4:
+				return 200;
+			case 5:
+				return 1000;
+			}
+		case 3:
+			switch (sevenCount)
+			{
+			case 3:
+				return 150;
+			case 4:
+				return 300;
+			case 5:
+				return 1500;
+			}
+		case 4:
+			switch (sevenCount)
+			{
+			case 3:
+				return 300;
+			case 4:
+				return 1000;
+			case 5:
+				return 5000;
+			}
+		}
+	}
+
+	int scatterWinStar(const Window& window) const
+	{
+		int starCount = 0;
+		for (int i = 0; i < Settings::reelCount; i++)
+			for (int j = 0; j < Settings::windowSize; j++)
+				if (window.getSymbol(i, j) == 7)
+					starCount++;
+		if (starCount < 3)
+			return 0;
+		if (starCount > 5)
+			starCount = 5;
+		switch (starCount)
+		{
+		case 3:
+			return 10;
+		case 4:
+			return 50;
+		case 5:
+			return 250;
+		}
 	}
 
 public:
@@ -70,8 +151,11 @@ public:
 		for (int i=0; i<Settings::paylineCount; i++)
 		{
 			int w = this->paylineWin(window, paylines[i]);
-			partialWin += w;
+			int w7 = this->paylineWin7(window, paylines[i]);
+			partialWin += w + w7;
 		}
+		int wstar = this->scatterWinStar(window);
+		partialWin += wstar;
 		return partialWin;
 	}
 };
