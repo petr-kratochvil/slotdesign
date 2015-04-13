@@ -80,6 +80,8 @@ void WinGlobal::InitControls()
 void WinGlobal::InitGame()
 {
 	WinGlobal::game = new Game();
+	WinGlobal::game->loadSizzlingHot();
+	Random::init();
 }
 
 LRESULT CALLBACK WinGlobal::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

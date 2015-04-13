@@ -94,7 +94,7 @@ public:
 		}
 
 		// Draw the frame around
-		int padding = 20;
+		int padding = 15;
 		graphics.DrawRectangle(this->penFrame, this->offsetX - padding, this->offsetY - padding
 								, 2 * padding + Settings::reelCount * this->symbolW
 								, 2 * padding + Settings::windowSize * this->symbolH);
