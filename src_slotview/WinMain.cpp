@@ -93,7 +93,7 @@ LRESULT CALLBACK WinGlobal::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPAR
 		if (lParam == (LPARAM)WinGlobal::Controls::buttonStart)
 		{
 			WinGlobal::game->start();
-			InvalidateRect(WinGlobal::hWndMain, NULL, false);
+			InvalidateRect(WinGlobal::hWndMain, NULL, true);
 			UpdateWindow(WinGlobal::hWndMain);
 		}
 		else return DefWindowProc(hWnd, message, wParam, lParam);
