@@ -32,10 +32,11 @@ class WinCalculator
 			if (symbol == window.getSymbol(i, payline.linePos(i)))
 				continue;
 			else
-				return 0;
+				return this->payLeftN(symbol, i);
 		}
+		return this->payLeftN(symbol, Settings::reelCount);
 	}
-	int payLeftN(int symbol, int N)
+	int payLeftN(int symbol, int N) const
 	{
 		assert((N <= 5) && (N >= 1));
 		return this->payTableBasic[symbol][N-1];
@@ -51,7 +52,7 @@ public:
 		assert(fr != NULL);
 		for (int i = 0 ; i < Settings::symbolCount; i++)
 			for (int j = 3; j <= 5; j++)
-				fscanf(fr, "%d", &this->payTableBasic[i][j]);
+				fscanf(fr, "%d", &this->payTableBasic[i][j-1]);
 		fclose(fr);
 		this->payTableBasic[0][1] = 5;
 	}
@@ -68,7 +69,8 @@ public:
 		int partialWin = 0;
 		for (int i=0; i<Settings::paylineCount; i++)
 		{
-			partialWin += this->paylineWin(window, paylines[i]);
+			int w = this->paylineWin(window, paylines[i]);
+			partialWin += w;
 		}
 		return partialWin;
 	}
