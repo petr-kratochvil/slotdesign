@@ -63,8 +63,9 @@ public:
 		this->lastPosition = Random::gen(0, this->symbolCount);
 		for (int i=0; i< Settings::windowSize; i++)
 		{
-			res.symbols[i] = (this->lastPosition+i) % this->symbolCount;
+			res.symbols[i] = this->symbols[(this->lastPosition+i) % this->symbolCount];
 		}
+		return res;
 	}
 };
 
@@ -113,8 +114,15 @@ public:
 		}
 	}
 
-	Window& spin()
+	void spin(Window* w)
 	{
+		ReelSpinResult res;
+		for (int i = 0; i < Settings::reelCount; i++)
+		{
+			res = this->reels[i]->spin();
+			for (int j = 0; j < Settings::windowSize; j++)
+				w->setSymbol(i, j, res.symbols[j]);
+		}
 	}
 };
 

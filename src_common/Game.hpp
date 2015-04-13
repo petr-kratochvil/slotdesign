@@ -94,9 +94,7 @@ private:
 	// this function should change this->window
 	virtual void spin()
 	{
-		for (int i = 0; i < Settings::reelCount; i++)
-			for (int j = 0; j < Settings::windowSize; j++)
-				this->window.setSymbol(i, j, i+j);
+		this->reelSetMain.spin(&this->window);
 		this->windowReady = true;
 	}
 
