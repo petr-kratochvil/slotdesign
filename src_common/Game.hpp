@@ -19,12 +19,21 @@ class Game
 	// how big was the win in the last spin
 	int lastWinAmount;
 	// Game's descendant will probably contain some Reelsets.
+	ReelSet reelSetMain;
 public:
 	Game()
 		: windowReady(false)
 		, lastWinAmount(0)
 	{}
 
+	void loadSizzlingHot()
+	{
+		this->reelSetMain.load("reelset0.txt");
+		this->loadPaylines("paylines.txt");
+		this->winCalc.loadPaytable("paytable.txt");
+	}
+
+private:
 	void loadPaylines(char* fileName)
 	{
 		char filePath[250];
@@ -37,6 +46,7 @@ public:
 		fclose(fr);
 	}
 
+public:
 	const Statistics& getStats() const
 	{
 		return this->stats;
