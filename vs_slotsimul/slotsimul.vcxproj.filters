@@ -13,33 +13,39 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\common">
+      <UniqueIdentifier>{2c9feee9-e883-470f-94ae-0e86c576473c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\slotsimul">
+      <UniqueIdentifier>{e755c6fa-55e8-4045-998e-7346d12b22ab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src_common\Game.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src_common\Random.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src_common\Reel.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src_common\Settings.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src_common\SizzlingHot.hpp">
-      <Filter>Source Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src_common\Statistics.hpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\common</Filter>
     </ClInclude>
     <ClInclude Include="..\src_common\WinCalculator.hpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src_common\Random.hpp">
+      <Filter>Source Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src_common\Reel.hpp">
+      <Filter>Source Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src_common\Settings.hpp">
+      <Filter>Source Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src_common\SizzlingHot.hpp">
+      <Filter>Source Files\common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src_common\Statistics.hpp">
+      <Filter>Source Files\common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src_slotsimul\main.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\slotsimul</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
