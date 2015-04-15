@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #include "Settings.hpp"
 
 #ifndef STATISTICS_HPP
@@ -39,7 +40,7 @@ public:
 	{
 		fprintf(this->fw, "%d %d\n", this->count, this->data);
 	}
-	void addData(int d)
+	void addData(int d = 1)
 	{
 		this->data += d;
 		this->dataSquared += d * d;
@@ -78,6 +79,8 @@ struct Statistics
 {
 	// count the total win
 	StatItem statWin;
+	StatItem statWin0, statWinU100, statWinU200, statWinO200;
+	int maxWin;
 	// count the percentage of individual symbols
 	StatItem statSymbols[Settings::symbolCount];
 	// ...more statistical idicators...
@@ -90,6 +93,7 @@ struct Statistics
 			sprintf(fileName, "statSymbol%d.txt", i);
 			this->statSymbols[i].setOutputFile(fileName);
 		}
+		this->maxWin = 0;
 	}
 	void printToFile() const
 	{
