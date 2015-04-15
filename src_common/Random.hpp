@@ -16,6 +16,10 @@ public:
 	{
 		return (rand() % (max-min+1)) + min;
 	}
+	static bool genPct(int pct)
+	{
+		return (Random::gen(0, 99) < pct);
+	}
 };
 
 #endif

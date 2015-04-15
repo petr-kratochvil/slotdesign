@@ -20,6 +20,7 @@ class Game
 	int lastWinAmount;
 	// Game's descendant will probably contain some Reelsets.
 	ReelSet reelSetMain;
+	ReelSet reelSetZero;
 public:
 	Game()
 		: windowReady(false)
@@ -29,6 +30,7 @@ public:
 	void loadSizzlingHot()
 	{
 		this->reelSetMain.load("reelset0.txt");
+		this->reelSetZero.load("reelset1.txt");
 		this->loadPaylines("paylines.txt");
 		this->winCalc.loadPaytable("paytable.txt");
 	}
@@ -105,7 +107,11 @@ private:
 	virtual void spin()
 	{
 		this->reelSetMain.shuffleReels();
-		this->reelSetMain.spin(&this->window);
+		this->reelSetZero.shuffleReels();
+		if (Random::genPct(76))
+			this->reelSetMain.spin(&this->window);
+		else
+			this->reelSetZero.spin(&this->window);
 		this->windowReady = true;
 	}
 
