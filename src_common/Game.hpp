@@ -94,6 +94,7 @@ private:
 	// this function should change this->window
 	virtual void spin()
 	{
+		this->reelSetMain.shuffleReels();
 		this->reelSetMain.spin(&this->window);
 		this->windowReady = true;
 	}
