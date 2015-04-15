@@ -77,6 +77,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\src_common\Game.hpp" />
+    <ClInclude Include="..\src_common\InputLoader.hpp" />
     <ClInclude Include="..\src_common\Random.hpp" />
     <ClInclude Include="..\src_common\Reel.hpp" />
     <ClInclude Include="..\src_common\Settings.hpp" />

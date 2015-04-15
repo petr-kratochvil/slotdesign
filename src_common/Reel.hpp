@@ -3,6 +3,7 @@
 #include <string.h>
 #include "Settings.hpp"
 #include "Random.hpp"
+#include "InputLoader.hpp"
 
 #ifndef REEL_HPP
 #define REEL_HPP
@@ -50,11 +51,11 @@ public:
 	{
 		return this->symbolCount;
 	}
-	void load(FILE* fr)
+	void load(Input* input)
 	{
 		for (int j = 0; j < this->symbolCount ; j++)
 		{
-			fscanf(fr, "%d", &this->symbols[j]);
+			this->symbols[j] = input->getInt();
 		}
 	}
 	ReelSpinResult spin()
@@ -79,20 +80,15 @@ class ReelSet
 public:
 	void load(char* fileName)
 	{
-		char filePath[250];
-		strcpy(filePath, Settings::pathInputs);
-		strcat(filePath, fileName);
-		FILE* fr = fopen(filePath, "r");
-		assert(fr != NULL);
+		Input* input = InputLoader::open(fileName);
 		for (int i = 0; i < Settings::reelCount; i++)
 		{
-			int reelLength;
-			fscanf(fr, "%d", &reelLength);
+			int reelLength = input->getInt();
 			this->reels[i] = new Reel(reelLength);
 		}
 		for (int i = 0; i < Settings::reelCount; i++)
-			this->reels[i]->load(fr);
-		fclose(fr);
+			this->reels[i]->load(input);
+		InputLoader::close(input);
 	}
 
 	ReelSet()

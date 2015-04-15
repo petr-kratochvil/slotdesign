@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "Settings.hpp"
 #include "Reel.hpp"
+#include "InputLoader.hpp"
 
 #ifndef WINCALCULATOR_HPP
 #define WINCALCULATOR_HPP
@@ -8,10 +9,10 @@ class Payline
 {
 	int line[Settings::reelCount];
 public:
-	void load(FILE* fr)
+	void load(Input* input)
 	{
 		for (int j = 0; j < Settings::reelCount; j++)
-			fscanf(fr, "%d", &this->line[j]);
+			this->line[j] = input->getInt();
 	}
 	// position on payline
 	int linePos(int reel) const
@@ -126,15 +127,11 @@ class WinCalculator
 public:
 	void loadPaytable(char* fileName)
 	{
-		char filePath[250];
-		strcpy(filePath, Settings::pathInputs);
-		strcat(filePath, fileName);
-		FILE* fr = fopen(filePath, "r");
-		assert(fr != NULL);
+		Input* input = InputLoader::open(fileName);
 		for (int i = 0 ; i < Settings::symbolCount; i++)
 			for (int j = 3; j <= 5; j++)
-				fscanf(fr, "%d", &this->payTableBasic[i][j-1]);
-		fclose(fr);
+				this->payTableBasic[i][j-1] = input->getInt();
+		InputLoader::close(input);
 		this->payTableBasic[0][1] = 5;
 	}
 

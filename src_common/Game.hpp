@@ -4,6 +4,7 @@
 #include "Statistics.hpp"
 #include "Reel.hpp"
 #include "WinCalculator.hpp"
+#include "InputLoader.hpp"
 
 #ifndef GAME_HPP
 #define GAME_HPP
@@ -38,14 +39,10 @@ public:
 private:
 	void loadPaylines(char* fileName)
 	{
-		char filePath[250];
-		strcpy(filePath, Settings::pathInputs);
-		strcat(filePath, fileName);
-		FILE* fr = fopen(filePath, "r");
-		assert(fr != NULL);
+		Input* input = InputLoader::open(fileName);
 		for (int i = 0; i < Settings::paylineCount; i++)
-			this->paylines[i].load(fr);
-		fclose(fr);
+			this->paylines[i].load(input);
+		InputLoader::close(input);
 	}
 
 public:

@@ -42,6 +42,9 @@
     <ClInclude Include="..\src_common\Statistics.hpp">
       <Filter>Source Files\common</Filter>
     </ClInclude>
+    <ClInclude Include="..\src_common\InputLoader.hpp">
+      <Filter>Source Files\common</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src_slotsimul\main.cpp">
