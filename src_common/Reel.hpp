@@ -78,9 +78,8 @@ class ReelSet
 	int reelShuffle[Settings::reelCount];
 
 public:
-	void load(char* fileName)
+	void load(Input* input)
 	{
-		Input* input = InputLoader::open(fileName);
 		for (int i = 0; i < Settings::reelCount; i++)
 		{
 			int reelLength = input->getInt();
@@ -88,7 +87,6 @@ public:
 		}
 		for (int i = 0; i < Settings::reelCount; i++)
 			this->reels[i]->load(input);
-		InputLoader::close(input);
 	}
 
 	ReelSet()

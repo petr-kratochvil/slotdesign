@@ -125,13 +125,11 @@ class WinCalculator
 	}
 
 public:
-	void loadPaytable(char* fileName)
+	void loadPaytable(Input* input)
 	{
-		Input* input = InputLoader::open(fileName);
 		for (int i = 0 ; i < Settings::symbolCount; i++)
 			for (int j = 3; j <= 5; j++)
 				this->payTableBasic[i][j-1] = input->getInt();
-		InputLoader::close(input);
 		this->payTableBasic[0][1] = 5;
 	}
 

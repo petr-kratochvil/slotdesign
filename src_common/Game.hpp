@@ -30,19 +30,25 @@ public:
 
 	void loadSizzlingHot()
 	{
-		this->reelSetMain.load("reelset0.txt");
-		this->reelSetZero.load("reelset1.txt");
-		this->loadPaylines("paylines.txt");
-		this->winCalc.loadPaytable("paytable.txt");
+		Input* rsMain = InputLoader::open(sz_reelset0);
+		Input* rsZero = InputLoader::open(sz_reelset1);
+		Input* plines = InputLoader::open(sz_paylines);
+		Input* ptable = InputLoader::open(sz_paytable);
+		this->reelSetMain.load(rsMain);
+		this->reelSetZero.load(rsZero);
+		this->loadPaylines(plines);
+		this->winCalc.loadPaytable(ptable);
+		InputLoader::close(rsMain);
+		InputLoader::close(rsZero);
+		InputLoader::close(plines);
+		InputLoader::close(ptable);
 	}
 
 private:
-	void loadPaylines(char* fileName)
+	void loadPaylines(Input* input)
 	{
-		Input* input = InputLoader::open(fileName);
 		for (int i = 0; i < Settings::paylineCount; i++)
 			this->paylines[i].load(input);
-		InputLoader::close(input);
 	}
 
 public:
