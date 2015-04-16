@@ -20,6 +20,10 @@ public:
 	{
 		return (Random::gen(0, 99) < pct);
 	}
+	static bool genPml(int pml)
+	{
+		return (Random::gen(0, 999) < pml);
+	}
 };
 
 #endif
