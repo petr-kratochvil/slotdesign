@@ -1,6 +1,10 @@
 # Output directories
 Debug
 Release
+Deploy
+
+# Load direcotry for input
+load
 
 # Visual Studio files
 *.sdf

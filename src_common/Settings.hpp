@@ -17,7 +17,7 @@ public:
 	static const char* pathOutputs;
 };
 
-const char* Settings::pathInputs = "inputs/SizzlingHot/";
+const char* Settings::pathInputs = "load/";
 const char* Settings::pathOutputs = "outputs/";
 
 #endif
