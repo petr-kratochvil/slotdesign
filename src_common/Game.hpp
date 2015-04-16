@@ -30,10 +30,10 @@ public:
 
 	void loadSizzlingHot()
 	{
-		Input* rsMain = InputLoader::open(sz_reelset0);
-		Input* rsZero = InputLoader::open(sz_reelset1);
-		Input* plines = InputLoader::open(sz_paylines);
-		Input* ptable = InputLoader::open(sz_paytable);
+		Input* rsMain = InputLoader::open(INPUT(sz_reelset0));
+		Input* rsZero = InputLoader::open(INPUT(sz_reelset1));
+		Input* plines = InputLoader::open(INPUT(sz_paylines));
+		Input* ptable = InputLoader::open(INPUT(sz_paytable));
 		this->reelSetMain.load(rsMain);
 		this->reelSetZero.load(rsZero);
 		this->loadPaylines(plines);
@@ -111,7 +111,7 @@ private:
 	{
 		this->reelSetMain.shuffleReels();
 		this->reelSetZero.shuffleReels();
-		if (Random::genPct(76))
+		if (Random::genPml(766))
 			this->reelSetMain.spin(&this->window);
 		else
 			this->reelSetZero.spin(&this->window);
