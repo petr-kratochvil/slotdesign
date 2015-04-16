@@ -26,6 +26,8 @@ class Win32Graphics
 	ULONG_PTR gdiplusToken;
 	Gdiplus::Pen* penGrid;
 	Gdiplus::Pen* penFrame;
+	Gdiplus::Pen* penFrameWin;
+	Gdiplus::Pen* penHighlight;
 public:
 	Win32Graphics(int width, int height)
 		: width(width)
@@ -53,7 +55,8 @@ public:
 		// Init Gdiplus
 		Gdiplus::GdiplusStartup(&this->gdiplusToken, &this->gdiplusStartupInput, NULL);
 		this->penGrid = new Gdiplus::Pen(Gdiplus::Color(255, 220, 220, 220), 2.0);
-		this->penFrame = new Gdiplus::Pen(Gdiplus::Color(255, 0, 0, 150), 3.0);
+		this->penFrame = new Gdiplus::Pen(Gdiplus::Color(255, 0, 0, 120), 3.0);
+		this->penHighlight = new Gdiplus::Pen(Gdiplus::Color(255, 255, 255, 0), 4.0);
 
 		this->wasInitialized = true;
 	}
@@ -79,6 +82,12 @@ public:
 		Gdiplus::Graphics graphics(hdc);
 		graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
 
+		// Draw the frame around
+		int padding = 15;
+		graphics.DrawRectangle(this->penFrame, this->offsetX - padding, this->offsetY - padding
+								, 2 * padding + Settings::reelCount * this->symbolW
+								, 2 * padding + Settings::windowSize * this->symbolH);
+
 		// Draw symbols
 		if (WinGlobal::game->isWindowReady())
 		{
@@ -93,12 +102,6 @@ public:
 			}
 		}
 
-		// Draw the frame around
-		int padding = 15;
-		graphics.DrawRectangle(this->penFrame, this->offsetX - padding, this->offsetY - padding
-								, 2 * padding + Settings::reelCount * this->symbolW
-								, 2 * padding + Settings::windowSize * this->symbolH);
-
 		// Draw the grid
 		for (int j=0; j<=Settings::windowSize; j++)
 		{
@@ -112,6 +115,19 @@ public:
 				, this->offsetX + i * this->symbolW, this->offsetY 
 				, this->offsetX + i * this->symbolW, this->offsetY + Settings::windowSize * this->symbolH);
 		}
+
+		// Draw higlights
+		int margin = 4;
+		for (int i = 0; i<Settings::reelCount; i++)
+			for (int j=0; j<Settings::windowSize; j++)
+			{
+				if (WinGlobal::game->highlighted(i, j))
+					graphics.DrawRectangle(this->penHighlight
+					, this->offsetX + i * this->symbolW + margin
+					, this->offsetY + j * this->symbolH + margin
+					, this->symbolW - 2*margin
+					, this->symbolH - 2*margin);
+			}
 
 		// Draw number values
 		wchar_t txtWin[50];

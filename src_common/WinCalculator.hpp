@@ -25,24 +25,36 @@ public:
 class WinCalculator
 {
 	int payTableBasic[Settings::symbolCount][5];
-	int paylineWin(const Window& window, const Payline& payline) const
+	int paylineWin(const Window& window, const Payline& payline, Window* highlight = NULL) const
 	{
+		int N = 0;
 		int symbol = window.getSymbol(0, payline.linePos(0));
 		for (int i = 1; i < Settings::reelCount; i++)
 		{
 			if (symbol == window.getSymbol(i, payline.linePos(i)))
 				continue;
 			else
-				return this->payLeftN(symbol, i);
+			{
+				N = i;
+				break;
+			}
 		}
-		return this->payLeftN(symbol, Settings::reelCount);
+		if (N == 0)
+			N = Settings::reelCount;
+		int pay = this->payLeftN(symbol, N);
+		if ((highlight != NULL)  && (pay > 0))
+		{
+			for (int i = 0; i < N; i++)
+				highlight->setSymbol(i, payline.linePos(i), 1);
+		}
+		return pay;
 	}
 	int payLeftN(int symbol, int N) const
 	{
 		assert((N <= 5) && (N >= 1));
 		return this->payTableBasic[symbol][N-1];
 	}
-	int paylineWin7(const Window& window, const Payline& payline) const
+	int paylineWin7(const Window& window, const Payline& payline, Window* highlight = NULL) const
 	{
 		if (window.getSymbol(0, payline.linePos(0)) != 6)
 			return 0;
@@ -54,8 +66,16 @@ class WinCalculator
 			else
 				break;
 		}
+
 		if (sevenCount < 3)
 			return 0;
+
+		if (highlight != NULL)
+		{
+			for (int i = 0; i < sevenCount; i++)
+				highlight->setSymbol(i, payline.linePos(i), 1);
+		}
+		
 		int level = Random::gen(1, 4);
 		switch (level)
 		{
@@ -102,7 +122,7 @@ class WinCalculator
 		}
 	}
 
-	int scatterWinStar(const Window& window) const
+	int scatterWinStar(const Window& window, Window* highlight = NULL) const
 	{
 		int starCount = 0;
 		for (int i = 0; i < Settings::reelCount; i++)
@@ -111,6 +131,15 @@ class WinCalculator
 					starCount++;
 		if (starCount < 3)
 			return 0;
+
+		if (highlight != NULL)
+		{
+			for (int i = 0; i < Settings::reelCount; i++)
+				for (int j = 0; j < Settings::windowSize; j++)
+					if (window.getSymbol(i, j) == 7)
+						highlight->setSymbol(i, j, 1);
+		}
+
 		if (starCount > 5)
 			starCount = 5;
 		switch (starCount)
@@ -140,16 +169,16 @@ public:
 				this->payTableBasic[i][j] = 0;
 	}
 
-	int win(const Window& window, const Payline* paylines) const
+	int win(const Window& window, const Payline* paylines, Window* highlight = NULL) const
 	{
 		int partialWin = 0;
 		for (int i=0; i<Settings::paylineCount; i++)
 		{
-			int w = this->paylineWin(window, paylines[i]);
-			int w7 = this->paylineWin7(window, paylines[i]);
+			int w = this->paylineWin(window, paylines[i], highlight);
+			int w7 = this->paylineWin7(window, paylines[i], highlight);
 			partialWin += w + w7;
 		}
-		int wstar = this->scatterWinStar(window);
+		int wstar = this->scatterWinStar(window, highlight);
 		partialWin += wstar;
 		return partialWin;
 	}

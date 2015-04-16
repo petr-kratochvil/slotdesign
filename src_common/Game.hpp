@@ -13,6 +13,7 @@ class Game
 {
 	Statistics stats;
 	Window window;
+	Window highlight;
 	Payline paylines[Settings::paylineCount];
 	WinCalculator winCalc;
 	// window is filled with symbols (at least one spin was made)
@@ -22,11 +23,25 @@ class Game
 	// Game's descendant will probably contain some Reelsets.
 	ReelSet reelSetMain;
 	ReelSet reelSetZero;
+	void highlightReset()
+	{
+		for (int i = 0; i<Settings::reelCount; i++)
+			for (int j=0; j<Settings::windowSize; j++)
+				this->highlight.setSymbol(i, j, 0);
+	}
 public:
+	bool isHighlighting;
+	bool highlighted(int reel, int row)
+	{
+		return this->highlight.getSymbol(reel, row);
+	}
 	Game()
 		: windowReady(false)
 		, lastWinAmount(0)
-	{}
+		, isHighlighting(false)
+	{
+		this->highlightReset();
+	}
 
 	void loadSizzlingHot()
 	{
@@ -82,7 +97,13 @@ public:
 	// add values form the last spin to stats
 	void updateStats()
 	{
-		this->lastWinAmount = this->winCalc.win(this->window, this->paylines);
+		Window* pHighlight = NULL;
+		if (this->isHighlighting)
+		{
+			this->highlightReset();
+			pHighlight = &this->highlight;
+		}
+		this->lastWinAmount = this->winCalc.win(this->window, this->paylines, pHighlight);
 		this->stats.statWin.addData(this->lastWinAmount);
 		if (lastWinAmount == 0)
 			this->stats.statWin0.addData();
