@@ -12,7 +12,9 @@
 #define INPUT_TYPE_FILE 1
 #define INPUT_TYPE_RESOURCE 2
 
-#define INPUT_TYPE INPUT_TYPE_FILE
+#ifndef INPUT_TYPE
+	#define INPUT_TYPE INPUT_TYPE_FILE
+#endif
 
 #if (INPUT_TYPE == INPUT_TYPE_FILE)
 	#define INPUT(x) #x ".txt"
