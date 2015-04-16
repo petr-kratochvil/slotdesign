@@ -76,10 +76,16 @@ class ReelSet
 	Reel* reels[Settings::reelCount];
 	// Reels need to be shuffled, because they are not identical, so they should appear at random position
 	int reelShuffle[Settings::reelCount];
+	int reelSetVersion;
 
 public:
+	int getVersion()
+	{
+		return this->reelSetVersion;
+	}
 	void load(Input* input)
 	{
+		this->reelSetVersion = input->getInt();
 		for (int i = 0; i < Settings::reelCount; i++)
 		{
 			int reelLength = input->getInt();

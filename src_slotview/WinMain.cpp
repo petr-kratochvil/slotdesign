@@ -13,7 +13,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	WinGlobal::InitGame();
 	WinGlobal::InitGraphics();
+
+	wchar_t title[250];
+    swprintf(title, L"Sizzling Hot v2, reelset version %S", WinGlobal::game->getRSVersion().c_str());
+	SetWindowText(WinGlobal::hWndMain, title);
+
 	UpdateWindow(WinGlobal::hWndMain);
+
 
 	// Main message loop:
 	MSG msg;

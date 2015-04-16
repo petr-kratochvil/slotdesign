@@ -105,6 +105,14 @@ public:
 		// this->stats.writeToFile();
 	}
 
+	std::string getRSVersion()
+	{
+		char buff[200];
+		sprintf(buff, "M%d, Z%d", this->reelSetMain.getVersion(), this->reelSetZero.getVersion());
+		std::string result(buff);
+		return result;
+	}
+
 private:
 	// this function should change this->window
 	virtual void spin()
