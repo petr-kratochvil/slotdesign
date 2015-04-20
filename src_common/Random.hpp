@@ -14,7 +14,13 @@ public:
 	}
 	static int gen(int min, int max)
 	{
-		return (rand() % (max-min+1)) + min;
+		int g;
+		int mod = max - min +1;
+		do
+		{
+			g = rand();
+		} while (RAND_MAX / mod == g / mod);
+		return (g % mod) + min;
 	}
 	static bool genPct(int pct)
 	{
