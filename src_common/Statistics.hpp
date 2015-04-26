@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <math.h>
 #include "Settings.hpp"
 
 #ifndef STATISTICS_HPP
@@ -71,10 +72,17 @@ public:
 	{
 		return this->count;
 	}
+	void printFormatted(FILE* fw) const
+	{
+		fprintf(fw, "<table><tr><td>Count:</td><td>%d</td></tr>\n", this->count);
+		fprintf(fw, "<tr><td>Sum:</td><td>%d</td></tr>\n", this->data);
+		fprintf(fw, "<tr><td>Avg:</td><td>%10.3f</td></tr>\n", this->getAvg());
+		fprintf(fw, "<tr><td>Std. Dev.:</td><td>%10.3f</td></tr></table>\n", sqrt(this->getVar()));
+	}
 };
 
 // Contains all global statistics from the simulation
-// Evolution of stats after individual spis (to be graphed) will be written to file immediately
+// Evolution of stats after individual spins (to be graphed) will be written to file immediately
 struct Statistics
 {
 	// count the total win
@@ -102,6 +110,20 @@ struct Statistics
 		{
 			this->statSymbols[i].printToFile();
 		}
+	}
+	void printFinalFormatted() const
+	{
+		char filePath[250];
+		strcpy(filePath, Settings::pathOutputs);
+		strcat(filePath, "Statistics.html");
+		FILE* fw = fopen(filePath, "w");
+		fprintf(fw
+			, "<html><head><title>Statistics</title></head><body>\n"
+			"<h1>Statistics</h1>\n"
+			"<h2>Total win</h2>\n");
+		this->statWin.printFormatted(fw);
+		fprintf(fw, "</body></html>");
+		fclose(fw);
 	}
 };
 

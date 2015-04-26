@@ -79,7 +79,7 @@ class ReelSet
 	int reelSetVersion;
 
 public:
-	int getVersion()
+	int getVersion() const
 	{
 		return this->reelSetVersion;
 	}

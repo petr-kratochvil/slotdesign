@@ -20,5 +20,6 @@ int main()
 	int nz = spinCount - s.statWin0.getTotal();
 	printf("U100: %5.2f%%,   U200: %5.2f%%,	  O200: %5.2f%%\n", s.statWinU100.getPct(nz), s.statWinU200.getPct(nz), s.statWinO200.getPct(nz));
 	printf("Maximalni vyhra: %d\n", s.maxWin);
+	s.printFinalFormatted();
 	return 0;
 }

@@ -28,7 +28,7 @@ public:
 		InputLoader::close(ptable);
 	}
 
-	std::string getRSVersion()
+	std::string getRSVersion() const
 	{
 		char buff[200];
 		sprintf(buff, "M%d, Z%d", this->reelSetMain.getVersion(), this->reelSetZero.getVersion());
