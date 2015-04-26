@@ -120,7 +120,7 @@ public:
 		return partialWin;
 	}
 
-}
+};
 
 class GameSizzlingHot : public Game
 {
