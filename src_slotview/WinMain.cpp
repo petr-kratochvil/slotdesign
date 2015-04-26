@@ -3,7 +3,7 @@
 
 #include "Win32Graphics.hpp"
 #include "WinMain.h"
-#include "Game.hpp"
+#include "SizzlingHot.hpp"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -85,8 +85,8 @@ void WinGlobal::InitControls()
 
 void WinGlobal::InitGame()
 {
-	WinGlobal::game = new Game();
-	WinGlobal::game->loadSizzlingHot();
+	WinGlobal::game = new GameSizzlingHot();
+	WinGlobal::game->load();
 	WinGlobal::game->isHighlighting = true;
 	Random::init();
 }

@@ -1,11 +1,11 @@
 #include <stdio.h>
-#include "Game.hpp"
+#include "SizzlingHot.hpp"
 #include "Random.hpp"
 
 int main()
 {
-	Game* game = new Game();
-	game->loadSizzlingHot();
+	Game* game = new GameSizzlingHot();
+	game->load();
 	Random::init();
 	int spinCount = 1e7;
 	printf("This is slotsimul: %d Otacek>\n", spinCount);
