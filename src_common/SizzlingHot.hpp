@@ -106,18 +106,29 @@ class WinCalcSizzlingHot : public WinCalculator
 	}
 
 public:
-	int win(const Window& window, const Payline* paylines, Window* highlight = NULL) const
+	int leftWin(const Window& window, const Payline* paylines, Window* highlight = NULL) const
 	{
 		int partialWin = 0;
 		for (int i=0; i<Settings::paylineCount; i++)
 		{
-			int w = this->paylineWin(window, paylines[i], highlight);
-			int w7 = this->paylineWin7(window, paylines[i], highlight);
-			partialWin += w + w7;
+			partialWin += this->paylineWin(window, paylines[i], highlight);
 		}
-		int wstar = this->scatterWinStar(window, highlight);
-		partialWin += wstar;
 		return partialWin;
+	}
+
+	int leftWin7(const Window& window, const Payline* paylines, Window* highlight = NULL) const
+	{
+		int partialWin = 0;
+		for (int i=0; i<Settings::paylineCount; i++)
+		{
+			partialWin += this->paylineWin7(window, paylines[i], highlight);
+		}
+		return partialWin;
+	}
+
+	int scatterWinStar(const Window& window, const Payline* paylines, Window* highlight = NULL) const
+	{
+		return this->scatterWinStar(window, highlight);
 	}
 
 };
@@ -169,8 +180,14 @@ private:
 			this->highlightReset();
 			pHighlight = &this->highlight;
 		}
-		this->lastWinAmount = this->winCalc.win(this->window, this->paylines, pHighlight);
+		int winBasic = this->winCalc.leftWin(this->window, this->paylines, pHighlight);
+		int win7 = this->winCalc.leftWin7(this->window, this->paylines, pHighlight);
+		int winStar = this->winCalc.scatterWinStar(this->window, this->paylines, pHighlight);
+		this->lastWinAmount = winBasic + win7 + winStar;
 		this->stats.statWin.addData(this->lastWinAmount);
+		this->stats.statWinBasic.addData(winBasic);
+		this->stats.statWin7.addData(win7);
+		this->stats.statWinStar.addData(winStar);
 		if (lastWinAmount == 0)
 			this->stats.statWin0.addData();
 		else if (lastWinAmount <= 100)

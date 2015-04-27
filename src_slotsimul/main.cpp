@@ -7,12 +7,14 @@ int main()
 	Game* game = new GameSizzlingHot();
 	game->load();
 	Random::init();
-	int spinCount = 1e7;
+	long long spinCount = 1e8;
 	printf("This is slotsimul: %d Otacek>\n", spinCount);
-	for (int i = 0; i < spinCount; i++)
+	for (long long i = 0; i < spinCount; i++)
 	{
 		game->start();
+		if (!(i % (spinCount / 10))) printf("* ");
 	}
+	printf("\n");
 	const Statistics& s = game->getStats();
 	printf("RTP: %5.2f%%\n", s.statWin.getPct(Settings::priceOfSpin * spinCount));
 	double pct = s.statWin0.getPct(spinCount);

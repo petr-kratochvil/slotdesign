@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include <limits>
+#include <stdexcept>
 #include "Settings.hpp"
 
 #ifndef STATISTICS_HPP
@@ -10,11 +12,11 @@
 class StatItem
 {
 	// sum of data
-	long data;
+	long long data;
 	// sum of (data squared)
-	long dataSquared;
+	long long dataSquared;
 	// data items count
-	long count;
+	long long count;
 	// file to write stats to
 	FILE* fw;
 public:
@@ -44,6 +46,8 @@ public:
 	void addData(int d = 1)
 	{
 		this->data += d;
+		if (std::numeric_limits<long long>::max() - d*d <= this->dataSquared)
+			throw std::runtime_error("Statistics overflow");
 		this->dataSquared += d * d;
 		this->count++;
 	}
@@ -56,28 +60,39 @@ public:
 	double getVar() const
 	{
 		// var X = E (X^2) - (E X)^2
-		return double(this->dataSquared) / double(this->count)
+		return double(this->dataSquared) / double(this->count-1)
 				- double(this->data) * double(this->data)
-				/ ( double(this->count) * double(this->count) );
+				/ ( double(this->count) * double(this->count-1) );
 	}
-	double getPct(long base) const
+	double getPct(long long base) const
 	{
 		return 100.0 * double(this->data)/double(base);
 	}
-	long getTotal() const
+	long long getTotal() const
 	{
 		return this->data;
 	}
-	long getCount() const
+	long long getCount() const
 	{
 		return this->count;
 	}
 	void printFormatted(FILE* fw) const
 	{
-		fprintf(fw, "<table><tr><td>Count:</td><td>%d</td></tr>\n", this->count);
-		fprintf(fw, "<tr><td>Sum:</td><td>%d</td></tr>\n", this->data);
-		fprintf(fw, "<tr><td>Avg:</td><td>%10.3f</td></tr>\n", this->getAvg());
-		fprintf(fw, "<tr><td>Std. Dev.:</td><td>%10.3f</td></tr></table>\n", sqrt(this->getVar()));
+		fprintf(fw, "<table border=1 cellpadding=3 cellspacing=0><tr><td></td><td><i>Value</i></td><td><i>%% of spin price</i></td></tr>"
+					"<tr><td>Count:</td><td>%d</td></tr>\n", this->count);
+		fprintf(fw, "<tr><td>Sum:</td><td>%llu</td></tr>\n", this->data);
+		double avg = this->getAvg();
+		double stddev = sqrt(this->getVar());
+		double pctbase = Settings::priceOfSpin;
+		double stderror = stddev / sqrt(double(this->count));
+		fprintf(fw, "<tr><td>Avg:</td><td>%10.3f</td><td><b>%10.3f %%</b></td></tr>\n", avg, 100.0 * avg / pctbase);
+		fprintf(fw, "<tr><td>Std. dev.:</td><td>%10.3f</td><td>%10.3f %%</td></tr>\n", stddev, 100.0 * stddev / pctbase);
+		fprintf(fw, "<tr><td>Std. err.:</td><td>%10.3f</td><td>%10.3f %%</td></tr>\n", stderror, 100.0 * stderror / pctbase);
+		// magic number from normal distribution
+		double rad = 1.96 * stderror;
+		fprintf(fw, "<tr><td>95%% conf. interval:</td><td>&nbsp;</td><td><b>%10.2f %% - %10.2f %%</b></td></tr>\n", 100.0*(avg-rad)/pctbase, 100.0*(avg+rad)/pctbase);
+		rad = 2.575 * stderror;
+		fprintf(fw, "<tr><td>99%% conf. interval:</td><td>&nbsp;</td><td>%10.2f %% - %10.2f %%</td></tr></table>\n", 100.0*(avg-rad)/pctbase, 100.0*(avg+rad)/pctbase);
 	}
 };
 
@@ -86,7 +101,7 @@ public:
 struct Statistics
 {
 	// count the total win
-	StatItem statWin;
+	StatItem statWin, statWinBasic, statWin7, statWinStar;
 	StatItem statWin0, statWinU100, statWinU200, statWinO200;
 	int maxWin;
 	// count the percentage of individual symbols
@@ -95,12 +110,6 @@ struct Statistics
 	Statistics()
 	{
 		this->statWin.setOutputFile("statWin.txt");
-		char fileName[50];
-		for (int i = 0; i < Settings::symbolCount; i++)
-		{
-			sprintf(fileName, "statSymbol%d.txt", i);
-			this->statSymbols[i].setOutputFile(fileName);
-		}
 		this->maxWin = 0;
 	}
 	void printToFile() const
@@ -122,6 +131,12 @@ struct Statistics
 			"<h1>Statistics</h1>\n"
 			"<h2>Total win</h2>\n");
 		this->statWin.printFormatted(fw);
+		fprintf(fw, "<h2>Basic win</h2>\n");
+		this->statWinBasic.printFormatted(fw);
+		fprintf(fw, "<h2>Sevens win</h2>\n");
+		this->statWin7.printFormatted(fw);
+		fprintf(fw, "<h2>Star scatter win</h2>\n");
+		this->statWinStar.printFormatted(fw);
 		fprintf(fw, "</body></html>");
 		fclose(fw);
 	}

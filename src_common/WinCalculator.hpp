@@ -24,8 +24,6 @@ public:
 // Calculates the win of one spin (given as a Window of symbols)
 class WinCalculator
 {
-public:
-	virtual int win(const Window& window, const Payline* paylines, Window* highlight = NULL) const = 0;
 protected:
 	int payTableBasic[Settings::symbolCount][5];
 	int paylineWin(const Window& window, const Payline& payline, Window* highlight = NULL) const
