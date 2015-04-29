@@ -90,9 +90,9 @@ public:
 		fprintf(fw, "<tr><td>Std. err.:</td><td>%10.3f</td><td>%10.3f %%</td></tr>\n", stderror, 100.0 * stderror / pctbase);
 		// magic number from normal distribution
 		double rad = 1.96 * stderror;
-		fprintf(fw, "<tr><td>95%% conf. interval:</td><td>&nbsp;</td><td><b>%10.2f %% - %10.2f %%</b></td></tr>\n", 100.0*(avg-rad)/pctbase, 100.0*(avg+rad)/pctbase);
+		fprintf(fw, "<tr><td>95%% conf. interval:</td><td>&nbsp;</td><td><b>%10.3f %% - %10.3f %%</b></td></tr>\n", 100.0*(avg-rad)/pctbase, 100.0*(avg+rad)/pctbase);
 		rad = 2.575 * stderror;
-		fprintf(fw, "<tr><td>99%% conf. interval:</td><td>&nbsp;</td><td>%10.2f %% - %10.2f %%</td></tr></table>\n", 100.0*(avg-rad)/pctbase, 100.0*(avg+rad)/pctbase);
+		fprintf(fw, "<tr><td>99%% conf. interval:</td><td>&nbsp;</td><td>%10.3f %% - %10.3f %%</td></tr></table>\n", 100.0*(avg-rad)/pctbase, 100.0*(avg+rad)/pctbase);
 	}
 };
 
@@ -102,6 +102,7 @@ struct Statistics
 {
 	// count the total win
 	StatItem statWin, statWinBasic, statWin7, statWinStar;
+	StatItem statReel0;
 	StatItem statWin0, statWinU100, statWinU200, statWinO200;
 	int maxWin;
 	// count the percentage of individual symbols
@@ -137,6 +138,8 @@ struct Statistics
 		this->statWin7.printFormatted(fw);
 		fprintf(fw, "<h2>Star scatter win</h2>\n");
 		this->statWinStar.printFormatted(fw);
+		fprintf(fw, "<h2>Main reelset used</h2>\n");
+		this->statReel0.printFormatted(fw);
 		fprintf(fw, "</body></html>");
 		fclose(fw);
 	}

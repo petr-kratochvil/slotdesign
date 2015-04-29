@@ -139,6 +139,7 @@ class GameSizzlingHot : public Game
 	ReelSet reelSetZero;
 	WinCalcSizzlingHot winCalc;
 	Payline paylines[Settings::paylineCount];
+	int reelSetUsed;
 
 public:
 	void load()
@@ -198,16 +199,23 @@ private:
 			this->stats.statWinO200.addData();
 		if (this->lastWinAmount > this->stats.maxWin)
 			this->stats.maxWin = this->lastWinAmount;
+		this->stats.statReel0.addData((this->reelSetUsed == 0)?1:0);
 	}
 
 	void spin()
 	{
 		this->reelSetMain.shuffleReels();
 		this->reelSetZero.shuffleReels();
-		if (Random::genPml(760))
+		if (Random::genP4(7650))
+		{
+			this->reelSetUsed = 0;
 			this->reelSetMain.spin(&this->window);
+		}
 		else
+		{
+			this->reelSetUsed = 1;
 			this->reelSetZero.spin(&this->window);
+		}
 		this->windowReady = true;
 	}
 };

@@ -30,6 +30,10 @@ public:
 	{
 		return (Random::gen(0, 999) < pml);
 	}
+	static bool genP4(int p4)
+	{
+		return (Random::gen(0, 9999) < p4);
+	}
 };
 
 #endif
