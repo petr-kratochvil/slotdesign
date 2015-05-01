@@ -206,7 +206,7 @@ private:
 	{
 		this->reelSetMain.shuffleReels();
 		this->reelSetZero.shuffleReels();
-		if (Random::genP4(7650))
+		if (Random::genPct(76))
 		{
 			this->reelSetUsed = 0;
 			this->reelSetMain.spin(&this->window);
