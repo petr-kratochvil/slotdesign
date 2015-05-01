@@ -1,10 +1,14 @@
 # Output directories
 Debug
 Release
+Release2
 Deploy
 
-# Load direcotry for input
+# Load directory for input
 load
+
+# Output directory
+outputs
 
 # Visual Studio files
 *.sdf
