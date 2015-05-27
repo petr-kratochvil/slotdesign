@@ -24,7 +24,7 @@ protected:
 	void highlightReset()
 	{
 		for (int i = 0; i<Settings::reelCount; i++)
-			for (int j=0; j<Settings::windowSize; j++)
+			for (int j=0; j<Settings::rowCount; j++)
 				this->highlight.setSymbol(i, j, 0);
 	}
 
@@ -82,7 +82,7 @@ public:
 	int getCredit() const
 	{
 		return Settings::startingCredit
-				- Settings::priceOfSpin * this->stats.statWin.getCount()
+				- Settings::bet * this->stats.statWin.getCount()
 				+ this->stats.statWin.getTotal();
 	}
 

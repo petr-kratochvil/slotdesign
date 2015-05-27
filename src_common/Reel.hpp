@@ -11,7 +11,7 @@
 // Visible part of reels. A matrix containing symbols.
 class Window
 {
-	int symbols[Settings::reelCount][Settings::windowSize];
+	int symbols[Settings::reelCount][Settings::rowCount];
 public:
 	int getSymbol(int reel, int row) const
 	{
@@ -26,7 +26,7 @@ public:
 // Symbols spun of one reel
 struct ReelSpinResult
 {
-	int symbols[Settings::windowSize];
+	int symbols[Settings::rowCount];
 };
 
 // Reel is a cyclic list of symbols
@@ -62,7 +62,7 @@ public:
 	{
 		ReelSpinResult res;
 		this->lastPosition = Random::gen(0, this->symbolCount - 1);
-		for (int i=0; i< Settings::windowSize; i++)
+		for (int i=0; i< Settings::rowCount; i++)
 		{
 			res.symbols[i] = this->symbols[(this->lastPosition + i) % this->symbolCount];
 		}
@@ -120,7 +120,7 @@ public:
 		for (int i = 0; i < Settings::reelCount; i++)
 		{
 			res = this->reels[this->reelShuffle[i]]->spin();
-			for (int j = 0; j < Settings::windowSize; j++)
+			for (int j = 0; j < Settings::rowCount; j++)
 				w->setSymbol(i, j, res.symbols[j]);
 		}
 	}

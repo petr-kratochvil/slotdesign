@@ -16,7 +16,7 @@ int main()
 	}
 	printf("\n");
 	const Statistics& s = game->getStats();
-	printf("RTP: %5.2f%%\n", s.statWin.getPct(Settings::priceOfSpin * spinCount));
+	printf("RTP: %5.2f%%\n", s.statWin.getPct(Settings::bet * spinCount));
 	double pct = s.statWin0.getPct(spinCount);
 	printf("Procento nulovych: %5.2f%%, pocet nulovych: %4.1f\n", pct, 100.0/(100.0-pct));
 	int nz = spinCount - s.statWin0.getTotal();

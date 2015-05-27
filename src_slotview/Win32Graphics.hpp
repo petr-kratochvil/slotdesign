@@ -86,13 +86,13 @@ public:
 		int padding = 15;
 		graphics.DrawRectangle(this->penFrame, this->offsetX - padding, this->offsetY - padding
 								, 2 * padding + Settings::reelCount * this->symbolW
-								, 2 * padding + Settings::windowSize * this->symbolH);
+								, 2 * padding + Settings::rowCount * this->symbolH);
 
 		// Draw symbols
 		if (WinGlobal::game->isWindowReady())
 		{
 			for (int i = 0; i<Settings::reelCount; i++)
-				for (int j=0; j<Settings::windowSize; j++)
+				for (int j=0; j<Settings::rowCount; j++)
 				{
 					int symbolID = WinGlobal::game->getWindow().getSymbol(i, j);
 					assert((symbolID >= 0) && (symbolID < Settings::symbolCount));
@@ -103,7 +103,7 @@ public:
 		}
 
 		// Draw the grid
-		for (int j=0; j<=Settings::windowSize; j++)
+		for (int j=0; j<=Settings::rowCount; j++)
 		{
 			graphics.DrawLine(this->penGrid
 				, this->offsetX, this->offsetY + j * this->symbolH
@@ -113,13 +113,13 @@ public:
 		{
 				graphics.DrawLine(this->penGrid
 				, this->offsetX + i * this->symbolW, this->offsetY 
-				, this->offsetX + i * this->symbolW, this->offsetY + Settings::windowSize * this->symbolH);
+				, this->offsetX + i * this->symbolW, this->offsetY + Settings::rowCount * this->symbolH);
 		}
 
 		// Draw higlights
 		int margin = 4;
 		for (int i = 0; i<Settings::reelCount; i++)
-			for (int j=0; j<Settings::windowSize; j++)
+			for (int j=0; j<Settings::rowCount; j++)
 			{
 				if (WinGlobal::game->highlighted(i, j))
 					graphics.DrawRectangle(this->penHighlight

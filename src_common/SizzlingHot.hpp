@@ -78,7 +78,7 @@ class WinCalcSizzlingHot : public WinCalculator
 	{
 		int starCount = 0;
 		for (int i = 0; i < Settings::reelCount; i++)
-			for (int j = 0; j < Settings::windowSize; j++)
+			for (int j = 0; j < Settings::rowCount; j++)
 				if (window.getSymbol(i, j) == 7)
 					starCount++;
 		if (starCount < 3)
@@ -87,7 +87,7 @@ class WinCalcSizzlingHot : public WinCalculator
 		if (highlight != NULL)
 		{
 			for (int i = 0; i < Settings::reelCount; i++)
-				for (int j = 0; j < Settings::windowSize; j++)
+				for (int j = 0; j < Settings::rowCount; j++)
 					if (window.getSymbol(i, j) == 7)
 						highlight->setSymbol(i, j, 1);
 		}

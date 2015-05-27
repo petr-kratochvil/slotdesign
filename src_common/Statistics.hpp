@@ -83,7 +83,7 @@ public:
 		fprintf(fw, "<tr><td>Sum:</td><td>%llu</td></tr>\n", this->data);
 		double avg = this->getAvg();
 		double stddev = sqrt(this->getVar());
-		double pctbase = Settings::priceOfSpin;
+		double pctbase = Settings::bet;
 		double stderror = stddev / sqrt(double(this->count));
 		fprintf(fw, "<tr><td>Avg:</td><td>%10.3f</td><td><b>%10.3f %%</b></td></tr>\n", avg, 100.0 * avg / pctbase);
 		fprintf(fw, "<tr><td>Std. dev.:</td><td>%10.3f</td><td>%10.3f %%</td></tr>\n", stddev, 100.0 * stddev / pctbase);
