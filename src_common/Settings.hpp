@@ -1,6 +1,8 @@
 #ifndef SETTINGS_HPP
 #define SETTINGS_HPP
 
+#undef max
+
 // Global settings of constants
 // This should probably became part of class Game,
 // but as long as we are simulating one game at a time, it can stay simly here.
