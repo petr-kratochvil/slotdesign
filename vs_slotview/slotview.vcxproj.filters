@@ -54,6 +54,9 @@
     <ClInclude Include="..\src_common\InputLoader.hpp">
       <Filter>Source Files\common</Filter>
     </ClInclude>
+    <ClInclude Include="..\src_slotview\SizzlingHotGraphics.hpp">
+      <Filter>Source Files\slotview</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src_slotview\WinMain.cpp">

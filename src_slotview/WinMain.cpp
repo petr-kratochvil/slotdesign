@@ -1,7 +1,7 @@
 #include <windows.h>
 #include "vs_slotview/resource.h"
 
-#include "Win32Graphics.hpp"
+#include "SizzlingHotGraphics.hpp"
 #include "WinMain.h"
 #include "SizzlingHot.hpp"
 
@@ -61,7 +61,7 @@ bool WinGlobal::InitInstance(HINSTANCE hInstance, int nCmdShow)
    if (!WinGlobal::hWndMain)
       return false;
 
-   WinGlobal::win32Graphics = new Win32Graphics(WinGlobal::width, WinGlobal::height);
+   WinGlobal::win32Graphics = new SizzlingHotGraphics(WinGlobal::width, WinGlobal::height);
 
    ShowWindow(WinGlobal::hWndMain, nCmdShow);
 

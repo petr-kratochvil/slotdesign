@@ -118,6 +118,7 @@
     <ClInclude Include="..\src_common\SizzlingHot.hpp" />
     <ClInclude Include="..\src_common\Statistics.hpp" />
     <ClInclude Include="..\src_common\WinCalculator.hpp" />
+    <ClInclude Include="..\src_slotview\SizzlingHotGraphics.hpp" />
     <ClInclude Include="..\src_slotview\Win32Graphics.hpp" />
     <ClInclude Include="..\src_slotview\WinMain.h" />
     <ClInclude Include="resource.h" />
