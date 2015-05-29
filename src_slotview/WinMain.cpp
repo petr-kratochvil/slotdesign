@@ -4,6 +4,8 @@
 #include "SizzlingHotGraphics.hpp"
 #include "WinMain.h"
 #include "SizzlingHot.hpp"
+#include "ShuffleCross.hpp"
+#include "ShuffleCrossGraphics.hpp"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -61,7 +63,7 @@ bool WinGlobal::InitInstance(HINSTANCE hInstance, int nCmdShow)
    if (!WinGlobal::hWndMain)
       return false;
 
-   WinGlobal::win32Graphics = new SizzlingHotGraphics(WinGlobal::width, WinGlobal::height);
+   WinGlobal::win32Graphics = new ShuffleCrossGraphics(WinGlobal::width, WinGlobal::height);
 
    ShowWindow(WinGlobal::hWndMain, nCmdShow);
 
@@ -85,7 +87,7 @@ void WinGlobal::InitControls()
 
 void WinGlobal::InitGame()
 {
-	WinGlobal::game = new GameSizzlingHot();
+	WinGlobal::game = new GameShuffleCross();
 	WinGlobal::game->load();
 	WinGlobal::game->isHighlighting = true;
 	Random::init();

@@ -54,7 +54,7 @@ public:
 	virtual void updateStats() {}
 
 	// version of used reelsets (optional)
-	virtual std::string getRSVersion()
+	virtual std::string getRSVersion() const
 	{
 		return "(Abstract Game class)";
 	}

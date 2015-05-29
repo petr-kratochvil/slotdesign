@@ -55,6 +55,10 @@ protected:
 		assert((N <= 5) && (N >= 1));
 		return this->payTableBasic[symbol][N-1];
 	}
+	int crissCrossWin(const Window& window, Window* highlight = NULL) const
+	{
+		return 1;
+	}
 
 public:
 	void loadPaytable(Input* input)

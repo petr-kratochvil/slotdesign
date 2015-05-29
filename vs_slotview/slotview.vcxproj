@@ -115,9 +115,11 @@
     <ClInclude Include="..\src_common\Random.hpp" />
     <ClInclude Include="..\src_common\Reel.hpp" />
     <ClInclude Include="..\src_common\Settings.hpp" />
+    <ClInclude Include="..\src_common\ShuffleCross.hpp" />
     <ClInclude Include="..\src_common\SizzlingHot.hpp" />
     <ClInclude Include="..\src_common\Statistics.hpp" />
     <ClInclude Include="..\src_common\WinCalculator.hpp" />
+    <ClInclude Include="..\src_slotview\ShuffleCrossGraphics.hpp" />
     <ClInclude Include="..\src_slotview\SizzlingHotGraphics.hpp" />
     <ClInclude Include="..\src_slotview\Win32Graphics.hpp" />
     <ClInclude Include="..\src_slotview\WinMain.h" />
