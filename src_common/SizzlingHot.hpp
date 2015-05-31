@@ -106,6 +106,12 @@ class WinCalcSizzlingHot : public WinCalculator
 	}
 
 public:
+	void loadPaytable(Input* input)
+	{
+		WinCalculator::loadPaytable(input);
+		this->payTableBasic[0][1] = 5;
+	}
+
 	int leftWin(const Window& window, const Payline* paylines, Window* highlight = NULL) const
 	{
 		int partialWin = 0;

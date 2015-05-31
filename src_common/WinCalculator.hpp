@@ -57,16 +57,35 @@ protected:
 	}
 	int crissCrossWin(const Window& window, Window* highlight = NULL) const
 	{
-		return 1;
+		int win = 0;
+		for (int i = 0; i < Settings::symbolCount; i++)
+		{
+			int paylineCount = 1;
+			int symbolsInRow = 0;
+			for (int j = 0; j < Settings::reelCount; j++)
+			{
+				int symbolsFound = 0;
+				for (int k = 0; k < Settings::rowCount; k++)
+				{
+					if (window.getSymbol(j, k) == i)
+						symbolsFound++;
+				}
+				if (symbolsFound == 0)
+					break;
+				paylineCount *= symbolsFound;
+				symbolsInRow = j+1;
+			}
+			win += this->payLeftN(i, symbolsInRow) * paylineCount;
+		}
+		return win;
 	}
 
 public:
-	void loadPaytable(Input* input)
+	virtual void loadPaytable(Input* input)
 	{
 		for (int i = 0 ; i < Settings::symbolCount; i++)
 			for (int j = 3; j <= 5; j++)
 				this->payTableBasic[i][j-1] = input->getInt();
-		this->payTableBasic[0][1] = 5;
 	}
 
 	WinCalculator()
