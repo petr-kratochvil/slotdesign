@@ -10,7 +10,7 @@ public:
 	WinCalcShuffleCross(int symbolCount, int reelCount, int rowCount)
 		: WinCalculator(symbolCount, reelCount, rowCount)
 	{}
-	int leftWin(const Window& window, Window* highlight = NULL) const
+	int basicWin(const Window& window, Window* highlight = NULL) const
 	{
 		int partialWin = 0;
 		partialWin += this->crissCrossWin(window, highlight);
@@ -48,7 +48,13 @@ public:
 private:
 	void updateStats()
 	{
-		int winBasic = this->winCalc.leftWin(this->window);
+		Window* pHighlight = NULL;
+		if (this->isHighlighting)
+		{
+			this->highlightReset();
+			pHighlight = &this->highlight;
+		}
+		int winBasic = this->winCalc.basicWin(this->window, pHighlight);
 		this->lastWinAmount = winBasic;
 		this->stats.statWin.addData(this->lastWinAmount);
 		this->stats.statWinBasic.addData(winBasic);

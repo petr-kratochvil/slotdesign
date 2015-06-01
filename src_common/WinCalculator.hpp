@@ -93,7 +93,15 @@ protected:
 				paylineCount *= symbolsFound;
 				symbolsInRow = j+1;
 			}
-			win += this->payLeftN(i, symbolsInRow) * paylineCount;
+			int partialWin = this->payLeftN(i, symbolsInRow) * paylineCount;
+			win += partialWin;
+			if ((highlight != NULL) && (partialWin > 0))
+			{
+				for (int j = 0; j < symbolsInRow; j++)
+					for (int k = 0; k < this->rowCount; k++)
+						if (window.getSymbol(j, k) == i)
+							highlight->setSymbol(j, k, 1);
+			}
 		}
 		return win;
 	}
