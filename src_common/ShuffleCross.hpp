@@ -7,6 +7,9 @@
 class WinCalcShuffleCross : public WinCalculator
 {
 public:
+	WinCalcShuffleCross(int symbolCount, int reelCount, int rowCount)
+		: WinCalculator(symbolCount, reelCount, rowCount)
+	{}
 	int leftWin(const Window& window, Window* highlight = NULL) const
 	{
 		int partialWin = 0;
@@ -19,9 +22,13 @@ class GameShuffleCross : public Game
 {
 	ReelSet reelSetMain;
 	WinCalcShuffleCross winCalc;
-	Payline paylines[Settings::paylineCount];
 
 public:
+	GameShuffleCross()
+		: Game(9, 5, 3)
+		, reelSetMain(5, 3)
+		, winCalc(9, 5, 3)
+	{}
 	void load()
 	{
 		Input* rsMain = InputLoader::open(INPUT(res_reelset0));

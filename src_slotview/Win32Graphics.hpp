@@ -17,11 +17,14 @@
 class Win32Graphics
 {
 protected:
+	const int symbolCount;
+	const int reelCount;
+	const int rowCount;
 	int width, height;
 	int offsetX, offsetY;
 	int symbolW, symbolH;
 	bool wasInitialized;
-	HBITMAP bmpSymbol[Settings::symbolCount];
+	HBITMAP* bmpSymbol;
 
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 	ULONG_PTR gdiplusToken;
@@ -34,10 +37,15 @@ public:
 		: width(width)
 		, height(height)
 		, wasInitialized(false)
-	{}
+		, symbolCount(WinGlobal::game->symbolCount)
+		, reelCount(WinGlobal::game->reelCount)
+		, rowCount(WinGlobal::game->rowCount)
+	{
+		this->bmpSymbol = new HBITMAP [this->symbolCount];
+	}
 	~Win32Graphics()
 	{
-		for (int i = 0; i < Settings::symbolCount; i++)
+		for (int i = 0; i < 8; i++)
 			DeleteObject(this->bmpSymbol[i]);
 		delete this->penGrid;
 		delete this->penFrame;
@@ -50,7 +58,7 @@ public:
 		// Set dimensions
 		this->symbolW = 88;
 		this->symbolH = 88;
-		this->offsetX = (this->width-Settings::reelCount*this->symbolW)/2;
+		this->offsetX = (this->width-this->reelCount*this->symbolW)/2;
 		this->offsetY = 50;
 
 		// Init Gdiplus

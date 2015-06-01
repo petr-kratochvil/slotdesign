@@ -15,6 +15,8 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	WinGlobal::InitGame();
 	WinGlobal::InitGraphics();
+    ShowWindow(WinGlobal::hWndMain, nCmdShow);
+
 
 	wchar_t title[250];
     swprintf(title, L"Sizzling Hot v2.1, reelset version %S", WinGlobal::game->getRSVersion().c_str());
@@ -63,15 +65,12 @@ bool WinGlobal::InitInstance(HINSTANCE hInstance, int nCmdShow)
    if (!WinGlobal::hWndMain)
       return false;
 
-   WinGlobal::win32Graphics = new ShuffleCrossGraphics(WinGlobal::width, WinGlobal::height);
-
-   ShowWindow(WinGlobal::hWndMain, nCmdShow);
-
    return true;
 }
 
 void WinGlobal::InitGraphics()
 {
+	WinGlobal::win32Graphics = new ShuffleCrossGraphics(WinGlobal::width, WinGlobal::height);
 	WinGlobal::win32Graphics->init();
 	WinGlobal::InitControls();
 }

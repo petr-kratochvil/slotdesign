@@ -105,8 +105,6 @@ struct Statistics
 	StatItem statReel0;
 	StatItem statWin0, statWinU100, statWinU200, statWinO200;
 	int maxWin;
-	// count the percentage of individual symbols
-	StatItem statSymbols[Settings::symbolCount];
 	// ...more statistical idicators...
 	Statistics()
 	{
@@ -116,10 +114,6 @@ struct Statistics
 	void printToFile() const
 	{
 		this->statWin.printToFile();
-		for (int i = 0; i < Settings::symbolCount; i++)
-		{
-			this->statSymbols[i].printToFile();
-		}
 	}
 	void printFinalFormatted() const
 	{

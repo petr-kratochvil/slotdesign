@@ -23,22 +23,30 @@ protected:
 
 	void highlightReset()
 	{
-		for (int i = 0; i<Settings::reelCount; i++)
-			for (int j=0; j<Settings::rowCount; j++)
+		for (int i = 0; i < this->reelCount; i++)
+			for (int j = 0; j < this->rowCount; j++)
 				this->highlight.setSymbol(i, j, 0);
 	}
 
 public:
+	const int symbolCount;
+	const int reelCount;
+	const int rowCount;
 	bool isHighlighting;
 	bool highlighted(int reel, int row)
 	{
 		return this->highlight.getSymbol(reel, row);
 	}
 
-	Game()
-		: windowReady(false)
+	Game(int symbolCount, int reelCount, int rowCount)
+		: window(reelCount, rowCount)
+		, highlight(reelCount, rowCount)
+		, windowReady(false)
 		, lastWinAmount(0)
 		, isHighlighting(false)
+		, symbolCount(symbolCount)
+		, reelCount(reelCount)
+		, rowCount(rowCount)
 	{
 		this->highlightReset();
 	}

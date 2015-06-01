@@ -1,17 +1,20 @@
+
 #include "Game.hpp"
 #include "Reel.hpp"
+#include <vector>
 
 #ifndef SIZZLINGHOT_HPP
 #define SIZZLINGHOT_HPP
 
 class WinCalcSizzlingHot : public WinCalculator
 {
+	const int paylineCount;
 	int paylineWin7(const Window& window, const Payline& payline, Window* highlight = NULL) const
 	{
 		if (window.getSymbol(0, payline.linePos(0)) != 6)
 			return 0;
 		int sevenCount = 1;
-		for (int i = 1; i < Settings::reelCount; i++)
+		for (int i = 1; i < this->reelCount; i++)
 		{
 			if (window.getSymbol(i, payline.linePos(i)) == 6)
 				sevenCount = i + 1;
@@ -74,11 +77,12 @@ class WinCalcSizzlingHot : public WinCalculator
 		}
 	}
 
+public:
 	int scatterWinStar(const Window& window, Window* highlight = NULL) const
 	{
 		int starCount = 0;
-		for (int i = 0; i < Settings::reelCount; i++)
-			for (int j = 0; j < Settings::rowCount; j++)
+		for (int i = 0; i < this->reelCount; i++)
+			for (int j = 0; j < this->rowCount; j++)
 				if (window.getSymbol(i, j) == 7)
 					starCount++;
 		if (starCount < 3)
@@ -86,8 +90,8 @@ class WinCalcSizzlingHot : public WinCalculator
 
 		if (highlight != NULL)
 		{
-			for (int i = 0; i < Settings::reelCount; i++)
-				for (int j = 0; j < Settings::rowCount; j++)
+			for (int i = 0; i < this->reelCount; i++)
+				for (int j = 0; j < this->rowCount; j++)
 					if (window.getSymbol(i, j) == 7)
 						highlight->setSymbol(i, j, 1);
 		}
@@ -105,38 +109,36 @@ class WinCalcSizzlingHot : public WinCalculator
 		}
 	}
 
-public:
 	void loadPaytable(Input* input)
 	{
 		WinCalculator::loadPaytable(input);
 		this->payTableBasic[0][1] = 5;
 	}
 
-	int leftWin(const Window& window, const Payline* paylines, Window* highlight = NULL) const
+	WinCalcSizzlingHot(int symbolCount, int reelCount, int rowCount, int paylineCount)
+		: WinCalculator(symbolCount, reelCount, rowCount)
+		, paylineCount(paylineCount)
+	{}
+
+	int leftWin(const Window& window, std::vector<Payline>& paylines, Window* highlight = NULL) const
 	{
 		int partialWin = 0;
-		for (int i=0; i<Settings::paylineCount; i++)
+		for (int i=0; i<this->paylineCount; i++)
 		{
 			partialWin += this->paylineWin(window, paylines[i], highlight);
 		}
 		return partialWin;
 	}
 
-	int leftWin7(const Window& window, const Payline* paylines, Window* highlight = NULL) const
+	int leftWin7(const Window& window, std::vector<Payline>& paylines, Window* highlight = NULL) const
 	{
 		int partialWin = 0;
-		for (int i=0; i<Settings::paylineCount; i++)
+		for (int i=0; i<this->paylineCount; i++)
 		{
 			partialWin += this->paylineWin7(window, paylines[i], highlight);
 		}
 		return partialWin;
 	}
-
-	int scatterWinStar(const Window& window, const Payline* paylines, Window* highlight = NULL) const
-	{
-		return this->scatterWinStar(window, highlight);
-	}
-
 };
 
 class GameSizzlingHot : public Game
@@ -144,10 +146,19 @@ class GameSizzlingHot : public Game
 	ReelSet reelSetMain;
 	ReelSet reelSetZero;
 	WinCalcSizzlingHot winCalc;
-	Payline paylines[Settings::paylineCount];
+	const int paylineCount;
+	std::vector<Payline> paylines;
 	int reelSetUsed;
 
 public:
+	GameSizzlingHot()
+		: Game(8, 5, 3)
+		, winCalc(8, 5, 3, 5)
+		, paylineCount(5)
+		, reelSetMain(5, 3)
+		, reelSetZero(5, 3)
+		, paylines(5, Payline(5))
+	{}
 	void load()
 	{
 		Input* rsMain = InputLoader::open(INPUT(res_reelset0));
@@ -175,7 +186,7 @@ public:
 private:
 	void loadPaylines(Input* input)
 	{
-		for (int i = 0; i < Settings::paylineCount; i++)
+		for (int i = 0; i < this->paylineCount; i++)
 			this->paylines[i].load(input);
 	}
 
@@ -189,7 +200,7 @@ private:
 		}
 		int winBasic = this->winCalc.leftWin(this->window, this->paylines, pHighlight);
 		int win7 = this->winCalc.leftWin7(this->window, this->paylines, pHighlight);
-		int winStar = this->winCalc.scatterWinStar(this->window, this->paylines, pHighlight);
+		int winStar = this->winCalc.scatterWinStar(this->window, pHighlight);
 		this->lastWinAmount = winBasic + win7 + winStar;
 		this->stats.statWin.addData(this->lastWinAmount);
 		this->stats.statWinBasic.addData(winBasic);

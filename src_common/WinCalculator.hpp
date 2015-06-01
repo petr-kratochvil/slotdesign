@@ -7,11 +7,22 @@
 #define WINCALCULATOR_HPP
 class Payline
 {
-	int line[Settings::reelCount];
+	const int reelCount;
+	int* line;
 public:
+	Payline(int reelCount)
+		: reelCount(reelCount)
+	{
+		this->line = new int[this->reelCount];
+	}
+	~Payline()
+	{
+		delete [] this->line;
+		this->line = NULL;
+	}
 	void load(Input* input)
 	{
-		for (int j = 0; j < Settings::reelCount; j++)
+		for (int j = 0; j < this->reelCount; j++)
 			this->line[j] = input->getInt();
 	}
 	// position on payline
@@ -25,12 +36,17 @@ public:
 class WinCalculator
 {
 protected:
-	int payTableBasic[Settings::symbolCount][5];
+	const int symbolCount;
+	const int reelCount;
+	const int rowCount;
+	
+	int **payTableBasic;
+
 	int paylineWin(const Window& window, const Payline& payline, Window* highlight = NULL) const
 	{
 		int N = 0;
 		int symbol = window.getSymbol(0, payline.linePos(0));
-		for (int i = 1; i < Settings::reelCount; i++)
+		for (int i = 1; i < this->reelCount; i++)
 		{
 			if (symbol == window.getSymbol(i, payline.linePos(i)))
 				continue;
@@ -41,7 +57,7 @@ protected:
 			}
 		}
 		if (N == 0)
-			N = Settings::reelCount;
+			N = this->reelCount;
 		int pay = this->payLeftN(symbol, N);
 		if ((highlight != NULL)  && (pay > 0))
 		{
@@ -52,20 +68,22 @@ protected:
 	}
 	int payLeftN(int symbol, int N) const
 	{
-		assert((N <= 5) && (N >= 1));
+		if (N == 0)
+			return 0;
+		assert((N <= this->reelCount) && (N > 0));
 		return this->payTableBasic[symbol][N-1];
 	}
 	int crissCrossWin(const Window& window, Window* highlight = NULL) const
 	{
 		int win = 0;
-		for (int i = 0; i < Settings::symbolCount; i++)
+		for (int i = 0; i < this->symbolCount; i++)
 		{
 			int paylineCount = 1;
 			int symbolsInRow = 0;
-			for (int j = 0; j < Settings::reelCount; j++)
+			for (int j = 0; j < this->reelCount; j++)
 			{
 				int symbolsFound = 0;
-				for (int k = 0; k < Settings::rowCount; k++)
+				for (int k = 0; k < this->rowCount; k++)
 				{
 					if (window.getSymbol(j, k) == i)
 						symbolsFound++;
@@ -83,16 +101,23 @@ protected:
 public:
 	virtual void loadPaytable(Input* input)
 	{
-		for (int i = 0 ; i < Settings::symbolCount; i++)
+		for (int i = 0 ; i < this->symbolCount; i++)
 			for (int j = 3; j <= 5; j++)
 				this->payTableBasic[i][j-1] = input->getInt();
 	}
 
-	WinCalculator()
+	WinCalculator(int symbolCount, int reelCount, int rowCount)
+		: symbolCount(symbolCount)
+		, reelCount(reelCount)
+		, rowCount(rowCount)
 	{
-		for (int i = 0; i < Settings::symbolCount; i++)
+		this->payTableBasic = new int*[this->symbolCount];
+		for (int i = 0; i < this->symbolCount; i++)
+		{
+			this->payTableBasic[i] = new int[this->reelCount];
 			for (int j = 0 ; j < 5; j++)
 				this->payTableBasic[i][j] = 0;
+		}
 	}
 
 

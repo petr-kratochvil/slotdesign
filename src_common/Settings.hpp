@@ -9,10 +9,6 @@
 class Settings
 {
 public:
-	static const int symbolCount = 8;
-	static const int rowCount = 3;
-	static const int reelCount = 5;
-	static const int paylineCount = 5;
 	static const int bet = 5;
 	static const int startingCredit = 1000;
 	static const char* pathInputs;
