@@ -161,10 +161,10 @@ public:
 	{}
 	void load()
 	{
-		Input* rsMain = InputLoader::open(INPUT(res_reelset0));
-		Input* rsZero = InputLoader::open(INPUT(res_reelset1));
-		Input* plines = InputLoader::open(INPUT(res_paylines));
-		Input* ptable = InputLoader::open(INPUT(res_paytable));
+		Input* rsMain = InputLoader::open(INPUT(SH_REELSET0));
+		Input* rsZero = InputLoader::open(INPUT(SH_REELSET1));
+		Input* plines = InputLoader::open(INPUT(SH_PAYLINES));
+		Input* ptable = InputLoader::open(INPUT(SH_PAYTABLE));
 		this->reelSetMain.load(rsMain);
 		this->reelSetZero.load(rsZero);
 		this->loadPaylines(plines);

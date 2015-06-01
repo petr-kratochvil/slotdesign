@@ -31,8 +31,8 @@ public:
 	{}
 	void load()
 	{
-		Input* rsMain = InputLoader::open(INPUT(res_reelset0));
-		Input* ptable = InputLoader::open(INPUT(res_paytable));
+		Input* rsMain = InputLoader::open(INPUT(SC_REELSET0));
+		Input* ptable = InputLoader::open(INPUT(SC_PAYTABLE));
 		this->reelSetMain.load(rsMain);
 		this->winCalc.loadPaytable(ptable);
 		InputLoader::close(rsMain);

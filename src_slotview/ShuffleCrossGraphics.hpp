@@ -72,6 +72,19 @@ public:
 		swprintf(txtWin, L"Výhra: %d", WinGlobal::game->getLastWinAmount());
 		TextOut(hdc, this->width - 1.5*this->offsetX, 350, txtWin, wcslen(txtWin));
 	}
+private:
+	void loadSymbols()
+	{
+		this->bmpSymbol[0] = LoadBitmap(WinGlobal::hInst, MAKEINTRESOURCE(SC_SYMBOL1));
+		this->bmpSymbol[1] = LoadBitmap(WinGlobal::hInst, MAKEINTRESOURCE(SC_SYMBOL2));
+		this->bmpSymbol[2] = LoadBitmap(WinGlobal::hInst, MAKEINTRESOURCE(SC_SYMBOL3));
+		this->bmpSymbol[3] = LoadBitmap(WinGlobal::hInst, MAKEINTRESOURCE(SC_SYMBOL4));
+		this->bmpSymbol[4] = LoadBitmap(WinGlobal::hInst, MAKEINTRESOURCE(SC_SYMBOL5));
+		this->bmpSymbol[5] = LoadBitmap(WinGlobal::hInst, MAKEINTRESOURCE(SC_SYMBOL6));
+		this->bmpSymbol[6] = LoadBitmap(WinGlobal::hInst, MAKEINTRESOURCE(SC_SYMBOL7));
+		this->bmpSymbol[7] = LoadBitmap(WinGlobal::hInst, MAKEINTRESOURCE(SC_SYMBOL8));
+		this->bmpSymbol[8] = LoadBitmap(WinGlobal::hInst, MAKEINTRESOURCE(SC_SYMBOL9));
+	}
 };
 
 
