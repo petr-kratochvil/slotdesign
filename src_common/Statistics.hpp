@@ -111,6 +111,21 @@ struct Statistics
 		this->statWin.setOutputFile("statWin.txt");
 		this->maxWin = 0;
 	}
+	void addWinFromOneSpin(int basicWin, int totalWin)
+	{
+		this->statWin.addData(totalWin);
+		this->statWinBasic.addData(basicWin);
+		if (totalWin == 0)
+			this->statWin0.addData();
+		else if (totalWin <= 100)
+			this->statWinU100.addData();
+		else if (totalWin <= 200)
+			this->statWinU200.addData();
+		else
+			this->statWinO200.addData();
+		if (totalWin > this->maxWin)
+			this->maxWin = totalWin;
+	}
 	void printToFile() const
 	{
 		this->statWin.printToFile();

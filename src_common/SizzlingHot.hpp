@@ -202,20 +202,12 @@ private:
 		int win7 = this->winCalc.leftWin7(this->window, this->paylines, pHighlight);
 		int winStar = this->winCalc.scatterWinStar(this->window, pHighlight);
 		this->lastWinAmount = winBasic + win7 + winStar;
-		this->stats.statWin.addData(this->lastWinAmount);
-		this->stats.statWinBasic.addData(winBasic);
+		
 		this->stats.statWin7.addData(win7);
 		this->stats.statWinStar.addData(winStar);
-		if (lastWinAmount == 0)
-			this->stats.statWin0.addData();
-		else if (lastWinAmount <= 100)
-			this->stats.statWinU100.addData();
-		else if (lastWinAmount <= 200)
-			this->stats.statWinU200.addData();
-		else
-			this->stats.statWinO200.addData();
-		if (this->lastWinAmount > this->stats.maxWin)
-			this->stats.maxWin = this->lastWinAmount;
+
+		this->stats.addWinFromOneSpin(winBasic, this->lastWinAmount);
+		
 		this->stats.statReel0.addData((this->reelSetUsed == 0)?1:0);
 	}
 

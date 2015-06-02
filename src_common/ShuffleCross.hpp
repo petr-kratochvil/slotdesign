@@ -79,18 +79,7 @@ private:
 		}
 		int winBasic = this->winCalc.basicWin(this->window, pHighlight);
 		this->lastWinAmount = winBasic;
-		this->stats.statWin.addData(this->lastWinAmount);
-		this->stats.statWinBasic.addData(winBasic);
-		if (lastWinAmount == 0)
-			this->stats.statWin0.addData();
-		else if (lastWinAmount <= 100)
-			this->stats.statWinU100.addData();
-		else if (lastWinAmount <= 200)
-			this->stats.statWinU200.addData();
-		else
-			this->stats.statWinO200.addData();
-		if (this->lastWinAmount > this->stats.maxWin)
-			this->stats.maxWin = this->lastWinAmount;
+		this->stats.addWinFromOneSpin(winBasic, this->lastWinAmount);
 	}
 
 	void spin()
