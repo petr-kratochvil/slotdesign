@@ -193,7 +193,7 @@ private:
 	void updateStats()
 	{
 		Window* pHighlight = NULL;
-		if (this->isHighlighting)
+		if (this->isInteractive)
 		{
 			this->highlightReset();
 			pHighlight = &this->highlight;

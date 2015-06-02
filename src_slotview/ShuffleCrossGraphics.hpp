@@ -5,6 +5,18 @@
 
 class ShuffleCrossGraphics : public Win32Graphics
 {
+	void setStartButtonCaption()
+	{
+		switch (dynamic_cast<GameShuffleCross*>(WinGlobal::game)->getInteractiveMode())
+		{
+		case GameShuffleCross::ModeNewSpin:
+			SetWindowText(WinGlobal::Controls::buttonStart, L"Start !");
+			break;
+		case GameShuffleCross::ModeGatherBonus:
+			SetWindowText(WinGlobal::Controls::buttonStart, L"Seber bonus !");
+			break;
+		}
+	}
 public:
 	ShuffleCrossGraphics(int width, int height)
 		: Win32Graphics(width, height)
@@ -14,6 +26,8 @@ public:
 	{
 		if (!this->wasInitialized)
 			return;
+
+		this->setStartButtonCaption();
 
 		Gdiplus::Graphics graphics(hdc);
 		graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);

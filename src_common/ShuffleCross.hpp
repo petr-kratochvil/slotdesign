@@ -24,10 +24,28 @@ class GameShuffleCross : public Game
 	WinCalcShuffleCross winCalc;
 
 public:
+	enum InteractiveMode
+	{
+		ModeNewSpin,
+		ModeGatherBonus
+	};
+
+private:
+	// interactive mode
+	InteractiveMode interactiveMode;
+
+	// logical mode
+	bool freeSpinMode;
+	int freeSpinsRemaining;
+
+public:
 	GameShuffleCross()
 		: Game(9, 5, 3)
 		, reelSetMain(5, 3)
 		, winCalc(9, 5, 3)
+		, interactiveMode(GameShuffleCross::ModeNewSpin)
+		, freeSpinMode(false)
+		, freeSpinsRemaining(0)
 	{}
 	void load()
 	{
@@ -45,11 +63,16 @@ public:
 		return result;
 	}
 
+	InteractiveMode getInteractiveMode()
+	{
+		return this->interactiveMode;
+	}
+
 private:
 	void updateStats()
 	{
 		Window* pHighlight = NULL;
-		if (this->isHighlighting)
+		if (this->isInteractive)
 		{
 			this->highlightReset();
 			pHighlight = &this->highlight;
@@ -76,6 +99,14 @@ private:
 		this->reelSetMain.spin(&this->window);
 	
 		this->windowReady = true;
+	}
+
+	// overriden from Game - needed in interactive mode for special controls
+	// (possibility to change the meaning of Start! button)
+	void start()
+	{
+		this->spin();
+		this->updateStats();
 	}
 };
 #endif

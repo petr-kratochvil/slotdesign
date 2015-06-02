@@ -88,7 +88,7 @@ void WinGlobal::InitGame()
 {
 	WinGlobal::game = new GameShuffleCross();
 	WinGlobal::game->load();
-	WinGlobal::game->isHighlighting = true;
+	WinGlobal::game->isInteractive = true;
 	Random::init();
 }
 

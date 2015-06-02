@@ -32,7 +32,7 @@ public:
 	const int symbolCount;
 	const int reelCount;
 	const int rowCount;
-	bool isHighlighting;
+	bool isInteractive;
 	bool highlighted(int reel, int row)
 	{
 		return this->highlight.getSymbol(reel, row);
@@ -43,7 +43,7 @@ public:
 		, highlight(reelCount, rowCount)
 		, windowReady(false)
 		, lastWinAmount(0)
-		, isHighlighting(false)
+		, isInteractive(false)
 		, symbolCount(symbolCount)
 		, reelCount(reelCount)
 		, rowCount(rowCount)
@@ -95,7 +95,7 @@ public:
 	}
 
 	// a player has joyfully pressed the big START! button
-	void start()
+	virtual void start()
 	{
 		this->spin();
 		this->updateStats();
