@@ -152,7 +152,7 @@ class GameSizzlingHot : public Game
 
 public:
 	GameSizzlingHot()
-		: Game(8, 5, 3)
+		: Game(8, 5, 3, "Sizzling Hot", "2.1")
 		, winCalc(8, 5, 3, 5)
 		, paylineCount(5)
 		, reelSetMain(5, 3)

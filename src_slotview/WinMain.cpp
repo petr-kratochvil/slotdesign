@@ -19,7 +19,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 
 	wchar_t title[250];
-    swprintf(title, L"Sizzling Hot v2.1, reelset version %S", WinGlobal::game->getRSVersion().c_str());
+    swprintf(title, L"Game %S v%S", WinGlobal::game->gameName.c_str(), WinGlobal::game->gameVersion.c_str());
 	SetWindowText(WinGlobal::hWndMain, title);
 
 	UpdateWindow(WinGlobal::hWndMain);

@@ -125,7 +125,7 @@ private:
 
 public:
 	GameShuffleCross()
-		: Game(9, 5, 3)
+		: Game(9, 5, 3, "Shufflle Cross", "0")
 		, reelSetMain(5, 3)
 		, winCalc(9, 5, 3)
 		, interactiveMode(ModeNewSpin)
@@ -141,12 +141,6 @@ public:
 		this->winCalc.loadPaytable(ptable);
 		InputLoader::close(rsMain);
 		InputLoader::close(ptable);
-	}
-
-	std::string getRSVersion() const
-	{
-		std::string result("0");
-		return result;
 	}
 
 	int getCredit() const

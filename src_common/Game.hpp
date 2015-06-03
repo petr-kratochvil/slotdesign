@@ -32,13 +32,15 @@ public:
 	const int symbolCount;
 	const int reelCount;
 	const int rowCount;
+	const std::string gameName;
+	const std::string gameVersion;
 	bool isInteractive;
 	bool highlighted(int reel, int row)
 	{
 		return this->highlight.getSymbol(reel, row);
 	}
 
-	Game(int symbolCount, int reelCount, int rowCount)
+	Game(int symbolCount, int reelCount, int rowCount, const std::string& name, const std::string& version)
 		: window(reelCount, rowCount)
 		, highlight(reelCount, rowCount)
 		, windowReady(false)
@@ -47,6 +49,8 @@ public:
 		, symbolCount(symbolCount)
 		, reelCount(reelCount)
 		, rowCount(rowCount)
+		, gameName(name)
+		, gameVersion(version)
 	{
 		this->highlightReset();
 	}
