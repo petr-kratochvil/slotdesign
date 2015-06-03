@@ -87,7 +87,7 @@ public:
 		return this->lastWinAmount;
 	}
 
-	int getCredit() const
+	virtual int getCredit() const
 	{
 		return Settings::startingCredit
 				- Settings::bet * this->stats.statWin.getCount()

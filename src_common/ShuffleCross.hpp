@@ -4,8 +4,11 @@
 #ifndef SHUFFLECROSS_HPP
 #define SHUFFLECROSS_HPP
 
+#undef min
+
 class WinCalcShuffleCross : public WinCalculator
 {
+	static const int PicnicBonusSymbol = 8;
 public:
 	WinCalcShuffleCross(int symbolCount, int reelCount, int rowCount)
 		: WinCalculator(symbolCount, reelCount, rowCount)
@@ -15,6 +18,86 @@ public:
 		int partialWin = 0;
 		partialWin += this->crissCrossWin(window, highlight);
 		return partialWin;
+	}
+	int picnicBonus(const Window& window, Window* highlight = NULL) const
+	{
+		int picnicCount = 0;
+		for (int i = 0; i < this->reelCount; i++)
+			for (int j = 0; j < this->rowCount; j++)
+				if (window.getSymbol(i, j) == PicnicBonusSymbol)
+				{
+					picnicCount++;
+					if (highlight != NULL)
+						highlight->setSymbol(i, j, 1);
+				}
+		return picnicCount;
+	}
+
+	void gatherBonus(Window* w)
+	{
+		static int* counts = new int[this->symbolCount];
+		static int* pays = new int[this->symbolCount];
+
+		for (int s = 0; s < symbolCount; s++)
+		{
+			counts[s] = 0;
+			pays[s] = 0;
+		}
+
+		for (int i = 0; i < this->reelCount; i++)
+			for (int j = 0; j < this->rowCount; j++)
+			{
+				counts[w->getSymbol(i, j)]++;
+			}
+
+		for (int s = 0; s < this->symbolCount; s++)
+		{
+			pays[s] = this->payLeftN(s, counts[s]);
+		}
+
+		Window doneWindow(this->reelCount, this->rowCount);
+		
+		for (int i = 0; i < this->reelCount; i++)
+				for (int j = 0; j < this->rowCount; j++)
+					doneWindow.setSymbol(i, j, 0);
+
+		for (int j = 0; j < 3; j++)
+		{
+			int maxPay = 0;
+			int maxSymbol;
+			for (int s = 0; s < symbolCount; s++)
+			{
+				if (pays[s] > maxPay)
+				{
+					maxPay = pays[s];
+					maxSymbol = s;
+				}
+			}
+			if (maxPay > 0)
+			{
+				for (int i = 0; i < std::min(counts[maxSymbol], 5); i++)
+				{
+					w->setSymbol(i, j, maxSymbol);
+					doneWindow.setSymbol(i, j, 1);
+				}
+				counts[maxSymbol] -= std::min(counts[maxSymbol], 5);
+				pays[maxSymbol] = this->payLeftN(maxSymbol, counts[maxSymbol]);
+			}
+		}
+		
+		for (int s = this->symbolCount; s >= 0; s--)
+		{
+			for (int j = 0; j < this->rowCount; j++)
+				for (int i = 0; i < this->reelCount; i++)
+				{
+					if ((doneWindow.getSymbol(i, j) == 0) && (counts[s] > 0))
+					{
+						counts[s]--;
+						doneWindow.setSymbol(i, j, 1);
+						w->setSymbol(i, j, s);
+					}
+				}
+		}
 	}
 };
 
@@ -27,6 +110,7 @@ public:
 	enum InteractiveMode
 	{
 		ModeNewSpin,
+		ModeFreeSpin,
 		ModeGatherBonus
 	};
 
@@ -37,15 +121,17 @@ private:
 	// logical mode
 	bool freeSpinMode;
 	int freeSpinsRemaining;
+	int spinCount;
 
 public:
 	GameShuffleCross()
 		: Game(9, 5, 3)
 		, reelSetMain(5, 3)
 		, winCalc(9, 5, 3)
-		, interactiveMode(GameShuffleCross::ModeNewSpin)
+		, interactiveMode(ModeNewSpin)
 		, freeSpinMode(false)
 		, freeSpinsRemaining(0)
+		, spinCount(0)
 	{}
 	void load()
 	{
@@ -63,11 +149,18 @@ public:
 		return result;
 	}
 
-	InteractiveMode getInteractiveMode()
+	int getCredit() const
 	{
-		return this->interactiveMode;
+		return Settings::startingCredit
+				- Settings::bet * this->spinCount
+				+ this->stats.statWin.getTotal();
 	}
 
+
+	InteractiveMode getInteractiveMode() { return this->interactiveMode; }
+	bool isFreeSpinMode() {	return this->freeSpinMode; }
+	int getFreeSpinsRemaining() { return this->freeSpinsRemaining; }
+	
 private:
 	void updateStats()
 	{
@@ -80,8 +173,19 @@ private:
 		int winBasic = this->winCalc.basicWin(this->window, pHighlight);
 		this->lastWinAmount = winBasic;
 		this->stats.addWinFromOneSpin(winBasic, this->lastWinAmount);
+		this->freeSpinsRemaining += this->winCalc.picnicBonus(this->window, pHighlight);
+		if (this->freeSpinsRemaining > 0)
+		{
+			this->freeSpinMode = true;
+			this->interactiveMode = ModeFreeSpin;
+		}
+		else
+		{
+			this->freeSpinMode = false;
+			this->interactiveMode = ModeNewSpin;
+		}
 	}
-
+	
 	void spin()
 	{
 		this->reelSetMain.shuffleReels();
@@ -94,8 +198,32 @@ private:
 	// (possibility to change the meaning of Start! button)
 	void start()
 	{
-		this->spin();
-		this->updateStats();
+		switch (this->interactiveMode)
+		{
+		case ModeNewSpin:
+			this->spin();
+			this->spinCount++;
+			this->updateStats();
+			break;
+		case ModeFreeSpin:
+			this->spin();
+			if (this->interactiveMode)
+				this->highlightReset();
+			this->freeSpinsRemaining--;
+			this->lastWinAmount = 0;
+			if (this->freeSpinsRemaining <= 0)
+				this->freeSpinMode = false;
+			this->interactiveMode = ModeGatherBonus;
+			break;
+		case ModeGatherBonus:
+			this->winCalc.gatherBonus(&this->window);
+			if (this->freeSpinMode)
+				this->interactiveMode = ModeFreeSpin;
+			else
+				this->interactiveMode = ModeNewSpin;
+			this->updateStats();
+			break;
+		}
 	}
 };
 #endif

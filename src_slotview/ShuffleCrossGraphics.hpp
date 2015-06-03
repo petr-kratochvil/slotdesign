@@ -1,4 +1,4 @@
-#include "Win32Graphics.hpp"
+﻿#include "Win32Graphics.hpp"
 
 #ifndef SHUFFLECROSSGRAPHICS_HPP
 #define SHUFFLECROSSGRAPHICS_HPP
@@ -12,8 +12,11 @@ class ShuffleCrossGraphics : public Win32Graphics
 		case GameShuffleCross::ModeNewSpin:
 			SetWindowText(WinGlobal::Controls::buttonStart, L"Start !");
 			break;
+		case GameShuffleCross::ModeFreeSpin:
+			SetWindowText(WinGlobal::Controls::buttonStart, L"Free spin");
+			break;
 		case GameShuffleCross::ModeGatherBonus:
-			SetWindowText(WinGlobal::Controls::buttonStart, L"Seber bonus !");
+			SetWindowText(WinGlobal::Controls::buttonStart, L"Seber bonus !	");
 			break;
 		}
 	}
@@ -83,8 +86,13 @@ public:
 		wchar_t txtWin[50];
 		swprintf(txtWin, L"Kredit: %d", WinGlobal::game->getCredit());
 		TextOut(hdc, this->offsetX, 350, txtWin, wcslen(txtWin));
-		swprintf(txtWin, L"V�hra: %d", WinGlobal::game->getLastWinAmount());
+		swprintf(txtWin, L"Výhra: %d", WinGlobal::game->getLastWinAmount());
 		TextOut(hdc, this->width - 1.5*this->offsetX, 350, txtWin, wcslen(txtWin));
+		if (dynamic_cast<GameShuffleCross*>(WinGlobal::game)->isFreeSpinMode())
+		{
+			swprintf(txtWin, L"Zbývají free spiny: %d", dynamic_cast<GameShuffleCross*>(WinGlobal::game)->getFreeSpinsRemaining());
+			TextOut(hdc, this->width - 1.5*this->offsetX, 370, txtWin, wcslen(txtWin));
+		}
 	}
 private:
 	void loadSymbols()

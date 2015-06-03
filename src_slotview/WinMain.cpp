@@ -79,8 +79,8 @@ void WinGlobal::InitControls()
 {
 	WinGlobal::Controls::buttonStart = CreateWindowEx(WS_EX_CLIENTEDGE, L"BUTTON", L"Start !"
 													  , WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON
-													  , WinGlobal::width / 2 - 50, 350
-													  , 100, 40, WinGlobal::hWndMain, HMENU(NULL), WinGlobal::hInst, NULL);
+													  , WinGlobal::width / 2 - 75, 350
+													  , 150, 40, WinGlobal::hWndMain, HMENU(NULL), WinGlobal::hInst, NULL);
 	WinGlobal::OldButtonProc = (WNDPROC)SetWindowLong(WinGlobal::Controls::buttonStart, GWL_WNDPROC, (LONG)WinGlobal::ButtonProc);
 }
 

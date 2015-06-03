@@ -70,7 +70,8 @@ protected:
 	{
 		if (N == 0)
 			return 0;
-		assert((N <= this->reelCount) && (N > 0));
+		if (N > this->reelCount)
+			N = this->reelCount;
 		return this->payTableBasic[symbol][N-1];
 	}
 	int crissCrossWin(const Window& window, Window* highlight = NULL) const
