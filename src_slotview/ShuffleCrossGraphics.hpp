@@ -52,7 +52,7 @@ public:
 					DrawState(hdc, NULL, NULL, LPARAM(this->bmpSymbol[symbolID]), 0
 						,this->offsetX + i * this->symbolW, this->offsetY + j * this->symbolH
 						, 0, 0, DST_BITMAP);
-			}
+				}
 		}
 
 		// Draw the grid
@@ -83,7 +83,7 @@ public:
 			}
 
 		// Draw number values
-		wchar_t txtWin[50];
+		wchar_t txtWin[500];
 		swprintf(txtWin, L"Kredit: %d", WinGlobal::game->getCredit());
 		TextOut(hdc, this->offsetX, 350, txtWin, wcslen(txtWin));
 		swprintf(txtWin, L"Výhra: %d", WinGlobal::game->getLastWinAmount());
@@ -93,6 +93,10 @@ public:
 			swprintf(txtWin, L"Zbývají free spiny: %d", dynamic_cast<GameShuffleCross*>(WinGlobal::game)->getFreeSpinsRemaining());
 			TextOut(hdc, this->width - 1.5*this->offsetX, 370, txtWin, wcslen(txtWin));
 		}
+
+		// write win description to the edit box
+		swprintf(txtWin, L"%S", dynamic_cast<GameShuffleCross*>(WinGlobal::game)->getWinDescription().c_str());
+		SetWindowText(WinGlobal::Controls::editInfo, txtWin);
 	}
 private:
 	void loadSymbols()

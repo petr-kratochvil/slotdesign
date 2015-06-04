@@ -1,4 +1,5 @@
-#include <stdio.h>
+﻿#include <stdio.h>
+#include <sstream>
 #include "Settings.hpp"
 #include "Reel.hpp"
 #include "InputLoader.hpp"
@@ -74,9 +75,12 @@ protected:
 			N = this->reelCount;
 		return this->payTableBasic[symbol][N-1];
 	}
-	int crissCrossWin(const Window& window, Window* highlight = NULL) const
+	int crissCrossWin(const Window& window, Window* highlight = NULL, std::string* desc = NULL) const
 	{
 		int win = 0;
+		std::ostringstream stringStream;
+		if (desc != NULL)
+			desc->erase();
 		for (int i = 0; i < this->symbolCount; i++)
 		{
 			int paylineCount = 1;
@@ -94,8 +98,41 @@ protected:
 				paylineCount *= symbolsFound;
 				symbolsInRow = j+1;
 			}
-			int partialWin = this->payLeftN(i, symbolsInRow) * paylineCount;
-			win += partialWin;
+			int partialWin = this->payLeftN(i, symbolsInRow);
+			if ((desc != NULL) && (partialWin > 0))
+			{
+				stringStream << paylineCount << "x vyhra " << partialWin << " za radu "
+					<< symbolsInRow << " ";
+				switch (i)
+				{
+				case 0:
+					stringStream << "tresni";
+					break;
+				case 1:
+					stringStream << "citronu";
+					break;
+				case 2:
+					stringStream << "pomerancu";
+					break;
+				case 3:
+					stringStream << "svestek";
+					break;
+				case 4:
+					stringStream << "hroznu";
+					break;
+				case 5:
+					stringStream << "melounu";
+					break;
+				case 6:
+					stringStream << "sedmicek";
+					break;
+				case 7:
+					stringStream << "hvezd";
+					break;
+				}
+				stringStream << "\r\n";
+			}
+			win += partialWin * paylineCount;
 			if ((highlight != NULL) && (partialWin > 0))
 			{
 				for (int j = 0; j < symbolsInRow; j++)
@@ -104,6 +141,9 @@ protected:
 							highlight->setSymbol(j, k, 1);
 			}
 		}
+		if (desc != NULL)
+			*desc += stringStream.str();
+
 		return win;
 	}
 

@@ -9,14 +9,16 @@
 class WinCalcShuffleCross : public WinCalculator
 {
 	static const int PicnicBonusSymbol = 8;
+	std::string winDescription;
 public:
+	std::string getWinDescription() { return this->winDescription; }
 	WinCalcShuffleCross(int symbolCount, int reelCount, int rowCount)
 		: WinCalculator(symbolCount, reelCount, rowCount)
 	{}
-	int basicWin(const Window& window, Window* highlight = NULL) const
+	int basicWin(const Window& window, Window* highlight = NULL)
 	{
 		int partialWin = 0;
-		partialWin += this->crissCrossWin(window, highlight);
+		partialWin += this->crissCrossWin(window, highlight, &this->winDescription);
 		return partialWin;
 	}
 	int picnicBonus(const Window& window, Window* highlight = NULL) const
@@ -85,7 +87,7 @@ public:
 			}
 		}
 		
-		for (int s = this->symbolCount; s >= 0; s--)
+		for (int s = this->symbolCount-1; s >= 0; s--)
 		{
 			for (int j = 0; j < this->rowCount; j++)
 				for (int i = 0; i < this->reelCount; i++)
@@ -122,10 +124,11 @@ private:
 	bool freeSpinMode;
 	int freeSpinsRemaining;
 	int spinCount;
+	int lastPicnicCount;
 
 public:
 	GameShuffleCross()
-		: Game(9, 5, 3, "Shufflle Cross", "0")
+		: Game(9, 5, 3, "Shuffle Cross", "0")
 		, reelSetMain(5, 3)
 		, winCalc(9, 5, 3)
 		, interactiveMode(ModeNewSpin)
@@ -154,6 +157,16 @@ public:
 	InteractiveMode getInteractiveMode() { return this->interactiveMode; }
 	bool isFreeSpinMode() {	return this->freeSpinMode; }
 	int getFreeSpinsRemaining() { return this->freeSpinsRemaining; }
+	std::string getWinDescription()
+	{
+		if (this->interactiveMode == ModeGatherBonus)
+			return "";
+		std::ostringstream stringStream;
+		stringStream << this->winCalc.getWinDescription();
+		if (this->lastPicnicCount > 0)
+			stringStream << this->lastPicnicCount << "x piknikovy kosik\r\n";
+		return stringStream.str();
+	}
 	
 private:
 	void updateStats()
@@ -167,7 +180,8 @@ private:
 		int winBasic = this->winCalc.basicWin(this->window, pHighlight);
 		this->lastWinAmount = winBasic;
 		this->stats.addWinFromOneSpin(winBasic, this->lastWinAmount);
-		this->freeSpinsRemaining += this->winCalc.picnicBonus(this->window, pHighlight);
+		this->lastPicnicCount = this->winCalc.picnicBonus(this->window, pHighlight);
+		this->freeSpinsRemaining += this->lastPicnicCount;
 		if (this->freeSpinsRemaining > 0)
 		{
 			this->freeSpinMode = true;
@@ -211,6 +225,7 @@ private:
 			break;
 		case ModeGatherBonus:
 			this->winCalc.gatherBonus(&this->window);
+			this->windowReady = true;
 			if (this->freeSpinMode)
 				this->interactiveMode = ModeFreeSpin;
 			else

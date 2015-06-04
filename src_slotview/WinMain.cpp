@@ -60,7 +60,7 @@ bool WinGlobal::InitInstance(HINSTANCE hInstance, int nCmdShow)
    WinGlobal::hInst = hInstance;
 
    WinGlobal::hWndMain = CreateWindow(L"MainWindowClass", L"Sizzling Hot", WS_OVERLAPPEDWINDOW ^ WS_THICKFRAME ^ WS_MAXIMIZEBOX,
-      CW_USEDEFAULT, 0, 700, 500, NULL, NULL, hInstance, NULL);
+      CW_USEDEFAULT, 0, 700, 650, NULL, NULL, hInstance, NULL);
 
    if (!WinGlobal::hWndMain)
       return false;
@@ -82,6 +82,10 @@ void WinGlobal::InitControls()
 													  , WinGlobal::width / 2 - 75, 350
 													  , 150, 40, WinGlobal::hWndMain, HMENU(NULL), WinGlobal::hInst, NULL);
 	WinGlobal::OldButtonProc = (WNDPROC)SetWindowLong(WinGlobal::Controls::buttonStart, GWL_WNDPROC, (LONG)WinGlobal::ButtonProc);
+	WinGlobal::Controls::editInfo = CreateWindowEx(WS_EX_CLIENTEDGE, L"EDIT", L""
+													  , WS_CHILD | WS_VISIBLE | ES_MULTILINE | WS_VSCROLL
+													  , WinGlobal::width / 2 - 225, 425
+													  , 450, 150, WinGlobal::hWndMain, HMENU(NULL), WinGlobal::hInst, NULL);
 }
 
 void WinGlobal::InitGame()

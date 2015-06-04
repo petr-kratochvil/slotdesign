@@ -108,7 +108,7 @@ struct Statistics
 	// ...more statistical idicators...
 	Statistics()
 	{
-		this->statWin.setOutputFile("statWin.txt");
+		//this->statWin.setOutputFile("statWin.txt");
 		this->maxWin = 0;
 	}
 	void addWinFromOneSpin(int basicWin, int totalWin)

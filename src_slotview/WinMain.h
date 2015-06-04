@@ -25,6 +25,7 @@ namespace WinGlobal
 	namespace Controls
 	{
 		HWND buttonStart;
+		HWND editInfo;
 	}
 
 	bool MyRegisterClass(HINSTANCE hInstance);
