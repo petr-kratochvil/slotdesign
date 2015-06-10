@@ -120,22 +120,22 @@ public:
 		, paylineCount(paylineCount)
 	{}
 
-	int leftWin(const Window& window, std::vector<Payline>& paylines, Window* highlight = NULL) const
+	int leftWin(const Window& window, std::vector<Payline*>& paylines, Window* highlight = NULL) const
 	{
 		int partialWin = 0;
 		for (int i=0; i<this->paylineCount; i++)
 		{
-			partialWin += this->paylineWin(window, paylines[i], highlight);
+			partialWin += this->paylineWin(window, *paylines[i], highlight);
 		}
 		return partialWin;
 	}
 
-	int leftWin7(const Window& window, std::vector<Payline>& paylines, Window* highlight = NULL) const
+	int leftWin7(const Window& window, std::vector<Payline*>& paylines, Window* highlight = NULL) const
 	{
 		int partialWin = 0;
 		for (int i=0; i<this->paylineCount; i++)
 		{
-			partialWin += this->paylineWin7(window, paylines[i], highlight);
+			partialWin += this->paylineWin7(window, *paylines[i], highlight);
 		}
 		return partialWin;
 	}
@@ -147,7 +147,7 @@ class GameSizzlingHot : public Game
 	ReelSet reelSetZero;
 	WinCalcSizzlingHot winCalc;
 	const int paylineCount;
-	std::vector<Payline> paylines;
+	std::vector<Payline*> paylines;
 	int reelSetUsed;
 
 public:
@@ -157,8 +157,11 @@ public:
 		, paylineCount(5)
 		, reelSetMain(5, 3)
 		, reelSetZero(5, 3)
-		, paylines(5, Payline(5))
-	{}
+		, paylines(5)
+	{
+		for (int i=0; i<5; i++)
+			this->paylines[i] = new Payline(5);
+	}
 	void load()
 	{
 		Input* rsMain = InputLoader::open(INPUT(SH_REELSET0));
@@ -187,7 +190,7 @@ private:
 	void loadPaylines(Input* input)
 	{
 		for (int i = 0; i < this->paylineCount; i++)
-			this->paylines[i].load(input);
+			this->paylines[i]->load(input);
 	}
 
 	void updateStats()
