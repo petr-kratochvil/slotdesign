@@ -3,7 +3,7 @@
 #include <windows.h>
 #include "vs_slotview/resource.h"
 #include "Settings.hpp"
-#include "src_slotview/WinMain.h"
+#include "WinMain.h"
 #include <sstream>
 
 #ifndef INPUT_LOADER_HPP

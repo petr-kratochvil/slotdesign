@@ -21,33 +21,33 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src_common\Game.hpp">
+    <ClInclude Include="..\src\Game.hpp">
       <Filter>Source Files\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\src_common\WinCalculator.hpp">
+    <ClInclude Include="..\src\WinCalculator.hpp">
       <Filter>Source Files\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\src_common\Random.hpp">
+    <ClInclude Include="..\src\Random.hpp">
       <Filter>Source Files\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\src_common\Reel.hpp">
+    <ClInclude Include="..\src\Reel.hpp">
       <Filter>Source Files\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\src_common\Settings.hpp">
+    <ClInclude Include="..\src\Settings.hpp">
       <Filter>Source Files\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\src_common\SizzlingHot.hpp">
+    <ClInclude Include="..\src\SizzlingHot.hpp">
       <Filter>Source Files\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\src_common\Statistics.hpp">
+    <ClInclude Include="..\src\Statistics.hpp">
       <Filter>Source Files\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\src_common\InputLoader.hpp">
+    <ClInclude Include="..\src\InputLoader.hpp">
       <Filter>Source Files\common</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src_slotsimul\main.cpp">
+    <ClCompile Include="..\src\Main.cpp">
       <Filter>Source Files\slotsimul</Filter>
     </ClCompile>
   </ItemGroup>

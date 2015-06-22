@@ -21,51 +21,51 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\src_common\Game.hpp">
+    <ClInclude Include="..\src\Game.hpp">
       <Filter>Source Files\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\src_common\WinCalculator.hpp">
+    <ClInclude Include="..\src\WinCalculator.hpp">
       <Filter>Source Files\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\src_common\Random.hpp">
+    <ClInclude Include="..\src\Random.hpp">
       <Filter>Source Files\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\src_common\Reel.hpp">
+    <ClInclude Include="..\src\Reel.hpp">
       <Filter>Source Files\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\src_common\Settings.hpp">
+    <ClInclude Include="..\src\Settings.hpp">
       <Filter>Source Files\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\src_common\SizzlingHot.hpp">
+    <ClInclude Include="..\src\SizzlingHot.hpp">
       <Filter>Source Files\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\src_common\Statistics.hpp">
+    <ClInclude Include="..\src\Statistics.hpp">
       <Filter>Source Files\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\src_slotview\Win32Graphics.hpp">
+    <ClInclude Include="..\src\Win32Graphics.hpp">
       <Filter>Source Files\slotview</Filter>
     </ClInclude>
-    <ClInclude Include="..\src_slotview\WinMain.h">
+    <ClInclude Include="..\src\WinMain.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="resource.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src_common\InputLoader.hpp">
+    <ClInclude Include="..\src\InputLoader.hpp">
       <Filter>Source Files\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\src_slotview\SizzlingHotGraphics.hpp">
+    <ClInclude Include="..\src\SizzlingHotGraphics.hpp">
       <Filter>Source Files\slotview</Filter>
     </ClInclude>
-    <ClInclude Include="..\src_common\ShuffleCross.hpp">
+    <ClInclude Include="..\src\ShuffleCross.hpp">
       <Filter>Source Files\common</Filter>
     </ClInclude>
-    <ClInclude Include="..\src_slotview\ShuffleCrossGraphics.hpp">
+    <ClInclude Include="..\src\ShuffleCrossGraphics.hpp">
       <Filter>Source Files\slotview</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src_slotview\WinMain.cpp">
+    <ClCompile Include="..\src\WinMain.cpp">
       <Filter>Source Files\slotview</Filter>
     </ClCompile>
   </ItemGroup>

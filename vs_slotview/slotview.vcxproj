@@ -66,7 +66,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)/src_common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -82,7 +82,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)/src_common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -100,7 +100,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;INPUT_TYPE=INPUT_TYPE_RESOURCE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir);$(SolutionDir)/src_common</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -110,23 +110,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\src_common\Game.hpp" />
-    <ClInclude Include="..\src_common\InputLoader.hpp" />
-    <ClInclude Include="..\src_common\Random.hpp" />
-    <ClInclude Include="..\src_common\Reel.hpp" />
-    <ClInclude Include="..\src_common\Settings.hpp" />
-    <ClInclude Include="..\src_common\ShuffleCross.hpp" />
-    <ClInclude Include="..\src_common\SizzlingHot.hpp" />
-    <ClInclude Include="..\src_common\Statistics.hpp" />
-    <ClInclude Include="..\src_common\WinCalculator.hpp" />
-    <ClInclude Include="..\src_slotview\ShuffleCrossGraphics.hpp" />
-    <ClInclude Include="..\src_slotview\SizzlingHotGraphics.hpp" />
-    <ClInclude Include="..\src_slotview\Win32Graphics.hpp" />
-    <ClInclude Include="..\src_slotview\WinMain.h" />
+    <ClInclude Include="..\src\Game.hpp" />
+    <ClInclude Include="..\src\InputLoader.hpp" />
+    <ClInclude Include="..\src\Random.hpp" />
+    <ClInclude Include="..\src\Reel.hpp" />
+    <ClInclude Include="..\src\Settings.hpp" />
+    <ClInclude Include="..\src\ShuffleCross.hpp" />
+    <ClInclude Include="..\src\SizzlingHot.hpp" />
+    <ClInclude Include="..\src\Statistics.hpp" />
+    <ClInclude Include="..\src\WinCalculator.hpp" />
+    <ClInclude Include="..\src\ShuffleCrossGraphics.hpp" />
+    <ClInclude Include="..\src\SizzlingHotGraphics.hpp" />
+    <ClInclude Include="..\src\Win32Graphics.hpp" />
+    <ClInclude Include="..\src\WinMain.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\src_slotview\WinMain.cpp" />
+    <ClCompile Include="..\src\WinMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="slotview.rc" />
