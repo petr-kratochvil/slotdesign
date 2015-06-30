@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "SizzlingHot.hpp"
-#include "Random.hpp"
+#include "SizzlingHot.h"
+#include "Random.h"
 
 int main()
 {

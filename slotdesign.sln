@@ -1,33 +1,21 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "slotsimul", "vs_slotsimul\slotsimul.vcxproj", "{8EC92784-9458-4BDE-BFF4-06BE90052F6B}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "slotview", "vs_slotview\slotview.vcxproj", "{14614057-B3EA-4536-A4FB-98653AB7E06B}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "slotview", "slotview\slotview.vcxproj", "{0335F4C9-B9BF-42D9-87E7-E939E27DAD0B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Deploy|Win32 = Deploy|Win32
 		Release|Win32 = Release|Win32
-		Release2|Win32 = Release2|Win32
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8EC92784-9458-4BDE-BFF4-06BE90052F6B}.Debug|Win32.ActiveCfg = Debug|Win32
-		{8EC92784-9458-4BDE-BFF4-06BE90052F6B}.Debug|Win32.Build.0 = Debug|Win32
-		{8EC92784-9458-4BDE-BFF4-06BE90052F6B}.Deploy|Win32.ActiveCfg = Deploy|Win32
-		{8EC92784-9458-4BDE-BFF4-06BE90052F6B}.Deploy|Win32.Build.0 = Deploy|Win32
-		{8EC92784-9458-4BDE-BFF4-06BE90052F6B}.Release|Win32.ActiveCfg = Release|Win32
-		{8EC92784-9458-4BDE-BFF4-06BE90052F6B}.Release|Win32.Build.0 = Release|Win32
-		{8EC92784-9458-4BDE-BFF4-06BE90052F6B}.Release2|Win32.ActiveCfg = Release2|Win32
-		{8EC92784-9458-4BDE-BFF4-06BE90052F6B}.Release2|Win32.Build.0 = Release2|Win32
-		{14614057-B3EA-4536-A4FB-98653AB7E06B}.Debug|Win32.ActiveCfg = Debug|Win32
-		{14614057-B3EA-4536-A4FB-98653AB7E06B}.Debug|Win32.Build.0 = Debug|Win32
-		{14614057-B3EA-4536-A4FB-98653AB7E06B}.Deploy|Win32.ActiveCfg = Deploy|Win32
-		{14614057-B3EA-4536-A4FB-98653AB7E06B}.Deploy|Win32.Build.0 = Deploy|Win32
-		{14614057-B3EA-4536-A4FB-98653AB7E06B}.Release|Win32.ActiveCfg = Release|Win32
-		{14614057-B3EA-4536-A4FB-98653AB7E06B}.Release|Win32.Build.0 = Release|Win32
-		{14614057-B3EA-4536-A4FB-98653AB7E06B}.Release2|Win32.ActiveCfg = Release|Win32
+		{0335F4C9-B9BF-42D9-87E7-E939E27DAD0B}.Debug|Win32.ActiveCfg = Debug|Win32
+		{0335F4C9-B9BF-42D9-87E7-E939E27DAD0B}.Debug|Win32.Build.0 = Debug|Win32
+		{0335F4C9-B9BF-42D9-87E7-E939E27DAD0B}.Deploy|Win32.ActiveCfg = Deploy|Win32
+		{0335F4C9-B9BF-42D9-87E7-E939E27DAD0B}.Deploy|Win32.Build.0 = Deploy|Win32
+		{0335F4C9-B9BF-42D9-87E7-E939E27DAD0B}.Release|Win32.ActiveCfg = Release|Win32
+		{0335F4C9-B9BF-42D9-87E7-E939E27DAD0B}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

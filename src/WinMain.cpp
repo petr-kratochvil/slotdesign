@@ -1,11 +1,11 @@
 #include <windows.h>
-#include "vs_slotview/resource.h"
+#include "resource.h"
 
-#include "SizzlingHotGraphics.hpp"
-#include "WinMain.h"
-#include "SizzlingHot.hpp"
-#include "ShuffleCross.hpp"
-#include "ShuffleCrossGraphics.hpp"
+#include "SizzlingHotGraphics.h"
+#include "WinGlobal.h"
+#include "SizzlingHot.h"
+#include "ShuffleCross.h"
+#include "ShuffleCrossGraphics.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -70,7 +70,7 @@ bool WinGlobal::InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 void WinGlobal::InitGraphics()
 {
-	WinGlobal::win32Graphics = new ShuffleCrossGraphics(WinGlobal::width, WinGlobal::height);
+	WinGlobal::win32Graphics = new SizzlingHotGraphics(WinGlobal::width, WinGlobal::height);
 	WinGlobal::win32Graphics->init();
 	WinGlobal::InitControls();
 }
@@ -90,7 +90,7 @@ void WinGlobal::InitControls()
 
 void WinGlobal::InitGame()
 {
-	WinGlobal::game = new GameShuffleCross();
+	WinGlobal::game = new GameSizzlingHot();
 	WinGlobal::game->load();
 	WinGlobal::game->isInteractive = true;
 	Random::init();
