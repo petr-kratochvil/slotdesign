@@ -125,6 +125,22 @@
   <ItemGroup>
     <ResourceCompile Include="slotview.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\src\Game.h" />
+    <ClInclude Include="..\src\InputLoader.h" />
+    <ClInclude Include="..\src\Random.h" />
+    <ClInclude Include="..\src\Reel.h" />
+    <ClInclude Include="..\src\resource.h" />
+    <ClInclude Include="..\src\Settings.h" />
+    <ClInclude Include="..\src\ShuffleCross.h" />
+    <ClInclude Include="..\src\ShuffleCrossGraphics.h" />
+    <ClInclude Include="..\src\SizzlingHot.h" />
+    <ClInclude Include="..\src\SizzlingHotGraphics.h" />
+    <ClInclude Include="..\src\Statistics.h" />
+    <ClInclude Include="..\src\Win32Graphics.h" />
+    <ClInclude Include="..\src\WinCalculator.h" />
+    <ClInclude Include="..\src\WinGlobal.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
