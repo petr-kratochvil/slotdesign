@@ -4,7 +4,11 @@
 #include "InputLoader.h"
 #include "resource.h"
 #include "Settings.h"
-//#include "WinGlobal.h"
+
+#if (INPUT_TYPE == INPUT_TYPE_RESOURCE)
+#include "WinGlobal.h"
+#endif
+
 #include <sstream>
 
 InputFile::InputFile()
