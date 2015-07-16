@@ -141,7 +141,7 @@ int WinCalcSizzlingHot::leftWin7(const Window& window, std::vector<Payline*>& pa
 
 
 GameSizzlingHot::GameSizzlingHot()
-	: Game(8, 5, 3, "Sizzling Hot", "2.1")
+	: Game(8, 5, 3, "Sizzling Hot", "3")
 	, winCalc(8, 5, 3, 5)
 	, paylineCount(5)
 	, reelSetMain(5, 3)
