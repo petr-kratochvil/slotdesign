@@ -3,7 +3,7 @@
 #include <windows.h>
 #include "resource.h"
 #include "Settings.h"
-#include "WinGlobal.h"
+//#include "WinGlobal.h"
 #include <sstream>
 
 #ifndef INPUT_LOADER_HPP
@@ -47,6 +47,7 @@ public:
 	virtual int getInt();
 };
 
+#if (INPUT_TYPE == INPUT_TYPE_RESOURCE)
 class InputResource : public Input
 {
 	char* buff;
@@ -62,6 +63,7 @@ public:
 	void loadResource(int resourceID);
 	int getInt();
 };
+#endif
 
 class InputLoader
 {

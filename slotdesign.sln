@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "slotview", "slotview\slotview.vcxproj", "{0335F4C9-B9BF-42D9-87E7-E939E27DAD0B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "slotsimul", "slotsimul\slotsimul.vcxproj", "{69CCA0B7-0782-4B88-BEFF-B34625CEB853}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -16,6 +18,12 @@ Global
 		{0335F4C9-B9BF-42D9-87E7-E939E27DAD0B}.Deploy|Win32.Build.0 = Deploy|Win32
 		{0335F4C9-B9BF-42D9-87E7-E939E27DAD0B}.Release|Win32.ActiveCfg = Release|Win32
 		{0335F4C9-B9BF-42D9-87E7-E939E27DAD0B}.Release|Win32.Build.0 = Release|Win32
+		{69CCA0B7-0782-4B88-BEFF-B34625CEB853}.Debug|Win32.ActiveCfg = Debug|Win32
+		{69CCA0B7-0782-4B88-BEFF-B34625CEB853}.Debug|Win32.Build.0 = Debug|Win32
+		{69CCA0B7-0782-4B88-BEFF-B34625CEB853}.Deploy|Win32.ActiveCfg = Debug|Win32
+		{69CCA0B7-0782-4B88-BEFF-B34625CEB853}.Deploy|Win32.Build.0 = Debug|Win32
+		{69CCA0B7-0782-4B88-BEFF-B34625CEB853}.Release|Win32.ActiveCfg = Release|Win32
+		{69CCA0B7-0782-4B88-BEFF-B34625CEB853}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -26,23 +26,24 @@ int WinCalcSizzlingHot::paylineWin7(const Window& window, const Payline& payline
 	}
 	
 	int level = Random::gen(1, 4);
+	level = 5; // 5 is average
 	switch (level)
 	{
 	case 1:
 		switch (sevenCount)
 		{
 		case 3:
-			return 70;
+			return 20;
 		case 4:
-			return 150;
+			return 100;
 		case 5:
-			return 750;
+			return 500;
 		}
 	case 2:
 		switch (sevenCount)
 		{
 		case 3:
-			return 100;
+			return 40;
 		case 4:
 			return 200;
 		case 5:
@@ -52,7 +53,7 @@ int WinCalcSizzlingHot::paylineWin7(const Window& window, const Payline& payline
 		switch (sevenCount)
 		{
 		case 3:
-			return 150;
+			return 60;
 		case 4:
 			return 300;
 		case 5:
@@ -62,11 +63,21 @@ int WinCalcSizzlingHot::paylineWin7(const Window& window, const Payline& payline
 		switch (sevenCount)
 		{
 		case 3:
-			return 300;
+			return 100;
 		case 4:
 			return 1000;
 		case 5:
 			return 5000;
+		}
+	case 5:
+		switch (sevenCount)
+		{
+		case 3:
+			return 55;
+		case 4:
+			return 400;
+		case 5:
+			return 2000;
 		}
 	}
 }
@@ -182,6 +193,7 @@ void GameSizzlingHot::updateStats()
 	int win7 = this->winCalc.leftWin7(this->window, this->paylines, pHighlight);
 	int winStar = this->winCalc.scatterWinStar(this->window, pHighlight);
 	this->lastWinAmount = winBasic + win7 + winStar;
+	assert(this->lastWinAmount <= 5000);
 	
 	this->stats.statWin7.addData(win7);
 	this->stats.statWinStar.addData(winStar);
@@ -193,9 +205,9 @@ void GameSizzlingHot::updateStats()
 
 void GameSizzlingHot::spin()
 {
-	this->reelSetMain.shuffleReels();
-	this->reelSetZero.shuffleReels();
-	if (Random::genPct(76))
+	//this->reelSetMain.shuffleReels();
+	//this->reelSetZero.shuffleReels();
+	if (true)
 	{
 		this->reelSetUsed = 0;
 		this->reelSetMain.spin(&this->window);

@@ -4,7 +4,7 @@
 #include "InputLoader.h"
 #include "resource.h"
 #include "Settings.h"
-#include "WinGlobal.h"
+//#include "WinGlobal.h"
 #include <sstream>
 
 InputFile::InputFile()
@@ -32,7 +32,7 @@ int InputFile::getInt()
 	return result;
 }
 
-
+#if (INPUT_TYPE == INPUT_TYPE_RESOURCE)
 InputResource::InputResource()
 	: buff(NULL)
 {}
@@ -57,6 +57,7 @@ int InputResource::getInt()
 	*this->stream >> result;
 	return result;
 }
+#endif
 
 Input* InputLoader::open(char* name)
 {
@@ -64,12 +65,16 @@ Input* InputLoader::open(char* name)
 	input->loadFile(name);
 	return input;
 }
+
+#if (INPUT_TYPE == INPUT_TYPE_RESOURCE)
 Input* InputLoader::open(int resourceID)
 {
 	Input* input = new InputResource();
 	input->loadResource(resourceID);
 	return input;
 }
+#endif
+
 void InputLoader::close(Input* f)
 {
 	delete f;
