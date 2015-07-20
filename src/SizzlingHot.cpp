@@ -26,7 +26,7 @@ int WinCalcSizzlingHot::paylineWin7(const Window& window, const Payline& payline
 	}
 	
 	int level = Random::gen(1, 4);
-	level = 5; // 5 is average
+	//level = 5; // 5 is average
 	switch (level)
 	{
 	case 1:
@@ -199,7 +199,7 @@ void GameSizzlingHot::updateStats()
 	this->stats.statWinStar.addData(winStar);
 
 	this->stats.addWinFromOneSpin(winBasic, this->lastWinAmount);
-	
+	//this->stats.printToFile();
 	this->stats.statReel0.addData((this->reelSetUsed == 0)?1:0);
 }
 

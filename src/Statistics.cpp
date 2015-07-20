@@ -28,7 +28,7 @@ void StatItem::setOutputFile(char* fileName)
 }
 void StatItem::printToFile() const
 {
-	fprintf(this->fw, "%d %d\n", this->count, this->data);
+	fprintf(this->fw, "%lld %lld\n", this->count, this->data);
 }
 void StatItem::addData(int d)
 {
@@ -84,7 +84,7 @@ void StatItem::printFormatted(FILE* fw) const
 
 Statistics::Statistics()
 {
-	//this->statWin.setOutputFile("statWin.txt");
+	this->statWin.setOutputFile("statWin.txt");
 	this->maxWin = 0;
 }
 void Statistics::addWinFromOneSpin(int basicWin, int totalWin)

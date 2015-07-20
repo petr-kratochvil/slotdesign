@@ -3,7 +3,8 @@
 namespace {
 	int getFirstSeed()
 	{
-		srand((unsigned int)time(NULL));
+		std::random_device rd;
+		srand(rd());
 		return rand();
 	}
 }

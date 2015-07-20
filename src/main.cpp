@@ -8,7 +8,6 @@ int main()
 	Game *game = new GameSizzlingHot();
 	game->load();
 	game->isInteractive = false;
-	Random::init();
 
 	long long spinCount = 1e8;
 
