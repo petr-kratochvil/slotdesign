@@ -33,19 +33,19 @@ int WinCalcSizzlingHot::paylineWin7(const Window& window, const Payline& payline
 		switch (sevenCount)
 		{
 		case 3:
-			return 20;
+			return 70;
 		case 4:
-			return 100;
+			return 250;
 		case 5:
-			return 500;
+			return 750;
 		}
 	case 2:
 		switch (sevenCount)
 		{
 		case 3:
-			return 40;
+			return 100;
 		case 4:
-			return 200;
+			return 350;
 		case 5:
 			return 1000;
 		}
@@ -53,9 +53,9 @@ int WinCalcSizzlingHot::paylineWin7(const Window& window, const Payline& payline
 		switch (sevenCount)
 		{
 		case 3:
-			return 60;
+			return 150;
 		case 4:
-			return 300;
+			return 500;
 		case 5:
 			return 1500;
 		}
@@ -63,7 +63,7 @@ int WinCalcSizzlingHot::paylineWin7(const Window& window, const Payline& payline
 		switch (sevenCount)
 		{
 		case 3:
-			return 100;
+			return 300;
 		case 4:
 			return 1000;
 		case 5:
@@ -73,11 +73,11 @@ int WinCalcSizzlingHot::paylineWin7(const Window& window, const Payline& payline
 		switch (sevenCount)
 		{
 		case 3:
-			return 55;
+			return 155;
 		case 4:
-			return 400;
+			return 525;
 		case 5:
-			return 2000;
+			return Random::gen(0,1)?2062:2063; // 2062.5
 		}
 	}
 }
@@ -141,7 +141,7 @@ int WinCalcSizzlingHot::leftWin7(const Window& window, std::vector<Payline*>& pa
 
 
 GameSizzlingHot::GameSizzlingHot()
-	: Game(8, 5, 3, "Sizzling Hot", "3")
+	: Game(8, 5, 3, "Sizzling Hot", "4")
 	, winCalc(8, 5, 3, 5)
 	, paylineCount(5)
 	, reelSetMain(5, 3)
