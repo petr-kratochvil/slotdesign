@@ -1,4 +1,4 @@
-#include "SizzlingHot.h"
+﻿#include "SizzlingHot.h"
 #include "Game.h"
 #include "Reel.h"
 #include <vector>
@@ -147,9 +147,17 @@ GameSizzlingHot::GameSizzlingHot()
 	, reelSetMain(5, 3)
 	, reelSetZero(5, 3)
 	, paylines(5)
+	, stat7("stat7", L"Sedmičky")
+	, statStar("statStar", L"Hvězda")
+	, statBasic("statBasic", L"Základní symboly")
+	, statTotal("statTotal", L"Celkem")
 {
 	for (int i=0; i<5; i++)
 		this->paylines[i] = new Payline(5);
+	this->stats.push_back(&this->stat7);
+	this->stats.push_back(&this->statStar);
+	this->stats.push_back(&this->statBasic);
+	this->stats.push_back(&this->statTotal);
 }
 void GameSizzlingHot::load()
 {
@@ -193,14 +201,12 @@ void GameSizzlingHot::updateStats()
 	int win7 = this->winCalc.leftWin7(this->window, this->paylines, pHighlight);
 	int winStar = this->winCalc.scatterWinStar(this->window, pHighlight);
 	this->lastWinAmount = winBasic + win7 + winStar;
-	assert(this->lastWinAmount <= 5000);
 	
-	this->stats.statWin7.addData(win7);
-	this->stats.statWinStar.addData(winStar);
-
-	this->stats.addWinFromOneSpin(winBasic, this->lastWinAmount);
-	//this->stats.printToFile();
-	this->stats.statReel0.addData((this->reelSetUsed == 0)?1:0);
+	this->stat7.addData(win7);
+	this->statStar.addData(winStar);
+	this->statBasic.addData(winBasic);
+	this->statTotal.addData(this->lastWinAmount);
+	this->credit += - Settings::bet + this->lastWinAmount;
 }
 
 void GameSizzlingHot::spin()

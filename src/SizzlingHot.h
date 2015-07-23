@@ -33,6 +33,7 @@ class GameSizzlingHot : public Game
 	const int paylineCount;
 	std::vector<Payline*> paylines;
 	int reelSetUsed;
+	StatItem stat7, statStar, statBasic, statTotal;
 
 public:
 	GameSizzlingHot();

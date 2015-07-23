@@ -22,6 +22,7 @@ bool Game::highlighted(int reel, int row)
 Game::Game(int symbolCount, int reelCount, int rowCount, const std::string& name, const std::string& version)
 	: window(reelCount, rowCount)
 	, highlight(reelCount, rowCount)
+	, credit(0)
 	, windowReady(false)
 	, lastWinAmount(0)
 	, isInteractive(false)
@@ -41,11 +42,6 @@ std::string Game::getRSVersion() const
 	return "(Abstract Game class)";
 }
 
-const Statistics& Game::getStats() const
-{
-	return this->stats;
-}
-
 const Window& Game::getWindow() const
 {
 	return this->window;
@@ -63,9 +59,7 @@ int Game::getLastWinAmount() const
 
 int Game::getCredit() const
 {
-	return Settings::startingCredit
-			- Settings::bet * this->stats.statWin.getCount()
-			+ this->stats.statWin.getTotal();
+	return this->credit;	
 }
 
 // a player has joyfully pressed the big START! button
@@ -75,4 +69,12 @@ void Game::start()
 	this->updateStats();
 	// this should be dependent on some on/off option
 	// this->stats.writeToFile();
+}
+
+void Game::printFinalFormattedStats(const char* fileName)
+{
+	StatItem::printFinalFormattedBegin(fileName);
+	for (int i = 0; i < this->stats.size(); i++)
+		this->stats[i]->printFinalFormatted();
+	StatItem::printFinalFormattedEnd();
 }

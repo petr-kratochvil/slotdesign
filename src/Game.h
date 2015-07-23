@@ -10,9 +10,10 @@
 class Game
 {
 protected:
-	Statistics stats;
+	std::vector<StatItem*> stats;
 	Window window;
 	Window highlight;
+	long long credit;
 
 	// window is filled with symbols (at least one spin was made)
 	bool windowReady;
@@ -28,6 +29,7 @@ public:
 	const std::string gameVersion;
 	bool isInteractive;
 	bool highlighted(int reel, int row);
+	void printFinalFormattedStats(const char* fileName);
 
 	Game(int symbolCount, int reelCount, int rowCount, const std::string& name, const std::string& version);
 
@@ -39,12 +41,10 @@ protected:
 
 public:
 	// add values from the last spin to stats
-	virtual void updateStats() {}
+	virtual void updateStats() {} // TODO maybe delete
 
 	// version of used reelsets (optional)
 	virtual std::string getRSVersion() const;
-
-	const Statistics& getStats() const;
 
 	const Window& getWindow() const;
 

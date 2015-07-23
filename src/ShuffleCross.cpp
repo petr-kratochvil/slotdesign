@@ -90,6 +90,19 @@ void WinCalcShuffleCross::gatherBonus(Window* w)
 	}
 }
 
+GameShuffleCross::GameShuffleCross()
+		: Game(9, 5, 3, "Shuffle Cross", "0")
+		, reelSetMain(5, 3)
+		, winCalc(9, 5, 3)
+		, interactiveMode(ModeNewSpin)
+		, freeSpinMode(false)
+		, freeSpinsRemaining(0)
+		, spinCount(0)
+		, statTotal("statTotal", L"Celkem")
+	{
+		this->stats.push_back(&this->statTotal);
+	}
+
 void GameShuffleCross::load()
 {
 	Input* rsMain = InputLoader::open(INPUT(SC_REELSET0));
@@ -98,13 +111,6 @@ void GameShuffleCross::load()
 	this->winCalc.loadPaytable(ptable);
 	InputLoader::close(rsMain);
 	InputLoader::close(ptable);
-}
-
-int GameShuffleCross::getCredit() const
-{
-	return Settings::startingCredit
-			- Settings::bet * this->spinCount
-			+ this->stats.statWin.getTotal();
 }
 
 std::string GameShuffleCross::getWinDescription()
@@ -128,7 +134,10 @@ void GameShuffleCross::updateStats()
 	}
 	int winBasic = this->winCalc.basicWin(this->window, pHighlight);
 	this->lastWinAmount = winBasic;
-	this->stats.addWinFromOneSpin(winBasic, this->lastWinAmount);
+	
+	this->statTotal.addData(this->lastWinAmount);
+	this->credit += this->lastWinAmount;
+
 	this->lastPicnicCount = this->winCalc.picnicBonus(this->window, pHighlight);
 	this->freeSpinsRemaining += this->lastPicnicCount;
 	if (this->freeSpinsRemaining > 0)
@@ -160,6 +169,7 @@ void GameShuffleCross::start()
 	case ModeNewSpin:
 		this->spin();
 		this->spinCount++;
+		this->credit += -Settings::bet;
 		this->updateStats();
 		break;
 	case ModeFreeSpin:

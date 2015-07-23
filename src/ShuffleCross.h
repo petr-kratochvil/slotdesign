@@ -25,6 +25,7 @@ class GameShuffleCross : public Game
 {
 	ReelSet reelSetMain;
 	WinCalcShuffleCross winCalc;
+	StatItem statTotal;
 
 public:
 	enum InteractiveMode
@@ -45,18 +46,9 @@ private:
 	int lastPicnicCount;
 
 public:
-	GameShuffleCross()
-		: Game(9, 5, 3, "Shuffle Cross", "0")
-		, reelSetMain(5, 3)
-		, winCalc(9, 5, 3)
-		, interactiveMode(ModeNewSpin)
-		, freeSpinMode(false)
-		, freeSpinsRemaining(0)
-		, spinCount(0)
-	{}
+	GameShuffleCross();
+	
 	void load();
-
-	int getCredit() const;
 
 	InteractiveMode getInteractiveMode() { return this->interactiveMode; }
 	bool isFreeSpinMode() {	return this->freeSpinMode; }

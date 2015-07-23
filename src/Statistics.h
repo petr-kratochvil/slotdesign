@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <vector>
 #include "Settings.h"
 
 #ifndef STATISTICS_HPP
@@ -6,45 +7,27 @@
 
 // Averaging (and more statistical stuff) of one value
 class StatItem
-{
-	// sum of data
-	long long data;
-	// sum of (data squared)
-	long long dataSquared;
-	// data items count
-	long long count;
-	// file to write stats to
-	FILE* fw;
+{/*pozor zmena nazvu*/
+	long long sumData; // sum of data
+	long long sumDataSquared; // sum of (data squared)
+	int count; // data items count
+	FILE* fw; // file to write stats to
+	static FILE* fwCommon; // file to write final formatted output to
+	std::vector<long long> data;
+	wchar_t itemDesc[200];
+	char itemName[100];
 public:
-	StatItem();
+	StatItem(const char* itemName, const wchar_t* itemDesc);
 	~StatItem();
-	void setOutputFile(char* fileName);
-	void printToFile() const;
-	void addData(int d = 1);
-	// data average (mean value)
-	double getAvg() const;
-	// data variance
-	double getVar() const;
-	double getPct(long long base) const;
+	void printToFile();
+	void addData(int d);
+	double getAvg() const; // data average
+	double getVar() const; // data variance
 	long long getTotal() const;
-	long long getCount() const;
-	void printFormatted(FILE* fw) const;
-};
-
-// Contains all global statistics from the simulation
-// Evolution of stats after individual spins (to be graphed) will be written to file immediately
-struct Statistics
-{
-	// count the total win
-	StatItem statWin, statWinBasic, statWin7, statWinStar;
-	StatItem statReel0;
-	StatItem statWin0, statWinU100, statWinU200, statWinO200;
-	int maxWin;
-	// ...more statistical idicators...
-	Statistics();
-	void addWinFromOneSpin(int basicWin, int totalWin);
-	void printToFile() const;
+	int getCount() const;
 	void printFinalFormatted() const;
+	static void printFinalFormattedBegin(const char* fileName);
+	static void printFinalFormattedEnd();
 };
 
 #endif
