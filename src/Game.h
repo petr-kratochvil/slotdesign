@@ -9,17 +9,19 @@
 
 class Game
 {
+	// how big was the win in the last spin
+	int lastWinAmount;
+	long long credit;
+	int spinCount;
+
 protected:
 	std::vector<StatItem*> stats;
 	Window window;
 	Window highlight;
-	long long credit;
-
 	// window is filled with symbols (at least one spin was made)
 	bool windowReady;
-	// how big was the win in the last spin
-	int lastWinAmount;
 	void highlightReset();
+	void addNewWin(int winAmount);
 
 public:
 	const int symbolCount;
@@ -51,8 +53,9 @@ public:
 	bool isWindowReady() const;
 
 	int getLastWinAmount() const;
-
-	virtual int getCredit() const;
+	int getSpinCount() const;
+	long long getCredit() const;
+	double getRTP(int bet) const;
 
 	// a player has joyfully pressed the big START! button
 	virtual void start();

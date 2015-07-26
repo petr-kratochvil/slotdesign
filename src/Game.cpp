@@ -52,14 +52,31 @@ bool Game::isWindowReady() const
 	return this->windowReady;
 }
 
+void Game::addNewWin(int winAmount)
+{
+	this->credit += winAmount;
+	this->spinCount++;
+	this->lastWinAmount = winAmount;
+}
+
 int Game::getLastWinAmount() const
 {
 	return this->lastWinAmount;
 }
 
-int Game::getCredit() const
+long long Game::getCredit() const
 {
 	return this->credit;	
+}
+
+int Game::getSpinCount() const
+{
+	return this->spinCount;
+}
+
+double Game::getRTP(int bet) const
+{
+	return (this->credit - this->spinCount * bet)/(this->spinCount * bet);
 }
 
 // a player has joyfully pressed the big START! button
