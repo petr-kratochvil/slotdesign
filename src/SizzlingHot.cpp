@@ -191,6 +191,7 @@ void GameSizzlingHot::loadPaylines(Input* input)
 
 void GameSizzlingHot::updateStats()
 {
+	this->chargeBet();
 	Window* pHighlight = NULL;
 	if (this->isInteractive)
 	{
@@ -200,13 +201,13 @@ void GameSizzlingHot::updateStats()
 	int winBasic = this->winCalc.leftWin(this->window, this->paylines, pHighlight);
 	int win7 = this->winCalc.leftWin7(this->window, this->paylines, pHighlight);
 	int winStar = this->winCalc.scatterWinStar(this->window, pHighlight);
-	this->lastWinAmount = winBasic + win7 + winStar;
+	int lastWinAmount = winBasic + win7 + winStar;
 	
 	this->stat7.addData(win7);
 	this->statStar.addData(winStar);
 	this->statBasic.addData(winBasic);
-	this->statTotal.addData(this->lastWinAmount);
-	this->credit += - Settings::bet + this->lastWinAmount;
+	this->statTotal.addData(lastWinAmount);
+	this->addNewWin(lastWinAmount);
 }
 
 void GameSizzlingHot::spin()

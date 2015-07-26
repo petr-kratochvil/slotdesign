@@ -22,6 +22,7 @@ void ShuffleCrossGraphics::setStartButtonCaption()
 void ShuffleCrossGraphics::paint(HDC hdc)
 {
 	this->paintBasic(hdc);
+	this->setStartButtonCaption();
 
 	wchar_t txtOut[500];
 	if (dynamic_cast<GameShuffleCross*>(WinGlobal::game)->isFreeSpinMode())

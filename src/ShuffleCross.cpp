@@ -133,10 +133,10 @@ void GameShuffleCross::updateStats()
 		pHighlight = &this->highlight;
 	}
 	int winBasic = this->winCalc.basicWin(this->window, pHighlight);
-	this->lastWinAmount = winBasic;
+	int lastWinAmount = winBasic;
 	
-	this->statTotal.addData(this->lastWinAmount);
-	this->credit += this->lastWinAmount;
+	this->statTotal.addData(lastWinAmount);
+	this->addNewWin(lastWinAmount);
 
 	this->lastPicnicCount = this->winCalc.picnicBonus(this->window, pHighlight);
 	this->freeSpinsRemaining += this->lastPicnicCount;
@@ -169,7 +169,7 @@ void GameShuffleCross::start()
 	case ModeNewSpin:
 		this->spin();
 		this->spinCount++;
-		this->credit += -Settings::bet;
+		this->chargeBet();
 		this->updateStats();
 		break;
 	case ModeFreeSpin:
@@ -177,7 +177,6 @@ void GameShuffleCross::start()
 		if (this->interactiveMode)
 			this->highlightReset();
 		this->freeSpinsRemaining--;
-		this->lastWinAmount = 0;
 		if (this->freeSpinsRemaining <= 0)
 			this->freeSpinMode = false;
 		this->interactiveMode = ModeGatherBonus;

@@ -59,6 +59,11 @@ void Game::addNewWin(int winAmount)
 	this->lastWinAmount = winAmount;
 }
 
+void Game::chargeBet()
+{
+	this->credit -= Settings::bet;
+}
+
 int Game::getLastWinAmount() const
 {
 	return this->lastWinAmount;
@@ -76,7 +81,7 @@ int Game::getSpinCount() const
 
 double Game::getRTP(int bet) const
 {
-	return (this->credit - this->spinCount * bet)/(this->spinCount * bet);
+	return (this->credit)/(this->spinCount * bet);
 }
 
 // a player has joyfully pressed the big START! button
