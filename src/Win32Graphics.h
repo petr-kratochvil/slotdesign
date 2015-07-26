@@ -34,7 +34,8 @@ public:
 	~Win32Graphics();
 	void init();
 public:
-	virtual void paint(HDC hdc) = 0;
+	virtual void paint(HDC hdc);
+	void paintBasic(HDC hdc);
 private:
 	virtual void loadSymbols()
 	{}

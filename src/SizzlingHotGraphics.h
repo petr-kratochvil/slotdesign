@@ -10,7 +10,6 @@ public:
 		: Win32Graphics(width, height)
 	{}
 
-	void paint(HDC hdc);
 private:
 	void loadSymbols();
 };
