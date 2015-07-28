@@ -58,6 +58,7 @@ void Win32Graphics::paintBasic(HDC hdc)
 
 	Gdiplus::Graphics graphics(hdc);
 	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
+	graphics.SetTextRenderingHint(Gdiplus::TextRenderingHintAntiAlias);
 
 	// Draw the frame around
 	int padding = 15;
@@ -112,4 +113,29 @@ void Win32Graphics::paintBasic(HDC hdc)
 	TextOut(hdc, this->offsetX, 350, txtWin, wcslen(txtWin));
 	swprintf(txtWin, L"Výhra: %d", WinGlobal::game->getLastWinAmount());
 	TextOut(hdc, this->width - 1.5*this->offsetX, 350, txtWin, wcslen(txtWin));
+
+	for (int i = 0; i < WinGlobal::Controls::values.size(); i++)
+		WinGlobal::Controls::values[i]->paint(graphics);
+}
+
+ValueWidget::ValueWidget(std::wstring caption, int xpos, int ypos, int width, int height)
+	: xpos(xpos)
+	, ypos(ypos)
+	, width(width)
+	, height(height)
+	, caption(caption)
+	, format(ValueFormat::FormatInt)
+{}
+
+void ValueWidget::paint(Gdiplus::Graphics& graphics)
+{
+	Gdiplus::Pen* pen = new Gdiplus::Pen(Gdiplus::Color(255, 255, 255, 0), 4.0);
+	graphics.DrawLine(pen, xpos, ypos, xpos+width, ypos+height);
+	Gdiplus::StringFormat stringFormat;
+	stringFormat.SetAlignment(Gdiplus::StringAlignmentCenter);
+	stringFormat.SetLineAlignment(Gdiplus::StringAlignmentCenter);
+	Gdiplus::Font font(L"Arial", 12);
+	Gdiplus::RectF layoutRect(this->xpos, this->ypos, this->width, this->height);
+	Gdiplus::SolidBrush brush(Gdiplus::Color(123, 25, 60));
+	graphics.DrawString(this->caption.c_str(), this->caption.length(), &font, layoutRect, &stringFormat, &brush);
 }

@@ -1,7 +1,4 @@
-#include <windows.h>
-
-class Win32Graphics;
-class Game;
+#include "WinGlobal.h"
 
 namespace WinGlobal
 {
@@ -25,5 +22,6 @@ namespace WinGlobal
 	{
 		HWND buttonStart;
 		HWND editInfo;
+		std::vector<ValueWidget*> values;
 	}
 }

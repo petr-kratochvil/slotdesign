@@ -41,4 +41,27 @@ private:
 	{}
 };
 
+class ValueWidget
+{
+public:
+	typedef enum
+	{
+		FormatInt,
+		FormatDouble
+	} ValueFormat;
+
+	ValueWidget(std::wstring caption, int xpos, int ypos, int width, int height);
+	void setValue(int value);
+	void setValue(double value);
+	void setFormat(ValueFormat format);
+	void paint(Gdiplus::Graphics& graphics);
+
+private:
+	int xpos, ypos, width, height;
+	std::wstring caption;
+	int valueInt;
+	double valueDouble;
+	ValueFormat format;
+};
+
 #endif

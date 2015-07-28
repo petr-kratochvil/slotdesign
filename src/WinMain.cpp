@@ -70,7 +70,7 @@ bool WinGlobal::InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 void WinGlobal::InitGraphics()
 {
-	WinGlobal::win32Graphics = new SizzlingHotGraphics(WinGlobal::width, WinGlobal::height);
+	WinGlobal::win32Graphics = new ShuffleCrossGraphics(WinGlobal::width, WinGlobal::height);
 	WinGlobal::win32Graphics->init();
 	WinGlobal::InitControls();
 }
@@ -86,11 +86,13 @@ void WinGlobal::InitControls()
 													  , WS_CHILD | WS_VISIBLE | ES_MULTILINE | WS_VSCROLL
 													  , WinGlobal::width / 2 - 225, 425
 													  , 450, 150, WinGlobal::hWndMain, HMENU(NULL), WinGlobal::hInst, NULL);
+	ShowWindow(WinGlobal::Controls::editInfo, SW_HIDE);
+	//WinGlobal::Controls::values.push_back(new ValueWidget(L"Nový widget", 20, 300, 100, 50));
 }
 
 void WinGlobal::InitGame()
 {
-	WinGlobal::game = new GameSizzlingHot();
+	WinGlobal::game = new GameShuffleCross();
 	WinGlobal::game->load();
 	WinGlobal::game->isInteractive = true;
 	Random::init();

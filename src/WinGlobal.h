@@ -1,10 +1,12 @@
 #include <windows.h>
+#include <vector>
 
 #ifndef WINGLOBAL_H
 #define WINGLOBAL_H
 
 class Game;
 class Win32Graphics;
+class ValueWidget;
 
 namespace WinGlobal
 {
@@ -37,6 +39,7 @@ namespace WinGlobal
 	{
 		extern HWND buttonStart;
 		extern HWND editInfo;
+		extern std::vector<ValueWidget*> values;
 	}
 }
 
