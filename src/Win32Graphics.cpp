@@ -42,14 +42,14 @@ void Win32Graphics::init()
 	this->symbolH = 88;
 	this->offsetX = (this->width-this->reelCount*this->symbolW)/2;
 	this->offsetY = 50;
-	this->highlightMargin = 3;
+	this->highlightMargin = 5;
 
 	// Set colors
-	this->mainColor1 = Gdiplus::Color(150, 150, 50);
-	this->mainColor2 = Gdiplus::Color(255, 255, 198);
+	this->mainColor1 = Gdiplus::Color(150, 150, 140);
+	this->mainColor2 = Gdiplus::Color(255, 255, 248);
 	this->gridColor = Gdiplus::Color(220, 220, 220);
-	this->highlightColor1 = Gdiplus::Color(20, 20, 0);
-	this->highlightColor2 = Gdiplus::Color(255, 255, 100);
+	this->highlightColor1 = Gdiplus::Color(80, 80, 0);
+	this->highlightColor2 = Gdiplus::Color(255, 255, 25);
 
 	// Init Gdiplus
 	Gdiplus::GdiplusStartup(&this->gdiplusToken, &this->gdiplusStartupInput, NULL);
@@ -62,9 +62,9 @@ void Win32Graphics::init()
 	this->highlightBrushOdd = new Gdiplus::LinearGradientBrush(Gdiplus::Point(0, 2*(this->symbolH)), Gdiplus::Point(this->symbolW, this->symbolH)
 							, this->highlightColor1, this->highlightColor2);
 	this->highlightBrushOdd->TranslateTransform(this->offsetX-this->highlightMargin, this->offsetY-2*this->highlightMargin);
-	this->penFrame = new Gdiplus::Pen(this->mainBrush, 5.0);
-	this->penHighlightEven = new Gdiplus::Pen(this->highlightBrushEven, 6.0);
-	this->penHighlightOdd = new Gdiplus::Pen(this->highlightBrushOdd, 6.0);
+	this->penFrame = new Gdiplus::Pen(this->mainBrush, 12.0);
+	this->penHighlightEven = new Gdiplus::Pen(this->highlightBrushEven, 7.0);
+	this->penHighlightOdd = new Gdiplus::Pen(this->highlightBrushOdd, 7.0);
 
 	this->wasInitialized = true;
 }
