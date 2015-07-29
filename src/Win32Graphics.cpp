@@ -40,7 +40,7 @@ void Win32Graphics::init()
 	// Init Gdiplus
 	Gdiplus::GdiplusStartup(&this->gdiplusToken, &this->gdiplusStartupInput, NULL);
 	this->penGrid = new Gdiplus::Pen(Gdiplus::Color(255, 220, 220, 220), 2.0);
-	this->penFrame = new Gdiplus::Pen(Gdiplus::Color(255, 0, 0, 120), 3.0);
+	this->penFrame = new Gdiplus::Pen(Gdiplus::Color(/*255, 0, 0, 120*/150,150,50), 2.0);
 	this->penHighlight = new Gdiplus::Pen(Gdiplus::Color(255, 255, 255, 0), 4.0);
 
 	this->wasInitialized = true;
@@ -58,7 +58,7 @@ void Win32Graphics::paintBasic(HDC hdc)
 
 	Gdiplus::Graphics graphics(hdc);
 	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
-	graphics.SetTextRenderingHint(Gdiplus::TextRenderingHintAntiAlias);
+	graphics.SetTextRenderingHint(Gdiplus::TextRenderingHintClearTypeGridFit);
 
 	// Draw the frame around
 	int padding = 15;
@@ -129,13 +129,17 @@ ValueWidget::ValueWidget(std::wstring caption, int xpos, int ypos, int width, in
 
 void ValueWidget::paint(Gdiplus::Graphics& graphics)
 {
-	Gdiplus::Pen* pen = new Gdiplus::Pen(Gdiplus::Color(255, 255, 255, 0), 4.0);
-	graphics.DrawLine(pen, xpos, ypos, xpos+width, ypos+height);
+	Gdiplus::Pen* pen = new Gdiplus::Pen(Gdiplus::Color(150, 150, 50), 2.0);
+	Gdiplus::RectF layoutRect(this->xpos, this->ypos, this->width, this->height/2);
+	Gdiplus::LinearGradientBrush bgBrush(Gdiplus::Point(xpos, ypos+2*this->height/2), Gdiplus::Point(xpos+this->width, ypos-3*this->height/2), Gdiplus::Color(150, 150, 50), Gdiplus::Color(255, 255, 198));
+	Gdiplus::SolidBrush brush(Gdiplus::Color::Black/*(123, 25, 60)*/);
 	Gdiplus::StringFormat stringFormat;
 	stringFormat.SetAlignment(Gdiplus::StringAlignmentCenter);
 	stringFormat.SetLineAlignment(Gdiplus::StringAlignmentCenter);
-	Gdiplus::Font font(L"Arial", 12);
-	Gdiplus::RectF layoutRect(this->xpos, this->ypos, this->width, this->height);
-	Gdiplus::SolidBrush brush(Gdiplus::Color(123, 25, 60));
+	Gdiplus::Font font(L"Arial", 10);
+
+	graphics.DrawLine(pen, xpos, ypos+height, xpos+width, ypos+height);
+	graphics.FillRectangle(&bgBrush, layoutRect);
 	graphics.DrawString(this->caption.c_str(), this->caption.length(), &font, layoutRect, &stringFormat, &brush);
+
 }

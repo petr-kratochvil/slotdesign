@@ -1,4 +1,4 @@
-#include <windows.h>
+﻿#include <windows.h>
 #include "resource.h"
 
 #include "SizzlingHotGraphics.h"
@@ -87,7 +87,11 @@ void WinGlobal::InitControls()
 													  , WinGlobal::width / 2 - 225, 425
 													  , 450, 150, WinGlobal::hWndMain, HMENU(NULL), WinGlobal::hInst, NULL);
 	ShowWindow(WinGlobal::Controls::editInfo, SW_HIDE);
-	//WinGlobal::Controls::values.push_back(new ValueWidget(L"Nov� widget", 20, 300, 100, 50));
+	WinGlobal::Controls::values.push_back(new ValueWidget(L"Kredit", 50, 450, 120, 60));
+	WinGlobal::Controls::values.push_back(new ValueWidget(L"Výhra", 170, 450, 120, 60));
+	WinGlobal::Controls::values.push_back(new ValueWidget(L"Počet freespinů", 290, 450, 120, 60));
+	WinGlobal::Controls::values.push_back(new ValueWidget(L"Počet otáček", 410, 450, 120, 60));
+	WinGlobal::Controls::values.push_back(new ValueWidget(L"Výhernost", 530, 450, 120, 60));
 }
 
 void WinGlobal::InitGame()
