@@ -23,8 +23,14 @@ Win32Graphics::~Win32Graphics()
 {
 	for (int i = 0; i < 8; i++)
 		DeleteObject(this->bmpSymbol[i]);
+	delete this->mainBrush;
 	delete this->penGrid;
 	delete this->penFrame;
+	delete this->penFrameWin;
+	delete this->penHighlightEven;
+	delete this->penHighlightOdd;
+	delete this->highlightBrushEven;
+	delete this->highlightBrushOdd;
 }
 void Win32Graphics::init()
 {
@@ -36,12 +42,29 @@ void Win32Graphics::init()
 	this->symbolH = 88;
 	this->offsetX = (this->width-this->reelCount*this->symbolW)/2;
 	this->offsetY = 50;
+	this->highlightMargin = 3;
+
+	// Set colors
+	this->mainColor1 = Gdiplus::Color(150, 150, 50);
+	this->mainColor2 = Gdiplus::Color(255, 255, 198);
+	this->gridColor = Gdiplus::Color(220, 220, 220);
+	this->highlightColor1 = Gdiplus::Color(20, 20, 0);
+	this->highlightColor2 = Gdiplus::Color(255, 255, 100);
 
 	// Init Gdiplus
 	Gdiplus::GdiplusStartup(&this->gdiplusToken, &this->gdiplusStartupInput, NULL);
-	this->penGrid = new Gdiplus::Pen(Gdiplus::Color(255, 220, 220, 220), 2.0);
-	this->penFrame = new Gdiplus::Pen(Gdiplus::Color(/*255, 0, 0, 120*/150,150,50), 2.0);
-	this->penHighlight = new Gdiplus::Pen(Gdiplus::Color(255, 255, 255, 0), 4.0);
+	this->penGrid = new Gdiplus::Pen(this->gridColor, 1.0);
+	this->mainBrush = new Gdiplus::LinearGradientBrush(Gdiplus::Point(50, 500), Gdiplus::Point(650, 0)
+						, this->mainColor1, this->mainColor2);
+	this->highlightBrushEven = new Gdiplus::LinearGradientBrush(Gdiplus::Point(0, this->symbolH), Gdiplus::Point(this->symbolW, 0)
+							, this->highlightColor1, this->highlightColor2);
+	this->highlightBrushEven->TranslateTransform(this->offsetX-this->highlightMargin, this->offsetY-this->highlightMargin);
+	this->highlightBrushOdd = new Gdiplus::LinearGradientBrush(Gdiplus::Point(0, 2*(this->symbolH)), Gdiplus::Point(this->symbolW, this->symbolH)
+							, this->highlightColor1, this->highlightColor2);
+	this->highlightBrushOdd->TranslateTransform(this->offsetX-this->highlightMargin, this->offsetY-2*this->highlightMargin);
+	this->penFrame = new Gdiplus::Pen(this->mainBrush, 5.0);
+	this->penHighlightEven = new Gdiplus::Pen(this->highlightBrushEven, 6.0);
+	this->penHighlightOdd = new Gdiplus::Pen(this->highlightBrushOdd, 6.0);
 
 	this->wasInitialized = true;
 }
@@ -95,16 +118,18 @@ void Win32Graphics::paintBasic(HDC hdc)
 	}
 
 	// Draw higlights
-	int margin = 4;
+	int margin = this->highlightMargin;
 	for (int i = 0; i < this->reelCount; i++)
 		for (int j = 0; j < this->rowCount; j++)
 		{
 			if (WinGlobal::game->highlighted(i, j))
-				graphics.DrawRectangle(this->penHighlight
+			{
+				graphics.DrawRectangle((i+j) % 2? this->penHighlightOdd : this->penHighlightEven
 				, this->offsetX + i * this->symbolW + margin
 				, this->offsetY + j * this->symbolH + margin
 				, this->symbolW - 2*margin
 				, this->symbolH - 2*margin);
+			}
 		}
 
 	// Draw number values

@@ -30,10 +30,15 @@ protected:
 
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 	ULONG_PTR gdiplusToken;
+	Gdiplus::Color mainColor1, mainColor2, gridColor, highlightColor1, highlightColor2;
+	Gdiplus::Brush* mainBrush;
+	Gdiplus::LinearGradientBrush *highlightBrushEven, *highlightBrushOdd;
 	Gdiplus::Pen* penGrid;
 	Gdiplus::Pen* penFrame;
 	Gdiplus::Pen* penFrameWin;
-	Gdiplus::Pen* penHighlight;
+	Gdiplus::Pen* penHighlightEven, *penHighlightOdd;
+
+	int highlightMargin;
 public:
 	Win32Graphics(int width, int height);
 	~Win32Graphics();
