@@ -1,4 +1,5 @@
 ﻿#include <windows.h>
+#include <commctrl.h>
 #include "resource.h"
 
 #include "SizzlingHotGraphics.h"
@@ -77,10 +78,20 @@ void WinGlobal::InitGraphics()
 
 void WinGlobal::InitControls()
 {
-	WinGlobal::Controls::buttonStart = CreateWindowEx(WS_EX_CLIENTEDGE, L"BUTTON", L"Start !"
+	WinGlobal::Controls::buttonStart = CreateWindow(L"BUTTON", L"Start !"
 													  , WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON
 													  , WinGlobal::width / 2 - 75, 350
 													  , 150, 40, WinGlobal::hWndMain, HMENU(NULL), WinGlobal::hInst, NULL);
+	
+	HFONT buttonFont = CreateFont(18, 0, 0, 0, 0, FALSE,
+		FALSE, FALSE, ANSI_CHARSET, OUT_DEFAULT_PRECIS,
+		CLIP_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH,
+		L"Arial");
+
+
+	SendMessage(WinGlobal::Controls::buttonStart, WM_SETFONT, (WPARAM)buttonFont, MAKELPARAM(TRUE, 0));
+	SetFocus(WinGlobal::Controls::buttonStart);
+	
 	WinGlobal::OldButtonProc = (WNDPROC)SetWindowLong(WinGlobal::Controls::buttonStart, GWL_WNDPROC, (LONG)WinGlobal::ButtonProc);
 	WinGlobal::Controls::editInfo = CreateWindowEx(WS_EX_CLIENTEDGE, L"EDIT", L""
 													  , WS_CHILD | WS_VISIBLE | ES_MULTILINE | WS_VSCROLL
