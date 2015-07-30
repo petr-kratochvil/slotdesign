@@ -1,9 +1,33 @@
 ﻿#include "CocktailGraphics.h"
 #include "Cocktail.h"
 
+void CocktailGraphics::init()
+{
+	Win32Graphics::init();
+	this->swingBrush = new Gdiplus::LinearGradientBrush(Gdiplus::Point(0, 2*(this->symbolH)), Gdiplus::Point(this->symbolW, this->symbolH)
+							, Gdiplus::Color(0x0,0x0, 0xff), Gdiplus::Color(0xcc, 0xff, 0xcc));
+	this->swingBrush->TranslateTransform(this->offsetX-this->highlightMargin/2, this->offsetY-this->highlightMargin);
+	this->swingPen = new Gdiplus::Pen(this->swingBrush, 16);
+	this->swingPen->SetLineJoin(Gdiplus::LineJoinRound);
+}
+
 void CocktailGraphics::paint(HDC hdc)
 {
-	this->paintBasic(hdc);
+	Gdiplus::Graphics* graphics = this->initGdiplusGraphics(hdc);
+	this->paintBasic(hdc, *graphics);
+	int margin = 6;
+	graphics->DrawRectangle(this->swingPen
+				, this->offsetX + 0 * this->symbolW + margin
+				, this->offsetY + 1 * this->symbolH + margin
+				, this->symbolW - 2*margin
+				, this->symbolH - 2*margin);
+	graphics->DrawRectangle(this->swingPen
+				, this->offsetX + 4 * this->symbolW + margin
+				, this->offsetY + 1 * this->symbolH + margin
+				, this->symbolW - 2*margin
+				, this->symbolH - 2*margin);
+	this->drawSymbolHighlights(*graphics);
+	this->endGdiplusGraphics(graphics);
 }
 
 void CocktailGraphics::loadSymbols()

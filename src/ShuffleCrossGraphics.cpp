@@ -21,7 +21,7 @@ void ShuffleCrossGraphics::setStartButtonCaption()
 
 void ShuffleCrossGraphics::paint(HDC hdc)
 {
-	this->paintBasic(hdc);
+	this->paint(hdc);
 	this->setStartButtonCaption();
 
 	wchar_t txtOut[500];

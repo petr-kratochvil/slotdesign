@@ -41,11 +41,14 @@ protected:
 	int highlightMargin;
 public:
 	Win32Graphics(int width, int height);
-	~Win32Graphics();
-	void init();
+	virtual ~Win32Graphics();
+	virtual void init();
 public:
+	Gdiplus::Graphics* initGdiplusGraphics(HDC hdc);
+	void endGdiplusGraphics(Gdiplus::Graphics* graphics);
+	void drawSymbolHighlights(Gdiplus::Graphics& graphics);
 	virtual void paint(HDC hdc);
-	void paintBasic(HDC hdc);
+	void paintBasic(HDC hdc, Gdiplus::Graphics& graphics);
 private:
 	virtual void loadSymbols() {}
 	virtual void initValueWidgets();

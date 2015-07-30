@@ -106,17 +106,29 @@ void Win32Graphics::init()
 
 void Win32Graphics::paint(HDC hdc)
 {
-	this->paintBasic(hdc);
+	Gdiplus::Graphics* graphics = this->initGdiplusGraphics(hdc);
+	this->paintBasic(hdc, *graphics);
+	this->drawSymbolHighlights(*graphics);
+	this->endGdiplusGraphics(graphics);
 }
 
-void Win32Graphics::paintBasic(HDC hdc)
+Gdiplus::Graphics* Win32Graphics::initGdiplusGraphics(HDC hdc)
+{
+	Gdiplus::Graphics* graphics = new Gdiplus::Graphics(hdc);
+	graphics->SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
+	graphics->SetTextRenderingHint(Gdiplus::TextRenderingHintClearTypeGridFit);
+	return graphics;
+}
+
+void Win32Graphics::endGdiplusGraphics(Gdiplus::Graphics* graphics)
+{
+	delete graphics;
+}
+
+void Win32Graphics::paintBasic(HDC hdc, Gdiplus::Graphics& graphics)
 {
 	if (!this->wasInitialized)
 		return;
-
-	Gdiplus::Graphics graphics(hdc);
-	graphics.SetSmoothingMode(Gdiplus::SmoothingModeAntiAlias);
-	graphics.SetTextRenderingHint(Gdiplus::TextRenderingHintClearTypeGridFit);
 
 	// Draw the frame around
 	int padding = 15;
@@ -152,7 +164,16 @@ void Win32Graphics::paintBasic(HDC hdc)
 			, this->offsetX + i * this->symbolW, this->offsetY + this->rowCount * this->symbolH);
 	}
 
-	// Draw higlights
+	// Draw values
+	this->updateValueWidgets();
+
+	for (int i = 0; i < WinGlobal::Controls::values.size(); i++)
+		WinGlobal::Controls::values[i]->paint(graphics);
+
+}
+
+void Win32Graphics::drawSymbolHighlights(Gdiplus::Graphics& graphics)
+{
 	int margin = this->highlightMargin;
 	for (int i = 0; i < this->reelCount; i++)
 		for (int j = 0; j < this->rowCount; j++)
@@ -166,12 +187,6 @@ void Win32Graphics::paintBasic(HDC hdc)
 				, this->symbolH - 2*margin);
 			}
 		}
-
-	// Draw values
-	this->updateValueWidgets();
-
-	for (int i = 0; i < WinGlobal::Controls::values.size(); i++)
-		WinGlobal::Controls::values[i]->paint(graphics);
 }
 
 ValueWidget::ValueWidget(std::wstring caption, int xpos, int ypos, int width, int height)
