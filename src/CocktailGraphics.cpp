@@ -4,10 +4,10 @@
 void CocktailGraphics::init()
 {
 	Win32Graphics::init();
-	this->swingBrush = new Gdiplus::LinearGradientBrush(Gdiplus::Point(0, 2*(this->symbolH)), Gdiplus::Point(this->symbolW, this->symbolH)
-							, Gdiplus::Color(0x0,0x0, 0xff), Gdiplus::Color(0xcc, 0xff, 0xcc));
+	this->swingBrush = new Gdiplus::LinearGradientBrush(Gdiplus::Point(0, 2*(this->symbolH)), Gdiplus::Point(2*this->symbolW, 0*this->symbolH-5)
+							, Gdiplus::Color(0x0,0x66, 0xff), Gdiplus::Color(0x0, 0xff, 0x77));
 	this->swingBrush->TranslateTransform(this->offsetX-this->highlightMargin/2, this->offsetY-this->highlightMargin);
-	this->swingPen = new Gdiplus::Pen(this->swingBrush, 16);
+	this->swingPen = new Gdiplus::Pen(this->swingBrush, 14);
 	this->swingPen->SetLineJoin(Gdiplus::LineJoinRound);
 }
 
@@ -15,7 +15,7 @@ void CocktailGraphics::paint(HDC hdc)
 {
 	Gdiplus::Graphics* graphics = this->initGdiplusGraphics(hdc);
 	this->paintBasic(hdc, *graphics);
-	int margin = 6;
+	int margin = 4;
 	graphics->DrawRectangle(this->swingPen
 				, this->offsetX + 0 * this->symbolW + margin
 				, this->offsetY + 1 * this->symbolH + margin
