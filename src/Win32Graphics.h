@@ -57,13 +57,21 @@ public:
 	typedef enum
 	{
 		FormatInt,
-		FormatDouble
+		FormatDouble,
+		FormatPercent
 	} ValueFormat;
+
+	typedef enum
+	{
+		HighlightNo,
+		HighlightOnPositive
+	} HighlightType;
 
 	ValueWidget(std::wstring caption, int xpos, int ypos, int width, int height);
 	void setValue(int value);
 	void setValue(double value);
 	void setFormat(ValueFormat format);
+	void setHighlight(HighlightType type);
 	void paint(Gdiplus::Graphics& graphics);
 
 private:
@@ -72,14 +80,18 @@ private:
 	int valueInt;
 	double valueDouble;
 	ValueFormat format;
+	HighlightType highlightType;
+	bool isHighlighted;
 
-	Gdiplus::Color bgColor1, bgColor2;
-	Gdiplus::RectF layoutRect;
-	Gdiplus::LinearGradientBrush bgBrush;
-	Gdiplus::Pen linePen;
+	Gdiplus::Color bgColor1, bgColor2, hiColor1, hiColor2;
+	Gdiplus::RectF layoutRectCapt, layoutRectVal;
+	Gdiplus::LinearGradientBrush bgBrush, hiBrush;
+	Gdiplus::Pen linePen, hiPen;
 	Gdiplus::SolidBrush fontBrush;
 	Gdiplus::Font font;
 	Gdiplus::StringFormat stringFormat;
+
+	wchar_t valueWchar[100];
 };
 
 #endif

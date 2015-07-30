@@ -25,11 +25,6 @@ void ShuffleCrossGraphics::paint(HDC hdc)
 	this->setStartButtonCaption();
 
 	wchar_t txtOut[500];
-	if (dynamic_cast<GameShuffleCross*>(WinGlobal::game)->isFreeSpinMode())
-	{
-		swprintf(txtOut, L"Zbývají free spiny: %d", dynamic_cast<GameShuffleCross*>(WinGlobal::game)->getFreeSpinsRemaining());
-		TextOut(hdc, this->width - 1.5*this->offsetX, 370, txtOut, wcslen(txtOut));
-	}
 
 	// write win description to the edit box
 	swprintf(txtOut, L"%S", dynamic_cast<GameShuffleCross*>(WinGlobal::game)->getWinDescription().c_str());

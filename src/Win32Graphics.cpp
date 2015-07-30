@@ -1,4 +1,4 @@
-#include <assert.h>
+﻿#include <assert.h>
 #include <stdio.h>
 #include <windows.h>
 #include <GdiPlus.h>
@@ -44,6 +44,23 @@ void Win32Graphics::init()
 	this->offsetY = 50;
 	this->highlightMargin = 5;
 
+	// Init Gdiplus
+	Gdiplus::GdiplusStartup(&this->gdiplusToken, &this->gdiplusStartupInput, NULL);
+
+	// init ValueWidgets
+	WinGlobal::Controls::values.push_back(new ValueWidget(L"Kredit", this->offsetX - 20, 360, 120, 60));
+	WinGlobal::Controls::values.push_back(new ValueWidget(L"Výhra", this->width - this->offsetX - 120 + 20, 360, 120, 60));
+	WinGlobal::Controls::values.back()->setHighlight(ValueWidget::HighlightOnPositive);
+	//WinGlobal::Controls::values.push_back(new ValueWidget(L"Název 1", 50, 450, 120, 60));
+	//WinGlobal::Controls::values.back()->setValue(0);
+	//WinGlobal::Controls::values.push_back(new ValueWidget(L"Název 2", 170, 450, 120, 60));
+	//WinGlobal::Controls::values.back()->setValue(0);
+	WinGlobal::Controls::values.push_back(new ValueWidget(L"Počet freespinů", 170, 450, 120, 60));
+	WinGlobal::Controls::values.back()->setHighlight(ValueWidget::HighlightOnPositive);
+	WinGlobal::Controls::values.push_back(new ValueWidget(L"Počet otáček", 290, 450, 120, 60));
+	WinGlobal::Controls::values.push_back(new ValueWidget(L"Výhernost", 410, 450, 120, 60));
+	WinGlobal::Controls::values.back()->setFormat(ValueWidget::FormatPercent);
+
 	// Set colors
 	this->mainFrameColor1 = Gdiplus::Color(150, 150, 140);
 	this->mainFrameColor2 = Gdiplus::Color(255, 255, 248);
@@ -51,9 +68,8 @@ void Win32Graphics::init()
 	this->highlightColor1 = Gdiplus::Color(80, 80, 0);
 	this->highlightColor2 = Gdiplus::Color(255, 255, 25);
 
-	// Init Gdiplus
-	Gdiplus::GdiplusStartup(&this->gdiplusToken, &this->gdiplusStartupInput, NULL);
 
+	// Init Gdiplus resources
 	this->penGrid = new Gdiplus::Pen(this->gridColor, 1.0);
 
 	this->mainBrush = new Gdiplus::LinearGradientBrush(Gdiplus::Point(50, 500), Gdiplus::Point(650, 0)
@@ -140,12 +156,12 @@ void Win32Graphics::paintBasic(HDC hdc)
 			}
 		}
 
-	// Draw number values
-	wchar_t txtWin[50];
-	swprintf(txtWin, L"Kredit: %d", Settings::startingCredit + WinGlobal::game->getCredit());
-	TextOut(hdc, this->offsetX, 350, txtWin, wcslen(txtWin));
-	swprintf(txtWin, L"V�hra: %d", WinGlobal::game->getLastWinAmount());
-	TextOut(hdc, this->width - 1.5*this->offsetX, 350, txtWin, wcslen(txtWin));
+	// Draw values
+	WinGlobal::Controls::values[0]->setValue(WinGlobal::game->getCredit() + Settings::startingCredit);
+	WinGlobal::Controls::values[1]->setValue(WinGlobal::game->getLastWinAmount());
+	WinGlobal::Controls::values[2]->setValue(WinGlobal::game->getFreeSpinsRemaining());
+	WinGlobal::Controls::values[3]->setValue(WinGlobal::game->getSpinCount());
+	WinGlobal::Controls::values[4]->setValue(WinGlobal::game->getRTP());
 
 	for (int i = 0; i < WinGlobal::Controls::values.size(); i++)
 		WinGlobal::Controls::values[i]->paint(graphics);
@@ -157,14 +173,23 @@ ValueWidget::ValueWidget(std::wstring caption, int xpos, int ypos, int width, in
 	, width(width)
 	, height(height)
 	, caption(caption)
-	, format(ValueFormat::FormatInt)
-	, bgColor1(150, 150, 50)
-	, bgColor2(255, 255, 198)
-	, layoutRect(this->xpos, this->ypos, this->width, this->height/2)
-	, bgBrush(Gdiplus::Point(xpos, ypos+2*this->height/2)
-			, Gdiplus::Point(xpos+this->width, ypos-3*this->height/2)
+	, format(FormatInt)
+	, highlightType(HighlightNo)
+	, isHighlighted(false)
+	, bgColor1(150, 150, 140)
+	, bgColor2(255, 255, 248)
+	, hiColor1(150, 150, 50)
+	, hiColor2(255, 255, 198)
+	, layoutRectCapt(this->xpos, this->ypos, this->width, this->height/2)
+	, layoutRectVal(this->xpos, this->ypos + this->height/2, this->width, this->height/2)
+	, bgBrush(Gdiplus::Point(xpos, ypos+3*this->height/2)
+			, Gdiplus::Point(xpos+this->width, ypos-this->height/2)
 			, this->bgColor1, this->bgColor2)
-	, linePen(this->bgColor1, 2.0)
+	, hiBrush(Gdiplus::Point(xpos, ypos+3*this->height/2)
+			, Gdiplus::Point(xpos+this->width, ypos-this->height/2)
+			, this->hiColor1, this->hiColor2)
+	, linePen(&this->bgBrush, 1.0)
+	, hiPen(&this->hiBrush, 1.0)
 	, fontBrush(Gdiplus::Color::Black)
 	, font(L"Arial", 10)
 {
@@ -174,8 +199,40 @@ ValueWidget::ValueWidget(std::wstring caption, int xpos, int ypos, int width, in
 
 void ValueWidget::paint(Gdiplus::Graphics& graphics)
 {
-	graphics.DrawLine(&this->linePen, xpos, ypos+height, xpos+width, ypos+height);
-	graphics.FillRectangle(&this->bgBrush, this->layoutRect);
-	graphics.DrawString(this->caption.c_str(), this->caption.length(), &this->font, this->layoutRect, &this->stringFormat, &this->fontBrush);
-
+	Gdiplus::Pen* lp = this->isHighlighted ? &this->hiPen : &this->linePen;
+	Gdiplus::Brush* bg = this->isHighlighted ? &this->hiBrush : &this->bgBrush;
+	graphics.DrawLine(lp, xpos, ypos+height, xpos+width, ypos+height);
+	graphics.DrawLine(lp, xpos, ypos+height/2, xpos, ypos+height);
+	graphics.DrawLine(lp, xpos+width, ypos+height/2, xpos+width, ypos+height);
+	graphics.FillRectangle(bg, this->layoutRectCapt);
+	graphics.DrawString(this->caption.c_str(), this->caption.length(), &this->font, this->layoutRectCapt, &this->stringFormat, &this->fontBrush);
+	graphics.DrawString(this->valueWchar, wcslen(this->valueWchar), &this->font, this->layoutRectVal, &this->stringFormat, &this->fontBrush);
 }
+
+void ValueWidget::setValue(int value) {
+	this->valueInt = value;
+	swprintf(this->valueWchar, L"%d", value);
+	if (this->highlightType == HighlightOnPositive)
+	{
+		if (value > 0)
+			this->isHighlighted = true;
+		else
+			this->isHighlighted = false;
+	}
+}
+void ValueWidget::setValue(double value) {
+	this->valueDouble = value;
+	if (this->format == FormatPercent)
+		swprintf(this->valueWchar, L"%.2f %%", value * 100.0);
+	else
+		swprintf(this->valueWchar, L"%.2f", value);
+	if (this->highlightType == HighlightOnPositive)
+	{
+		if (value > 0)
+			this->isHighlighted = true;
+		else
+			this->isHighlighted = false;
+	}
+}
+void ValueWidget::setFormat(ValueFormat format) { this->format = format; }
+void ValueWidget::setHighlight(HighlightType type) { this->highlightType = type; }

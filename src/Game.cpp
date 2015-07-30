@@ -25,6 +25,7 @@ Game::Game(int symbolCount, int reelCount, int rowCount, const std::string& name
 	, credit(0)
 	, windowReady(false)
 	, lastWinAmount(0)
+	, spinCount(0)
 	, isInteractive(false)
 	, symbolCount(symbolCount)
 	, reelCount(reelCount)
@@ -52,10 +53,11 @@ bool Game::isWindowReady() const
 	return this->windowReady;
 }
 
-void Game::addNewWin(int winAmount)
+void Game::addNewWin(int winAmount, bool respin)
 {
 	this->credit += winAmount;
-	this->spinCount++;
+	if (!respin)
+		this->spinCount++;
 	this->lastWinAmount = winAmount;
 }
 
@@ -69,7 +71,7 @@ int Game::getLastWinAmount() const
 	return this->lastWinAmount;
 }
 
-long long Game::getCredit() const
+int Game::getCredit() const
 {
 	return this->credit;	
 }
@@ -79,9 +81,12 @@ int Game::getSpinCount() const
 	return this->spinCount;
 }
 
-double Game::getRTP(int bet) const
+double Game::getRTP() const
 {
-	return (this->credit)/(this->spinCount * bet);
+	if (this->spinCount > 0)
+		return double(this->credit + this->spinCount * Settings::bet)/double(this->spinCount * Settings::bet);
+	else
+		return 0;
 }
 
 // a player has joyfully pressed the big START! button

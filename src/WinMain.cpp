@@ -80,7 +80,7 @@ void WinGlobal::InitControls()
 {
 	WinGlobal::Controls::buttonStart = CreateWindow(L"BUTTON", L"Start !"
 													  , WS_CHILD | WS_VISIBLE | BS_PUSHBUTTON
-													  , WinGlobal::width / 2 - 75, 350
+													  , WinGlobal::width / 2 - 75, 360
 													  , 150, 40, WinGlobal::hWndMain, HMENU(NULL), WinGlobal::hInst, NULL);
 	
 	HFONT buttonFont = CreateFont(18, 0, 0, 0, 0, FALSE,
@@ -98,11 +98,6 @@ void WinGlobal::InitControls()
 													  , WinGlobal::width / 2 - 225, 425
 													  , 450, 150, WinGlobal::hWndMain, HMENU(NULL), WinGlobal::hInst, NULL);
 	ShowWindow(WinGlobal::Controls::editInfo, SW_HIDE);
-	WinGlobal::Controls::values.push_back(new ValueWidget(L"Kredit", 50, 450, 120, 60));
-	WinGlobal::Controls::values.push_back(new ValueWidget(L"Výhra", 170, 450, 120, 60));
-	WinGlobal::Controls::values.push_back(new ValueWidget(L"Počet freespinů", 290, 450, 120, 60));
-	WinGlobal::Controls::values.push_back(new ValueWidget(L"Počet otáček", 410, 450, 120, 60));
-	WinGlobal::Controls::values.push_back(new ValueWidget(L"Výhernost", 530, 450, 120, 60));
 }
 
 void WinGlobal::InitGame()

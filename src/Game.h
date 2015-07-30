@@ -11,7 +11,7 @@ class Game
 {
 	// how big was the win in the last spin
 	int lastWinAmount;
-	long long credit;
+	int credit;
 	int spinCount;
 
 protected:
@@ -21,7 +21,7 @@ protected:
 	// window is filled with symbols (at least one spin was made)
 	bool windowReady;
 	void highlightReset();
-	void addNewWin(int winAmount);
+	void addNewWin(int winAmount, bool respin = false);
 	void Game::chargeBet();
 
 public:
@@ -55,8 +55,10 @@ public:
 
 	int getLastWinAmount() const;
 	int getSpinCount() const;
-	long long getCredit() const;
-	double getRTP(int bet) const;
+	int getCredit() const;
+	double getRTP() const;
+	virtual bool isFreeSpinMode() {	return false; }
+	virtual int getFreeSpinsRemaining() { return 0; }
 
 	// a player has joyfully pressed the big START! button
 	virtual void start();

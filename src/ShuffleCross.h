@@ -42,7 +42,6 @@ private:
 	// logical mode
 	bool freeSpinMode;
 	int freeSpinsRemaining;
-	int spinCount;
 	int lastPicnicCount;
 
 public:

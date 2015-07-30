@@ -97,7 +97,6 @@ GameShuffleCross::GameShuffleCross()
 		, interactiveMode(ModeNewSpin)
 		, freeSpinMode(false)
 		, freeSpinsRemaining(0)
-		, spinCount(0)
 		, statTotal("statTotal", L"Celkem")
 	{
 		this->stats.push_back(&this->statTotal);
@@ -136,7 +135,7 @@ void GameShuffleCross::updateStats()
 	int lastWinAmount = winBasic;
 	
 	this->statTotal.addData(lastWinAmount);
-	this->addNewWin(lastWinAmount);
+	this->addNewWin(lastWinAmount, this->interactiveMode != ModeNewSpin);
 
 	this->lastPicnicCount = this->winCalc.picnicBonus(this->window, pHighlight);
 	this->freeSpinsRemaining += this->lastPicnicCount;
@@ -168,7 +167,6 @@ void GameShuffleCross::start()
 	{
 	case ModeNewSpin:
 		this->spin();
-		this->spinCount++;
 		this->chargeBet();
 		this->updateStats();
 		break;
@@ -184,10 +182,6 @@ void GameShuffleCross::start()
 	case ModeGatherBonus:
 		this->winCalc.gatherBonus(&this->window);
 		this->windowReady = true;
-		if (this->freeSpinMode)
-			this->interactiveMode = ModeFreeSpin;
-		else
-			this->interactiveMode = ModeNewSpin;
 		this->updateStats();
 		break;
 	}
