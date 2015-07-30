@@ -75,6 +75,12 @@
     <ClCompile Include="..\src\WinMain.cpp">
       <Filter>Source Files\Windows</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Cocktail.cpp">
+      <Filter>Source Files\Games</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\CocktailGraphics.cpp">
+      <Filter>Source Files\Games</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="slotview.rc">
@@ -123,6 +129,12 @@
     </ClInclude>
     <ClInclude Include="..\src\WinGlobal.h">
       <Filter>Header Files\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Cocktail.h">
+      <Filter>Header Files\Games</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\CocktailGraphics.h">
+      <Filter>Header Files\Games</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

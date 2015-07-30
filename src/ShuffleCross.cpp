@@ -167,7 +167,6 @@ void GameShuffleCross::start()
 	{
 	case ModeNewSpin:
 		this->spin();
-		this->chargeBet();
 		this->updateStats();
 		break;
 	case ModeFreeSpin:

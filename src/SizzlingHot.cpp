@@ -139,7 +139,6 @@ int WinCalcSizzlingHot::leftWin7(const Window& window, std::vector<Payline*>& pa
 	return partialWin;
 }
 
-
 GameSizzlingHot::GameSizzlingHot()
 	: Game(8, 5, 3, "Sizzling Hot", "4")
 	, winCalc(8, 5, 3, 5)
@@ -159,6 +158,7 @@ GameSizzlingHot::GameSizzlingHot()
 	this->stats.push_back(&this->statBasic);
 	this->stats.push_back(&this->statTotal);
 }
+
 void GameSizzlingHot::load()
 {
 	Input* rsMain = InputLoader::open(INPUT(SH_REELSET0));
@@ -191,7 +191,6 @@ void GameSizzlingHot::loadPaylines(Input* input)
 
 void GameSizzlingHot::updateStats()
 {
-	this->chargeBet();
 	Window* pHighlight = NULL;
 	if (this->isInteractive)
 	{

@@ -47,8 +47,9 @@ public:
 	virtual void paint(HDC hdc);
 	void paintBasic(HDC hdc);
 private:
-	virtual void loadSymbols()
-	{}
+	virtual void loadSymbols() {}
+	virtual void initValueWidgets();
+	virtual void updateValueWidgets();
 };
 
 class ValueWidget

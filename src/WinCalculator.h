@@ -26,11 +26,10 @@ protected:
 	
 	int **payTableBasic;
 
+public:
 	int paylineWin(const Window& window, const Payline& payline, Window* highlight = NULL) const;
 	int payLeftN(int symbol, int N) const;
 	int crissCrossWin(const Window& window, Window* highlight = NULL, std::string* desc = NULL) const;
-
-public:
 	virtual void loadPaytable(Input* input);
 
 	WinCalculator(int symbolCount, int reelCount, int rowCount);

@@ -22,7 +22,6 @@ protected:
 	bool windowReady;
 	void highlightReset();
 	void addNewWin(int winAmount, bool respin = false);
-	void Game::chargeBet();
 
 public:
 	const int symbolCount;

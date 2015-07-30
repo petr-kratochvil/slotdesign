@@ -7,6 +7,8 @@
 #include "SizzlingHot.h"
 #include "ShuffleCross.h"
 #include "ShuffleCrossGraphics.h"
+#include "Cocktail.h"
+#include "CocktailGraphics.h"
 
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nCmdShow)
 {
@@ -71,7 +73,7 @@ bool WinGlobal::InitInstance(HINSTANCE hInstance, int nCmdShow)
 
 void WinGlobal::InitGraphics()
 {
-	WinGlobal::win32Graphics = new ShuffleCrossGraphics(WinGlobal::width, WinGlobal::height);
+	WinGlobal::win32Graphics = new CocktailGraphics(WinGlobal::width, WinGlobal::height);
 	WinGlobal::win32Graphics->init();
 	WinGlobal::InitControls();
 }
@@ -102,7 +104,7 @@ void WinGlobal::InitControls()
 
 void WinGlobal::InitGame()
 {
-	WinGlobal::game = new GameShuffleCross();
+	WinGlobal::game = new GameCocktail();
 	WinGlobal::game->load();
 	WinGlobal::game->isInteractive = true;
 	Random::init();

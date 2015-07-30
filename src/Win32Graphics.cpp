@@ -32,6 +32,28 @@ Win32Graphics::~Win32Graphics()
 	delete this->highlightBrushEven;
 	delete this->highlightBrushOdd;
 }
+
+void Win32Graphics::initValueWidgets()
+{
+	WinGlobal::Controls::values.push_back(new ValueWidget(L"Kredit", this->offsetX - 20, 360, 120, 60));
+	WinGlobal::Controls::values.push_back(new ValueWidget(L"Výhra", this->width - this->offsetX - 120 + 20, 360, 120, 60));
+	WinGlobal::Controls::values.back()->setHighlight(ValueWidget::HighlightOnPositive);
+	WinGlobal::Controls::values.push_back(new ValueWidget(L"Počet freespinů", 170, 450, 120, 60));
+	WinGlobal::Controls::values.back()->setHighlight(ValueWidget::HighlightOnPositive);
+	WinGlobal::Controls::values.push_back(new ValueWidget(L"Počet otáček", 290, 450, 120, 60));
+	WinGlobal::Controls::values.push_back(new ValueWidget(L"Výhernost", 410, 450, 120, 60));
+	WinGlobal::Controls::values.back()->setFormat(ValueWidget::FormatPercent);
+}
+
+void Win32Graphics::updateValueWidgets()
+{
+	WinGlobal::Controls::values[0]->setValue(WinGlobal::game->getCredit() + Settings::startingCredit);
+	WinGlobal::Controls::values[1]->setValue(WinGlobal::game->getLastWinAmount());
+	WinGlobal::Controls::values[2]->setValue(WinGlobal::game->getFreeSpinsRemaining());
+	WinGlobal::Controls::values[3]->setValue(WinGlobal::game->getSpinCount());
+	WinGlobal::Controls::values[4]->setValue(WinGlobal::game->getRTP());
+}
+
 void Win32Graphics::init()
 {
 	// Load bitmaps
@@ -48,18 +70,7 @@ void Win32Graphics::init()
 	Gdiplus::GdiplusStartup(&this->gdiplusToken, &this->gdiplusStartupInput, NULL);
 
 	// init ValueWidgets
-	WinGlobal::Controls::values.push_back(new ValueWidget(L"Kredit", this->offsetX - 20, 360, 120, 60));
-	WinGlobal::Controls::values.push_back(new ValueWidget(L"Výhra", this->width - this->offsetX - 120 + 20, 360, 120, 60));
-	WinGlobal::Controls::values.back()->setHighlight(ValueWidget::HighlightOnPositive);
-	//WinGlobal::Controls::values.push_back(new ValueWidget(L"Název 1", 50, 450, 120, 60));
-	//WinGlobal::Controls::values.back()->setValue(0);
-	//WinGlobal::Controls::values.push_back(new ValueWidget(L"Název 2", 170, 450, 120, 60));
-	//WinGlobal::Controls::values.back()->setValue(0);
-	WinGlobal::Controls::values.push_back(new ValueWidget(L"Počet freespinů", 170, 450, 120, 60));
-	WinGlobal::Controls::values.back()->setHighlight(ValueWidget::HighlightOnPositive);
-	WinGlobal::Controls::values.push_back(new ValueWidget(L"Počet otáček", 290, 450, 120, 60));
-	WinGlobal::Controls::values.push_back(new ValueWidget(L"Výhernost", 410, 450, 120, 60));
-	WinGlobal::Controls::values.back()->setFormat(ValueWidget::FormatPercent);
+	this->initValueWidgets();
 
 	// Set colors
 	this->mainFrameColor1 = Gdiplus::Color(150, 150, 140);
@@ -157,11 +168,7 @@ void Win32Graphics::paintBasic(HDC hdc)
 		}
 
 	// Draw values
-	WinGlobal::Controls::values[0]->setValue(WinGlobal::game->getCredit() + Settings::startingCredit);
-	WinGlobal::Controls::values[1]->setValue(WinGlobal::game->getLastWinAmount());
-	WinGlobal::Controls::values[2]->setValue(WinGlobal::game->getFreeSpinsRemaining());
-	WinGlobal::Controls::values[3]->setValue(WinGlobal::game->getSpinCount());
-	WinGlobal::Controls::values[4]->setValue(WinGlobal::game->getRTP());
+	this->updateValueWidgets();
 
 	for (int i = 0; i < WinGlobal::Controls::values.size(); i++)
 		WinGlobal::Controls::values[i]->paint(graphics);
@@ -178,8 +185,8 @@ ValueWidget::ValueWidget(std::wstring caption, int xpos, int ypos, int width, in
 	, isHighlighted(false)
 	, bgColor1(150, 150, 140)
 	, bgColor2(255, 255, 248)
-	, hiColor1(150, 150, 50)
-	, hiColor2(255, 255, 198)
+	, hiColor1(180, 180, 0)
+	, hiColor2(255, 255, 178)
 	, layoutRectCapt(this->xpos, this->ypos, this->width, this->height/2)
 	, layoutRectVal(this->xpos, this->ypos + this->height/2, this->width, this->height/2)
 	, bgBrush(Gdiplus::Point(xpos, ypos+3*this->height/2)

@@ -107,6 +107,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\Cocktail.cpp" />
+    <ClCompile Include="..\src\CocktailGraphics.cpp" />
     <ClCompile Include="..\src\Game.cpp" />
     <ClCompile Include="..\src\InputLoader.cpp" />
     <ClCompile Include="..\src\Random.cpp" />
@@ -126,6 +128,8 @@
     <ResourceCompile Include="slotview.rc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\src\Cocktail.h" />
+    <ClInclude Include="..\src\CocktailGraphics.h" />
     <ClInclude Include="..\src\Game.h" />
     <ClInclude Include="..\src\InputLoader.h" />
     <ClInclude Include="..\src\Random.h" />

@@ -57,13 +57,11 @@ void Game::addNewWin(int winAmount, bool respin)
 {
 	this->credit += winAmount;
 	if (!respin)
+	{
 		this->spinCount++;
+		this->credit -= Settings::bet;
+	}
 	this->lastWinAmount = winAmount;
-}
-
-void Game::chargeBet()
-{
-	this->credit -= Settings::bet;
 }
 
 int Game::getLastWinAmount() const
