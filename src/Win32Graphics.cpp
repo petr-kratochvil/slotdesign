@@ -45,8 +45,8 @@ void Win32Graphics::init()
 	this->highlightMargin = 5;
 
 	// Set colors
-	this->mainColor1 = Gdiplus::Color(150, 150, 140);
-	this->mainColor2 = Gdiplus::Color(255, 255, 248);
+	this->mainFrameColor1 = Gdiplus::Color(150, 150, 140);
+	this->mainFrameColor2 = Gdiplus::Color(255, 255, 248);
 	this->gridColor = Gdiplus::Color(220, 220, 220);
 	this->highlightColor1 = Gdiplus::Color(80, 80, 0);
 	this->highlightColor2 = Gdiplus::Color(255, 255, 25);
@@ -57,7 +57,7 @@ void Win32Graphics::init()
 	this->penGrid = new Gdiplus::Pen(this->gridColor, 1.0);
 
 	this->mainBrush = new Gdiplus::LinearGradientBrush(Gdiplus::Point(50, 500), Gdiplus::Point(650, 0)
-						, this->mainColor1, this->mainColor2);
+						, this->mainFrameColor1, this->mainFrameColor2);
 	this->penFrame = new Gdiplus::Pen(this->mainBrush, 12.0);
 
 	this->highlightBrushEven = new Gdiplus::LinearGradientBrush(Gdiplus::Point(0, this->symbolH), Gdiplus::Point(this->symbolW, 0)
@@ -158,21 +158,24 @@ ValueWidget::ValueWidget(std::wstring caption, int xpos, int ypos, int width, in
 	, height(height)
 	, caption(caption)
 	, format(ValueFormat::FormatInt)
-{}
+	, bgColor1(150, 150, 50)
+	, bgColor2(255, 255, 198)
+	, layoutRect(this->xpos, this->ypos, this->width, this->height/2)
+	, bgBrush(Gdiplus::Point(xpos, ypos+2*this->height/2)
+			, Gdiplus::Point(xpos+this->width, ypos-3*this->height/2)
+			, this->bgColor1, this->bgColor2)
+	, linePen(this->bgColor1, 2.0)
+	, fontBrush(Gdiplus::Color::Black)
+	, font(L"Arial", 10)
+{
+	this->stringFormat.SetAlignment(Gdiplus::StringAlignmentCenter);
+	this->stringFormat.SetLineAlignment(Gdiplus::StringAlignmentCenter);
+}
 
 void ValueWidget::paint(Gdiplus::Graphics& graphics)
 {
-	Gdiplus::Pen* pen = new Gdiplus::Pen(Gdiplus::Color(150, 150, 50), 2.0);
-	Gdiplus::RectF layoutRect(this->xpos, this->ypos, this->width, this->height/2);
-	Gdiplus::LinearGradientBrush bgBrush(Gdiplus::Point(xpos, ypos+2*this->height/2), Gdiplus::Point(xpos+this->width, ypos-3*this->height/2), Gdiplus::Color(150, 150, 50), Gdiplus::Color(255, 255, 198));
-	Gdiplus::SolidBrush brush(Gdiplus::Color::Black/*(123, 25, 60)*/);
-	Gdiplus::StringFormat stringFormat;
-	stringFormat.SetAlignment(Gdiplus::StringAlignmentCenter);
-	stringFormat.SetLineAlignment(Gdiplus::StringAlignmentCenter);
-	Gdiplus::Font font(L"Arial", 10);
-
-	graphics.DrawLine(pen, xpos, ypos+height, xpos+width, ypos+height);
-	graphics.FillRectangle(&bgBrush, layoutRect);
-	graphics.DrawString(this->caption.c_str(), this->caption.length(), &font, layoutRect, &stringFormat, &brush);
+	graphics.DrawLine(&this->linePen, xpos, ypos+height, xpos+width, ypos+height);
+	graphics.FillRectangle(&this->bgBrush, this->layoutRect);
+	graphics.DrawString(this->caption.c_str(), this->caption.length(), &this->font, this->layoutRect, &this->stringFormat, &this->fontBrush);
 
 }

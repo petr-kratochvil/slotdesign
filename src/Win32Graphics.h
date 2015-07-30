@@ -30,7 +30,7 @@ protected:
 
 	Gdiplus::GdiplusStartupInput gdiplusStartupInput;
 	ULONG_PTR gdiplusToken;
-	Gdiplus::Color mainColor1, mainColor2, gridColor, highlightColor1, highlightColor2;
+	Gdiplus::Color mainFrameColor1, mainFrameColor2, gridColor, highlightColor1, highlightColor2;
 	Gdiplus::Brush* mainBrush;
 	Gdiplus::LinearGradientBrush *highlightBrushEven, *highlightBrushOdd;
 	Gdiplus::Pen* penGrid;
@@ -72,6 +72,14 @@ private:
 	int valueInt;
 	double valueDouble;
 	ValueFormat format;
+
+	Gdiplus::Color bgColor1, bgColor2;
+	Gdiplus::RectF layoutRect;
+	Gdiplus::LinearGradientBrush bgBrush;
+	Gdiplus::Pen linePen;
+	Gdiplus::SolidBrush fontBrush;
+	Gdiplus::Font font;
+	Gdiplus::StringFormat stringFormat;
 };
 
 #endif
