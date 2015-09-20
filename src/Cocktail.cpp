@@ -9,6 +9,7 @@ GameCocktail::GameCocktail()
 	, temperature(1)
 	, modeFS(false)
 	, modeSwing(false)
+	, remainingFScount(0)
 {
 	this->stats.push_back(&this->statBasic);
 	this->stats.push_back(&this->statTotal);
@@ -45,16 +46,27 @@ void GameCocktail::updateStats()
 	
 	this->statBasic.addData(winBasic);
 	this->statTotal.addData(lastWinAmount);
-	this->addNewWin(lastWinAmount, this->modeSwing);
+	this->addNewWin(lastWinAmount, this->modeSwing || this->modeFS);
 }
 
 void GameCocktail::spin()
 {
+	if (this->windowReady)
+	{
+		if ((this->window.getSymbol(0, 1) == 9) && (this->window.getSymbol(4, 1) == 9))
+		{
+			this->modeFS = true;
+			this->remainingFScount += 10;
+		}
+	}
+	if (this->remainingFScount <= 0)
+		this->modeFS = false;
+
 	if (!this->modeSwing)
 	{
 		this->reelSetMain.spin(&this->window);
 		this->windowReady = true;
-		if (this->window.getSymbol(0, 1) == this->window.getSymbol(4, 1))
+		if ((this->window.getSymbol(0, 1) == this->window.getSymbol(4, 1)) && (this->window.getSymbol(0, 1) != 9))
 			this->modeSwing = true;
 		else
 			this->modeSwing = false;
