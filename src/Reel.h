@@ -13,6 +13,7 @@ class Window
 	int** symbols;
 public:
 	Window(int reelCount, int rowCount);
+	Window(const Window& w);
 	~Window();
 	int getSymbol(int reel, int row) const;
 	void setSymbol(int reel, int row, int symbol);
@@ -42,6 +43,9 @@ public:
 	int getLen();
 	void load(Input* input);
 	void spin(ReelSpinResult* res);
+	// used in game Cocktail; finds the nearest (in upwards direction)
+	// position with given symbol in the first spot
+	void spinToSymbol_Cocktail(ReelSpinResult *res, int symbol);
 };
 
 // Set of reels (Game usually has at least 2 sets, one for wins and one for spins win zero win)
@@ -63,6 +67,8 @@ public:
 	void shuffleReels();
 
 	void spin(Window* w);
+	// used in game Cocktail; see Reel::spinToSymbol_Cocktail
+	void spinToSymbol_Cocktail(Window* w, int symbol);
 };
 
 #endif

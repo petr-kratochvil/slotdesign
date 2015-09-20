@@ -40,16 +40,12 @@ void GameCocktail::updateStats()
 		this->highlightReset();
 		pHighlight = &this->highlight;
 	}
-	int winBasic = this->winCalc.crissCrossWin(this->window, pHighlight);
+	int winBasic = this->winCalc.crissCrossWin(this->window, pHighlight) * this->temperature;
 	int lastWinAmount = winBasic;
 	
 	this->statBasic.addData(winBasic);
 	this->statTotal.addData(lastWinAmount);
 	this->addNewWin(lastWinAmount, this->modeSwing);
-	if (this->window.getSymbol(0, 1) == this->window.getSymbol(4, 1))
-		this->modeSwing = true;
-	else
-		this->modeSwing = false;
 }
 
 void GameCocktail::spin()
@@ -58,6 +54,10 @@ void GameCocktail::spin()
 	{
 		this->reelSetMain.spin(&this->window);
 		this->windowReady = true;
+		if (this->window.getSymbol(0, 1) == this->window.getSymbol(4, 1))
+			this->modeSwing = true;
+		else
+			this->modeSwing = false;
 		if ((this->getLastWinAmount() > 0) && (!this->isFreeSpinMode()))
 			this->temperatureUp();
 		else
@@ -65,7 +65,27 @@ void GameCocktail::spin()
 	}
 	else
 	{
-
+		int symbolInSwing = this->window.getSymbol(0,1);
+		Window newWindow(this->window);
+		this->reelSetMain.spinToSymbol_Cocktail(&newWindow, symbolInSwing);
+		for (int i = 1; i < this->reelCount - 1; i++)
+		{
+			bool replaceThisReel = true;
+			for (int j = 0; j < this->rowCount; j++)
+			{
+				if (this->window.getSymbol(i, j) == symbolInSwing)
+				{
+					replaceThisReel = false;
+					break;
+				}
+			}
+			if (replaceThisReel)
+			{
+				for (int j = 0; j < this->rowCount; j++)
+					this->window.setSymbol(i, j, newWindow.getSymbol(i, j));
+			}
+		}
+		this->modeSwing = false;
 	}
 }
 

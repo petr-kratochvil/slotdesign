@@ -14,6 +14,20 @@ Window::Window(int reelCount, int rowCount)
 	for (int i = 0; i < this->reelCount; i++)
 		this->symbols[i] = new int [this->rowCount];
 }
+
+Window::Window(const Window& w)
+	: reelCount(w.reelCount)
+	, rowCount(w.rowCount)
+{
+	this->symbols = new int* [this->reelCount];
+	for (int i = 0; i < this->reelCount; i++)
+	{
+		this->symbols[i] = new int [this->rowCount];
+		for (int j = 0; j < this->rowCount; j++)
+			this->symbols[i][j] = w.getSymbol(i, j);
+	}
+}
+
 Window::~Window()
 {
 	for (int i = 0; i < this->reelCount; i++)
@@ -73,6 +87,25 @@ void Reel::spin(ReelSpinResult* res)
 	}
 }
 
+void Reel::spinToSymbol_Cocktail(ReelSpinResult *res, int symbol)
+{
+	for (int j=0; j< this->rowCount; j++)
+		res->symbols[j] = 5;
+
+	for (int i=0; i < this->symbolCount; i++)
+	{
+		if (this->symbols[(this->symbolCount + this->lastPosition - i) % this->symbolCount] == symbol)
+		{
+			for (int j=0; j< this->rowCount; j++)
+			{
+				res->symbols[j] = this->symbols[(this->symbolCount + this->lastPosition - i + j) % this->symbolCount];
+			}
+			this->lastPosition = (this->symbolCount + this->lastPosition - i) % this->symbolCount;
+			break;
+		}
+	}
+}
+
 int ReelSet::getVersion() const
 {
 	return this->reelSetVersion;
@@ -116,6 +149,17 @@ void ReelSet::spin(Window* w)
 	for (int i = 0; i < this->reelCount; i++)
 	{
 		this->reels[this->reelShuffle[i]]->spin(&res);
+		for (int j = 0; j < this->rowCount; j++)
+			w->setSymbol(i, j, res.symbols[j]);
+	}
+}
+
+void ReelSet::spinToSymbol_Cocktail(Window* w, int symbol)
+{
+	ReelSpinResult res(this->rowCount);
+	for (int i = 0; i < this->reelCount; i++)
+	{
+		this->reels[this->reelShuffle[i]]->spinToSymbol_Cocktail(&res, symbol);
 		for (int j = 0; j < this->rowCount; j++)
 			w->setSymbol(i, j, res.symbols[j]);
 	}
