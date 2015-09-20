@@ -17,7 +17,7 @@ GameCocktail::GameCocktail()
 void GameCocktail::load()
 {
 	Input* rsMain = InputLoader::open(INPUT(SC_REELSET0));
-	Input* ptable = InputLoader::open(INPUT(SH_PAYTABLE));
+	Input* ptable = InputLoader::open(INPUT(C_PAYTABLE));
 	this->reelSetMain.load(rsMain);
 	this->winCalc.loadPaytable(ptable);
 	InputLoader::close(rsMain);
