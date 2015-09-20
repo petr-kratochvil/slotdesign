@@ -68,7 +68,8 @@ public:
 	typedef enum
 	{
 		HighlightNo,
-		HighlightOnPositive
+		HighlightOnPositive,
+		HighlightOnGreater1
 	} HighlightType;
 
 	ValueWidget(std::wstring caption, int xpos, int ypos, int width, int height);

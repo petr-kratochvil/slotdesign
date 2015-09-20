@@ -241,6 +241,13 @@ void ValueWidget::setValue(int value) {
 		else
 			this->isHighlighted = false;
 	}
+	else if (this->highlightType == HighlightOnGreater1)
+	{
+		if (value > 1)
+			this->isHighlighted = true;
+		else
+			this->isHighlighted = false;
+	}
 }
 void ValueWidget::setValue(double value) {
 	this->valueDouble = value;
@@ -251,6 +258,13 @@ void ValueWidget::setValue(double value) {
 	if (this->highlightType == HighlightOnPositive)
 	{
 		if (value > 0)
+			this->isHighlighted = true;
+		else
+			this->isHighlighted = false;
+	}
+	else if (this->highlightType == HighlightOnGreater1)
+	{
+		if (value > 1)
 			this->isHighlighted = true;
 		else
 			this->isHighlighted = false;
