@@ -17,7 +17,7 @@ GameCocktail::GameCocktail()
 
 void GameCocktail::load()
 {
-	Input* rsMain = InputLoader::open(INPUT(SC_REELSET0));
+	Input* rsMain = InputLoader::open(INPUT(C_REELSET0));
 	Input* ptable = InputLoader::open(INPUT(C_PAYTABLE));
 	this->reelSetMain.load(rsMain);
 	this->winCalc.loadPaytable(ptable);
@@ -51,29 +51,48 @@ void GameCocktail::updateStats()
 
 void GameCocktail::spin()
 {
-	if (this->windowReady)
-	{
-		if ((this->window.getSymbol(0, 1) == 9) && (this->window.getSymbol(4, 1) == 9))
-		{
-			this->modeFS = true;
-			this->remainingFScount += 10;
-		}
-	}
-	if (this->remainingFScount <= 0)
-		this->modeFS = false;
-
 	if (!this->modeSwing)
 	{
+		if (this->modeFS)
+			this->remainingFScount--;
 		this->reelSetMain.spin(&this->window);
 		this->windowReady = true;
-		if ((this->window.getSymbol(0, 1) == this->window.getSymbol(4, 1)) && (this->window.getSymbol(0, 1) != 9))
-			this->modeSwing = true;
+		if ((this->window.getSymbol(0, 1) == this->window.getSymbol(4, 1)) && (this->window.getSymbol(0, 1) != 8))
+		{
+			bool replaceSomeReel = true;
+			for (int i = 1; i < this->reelCount - 1; i++)
+			{
+				bool replaceThisReel = true;
+				for (int j = 0; j < this->rowCount; j++)
+				{
+					if (this->window.getSymbol(i, j) == this->window.getSymbol(0, 1))
+					{
+						replaceThisReel = false;
+						break;
+					}
+				}
+				if (replaceThisReel)
+				{
+					replaceSomeReel = true;
+					break;
+				}
+			}
+			if (replaceSomeReel)
+				this->modeSwing = true;
+		}
 		else
 			this->modeSwing = false;
 		if ((this->getLastWinAmount() > 0) && (!this->isFreeSpinMode()))
 			this->temperatureUp();
 		else
 			this->temperatureReset();
+		if ((this->window.getSymbol(0, 1) == 8) && (this->window.getSymbol(4, 1) == 8))
+		{
+			this->modeFS = true;
+			this->remainingFScount += 10;
+		}
+		if (this->remainingFScount <= 0)
+			this->modeFS = false;
 	}
 	else
 	{
