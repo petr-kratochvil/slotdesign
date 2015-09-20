@@ -6,7 +6,9 @@ GameCocktail::GameCocktail()
 	, reelSetMain(5, 3)
 	, statBasic("statBasic", L"Základní symboly")
 	, statTotal("statTotal", L"Celkem")
-	, temperature(0)
+	, temperature(1)
+	, modeFS(false)
+	, modeSwing(false)
 {
 	this->stats.push_back(&this->statBasic);
 	this->stats.push_back(&this->statTotal);
@@ -43,11 +45,38 @@ void GameCocktail::updateStats()
 	
 	this->statBasic.addData(winBasic);
 	this->statTotal.addData(lastWinAmount);
-	this->addNewWin(lastWinAmount);
+	this->addNewWin(lastWinAmount, this->modeSwing);
+	if (this->window.getSymbol(0, 1) == this->window.getSymbol(4, 1))
+		this->modeSwing = true;
+	else
+		this->modeSwing = false;
 }
 
 void GameCocktail::spin()
 {
-	this->reelSetMain.spin(&this->window);
-	this->windowReady = true;
+	if (!this->modeSwing)
+	{
+		this->reelSetMain.spin(&this->window);
+		this->windowReady = true;
+		if ((this->getLastWinAmount() > 0) && (!this->isFreeSpinMode()))
+			this->temperatureUp();
+		else
+			this->temperatureReset();
+	}
+	else
+	{
+
+	}
+}
+
+void GameCocktail::temperatureUp()
+{
+	this->temperature++;
+	if (this->temperature > 5)
+		this->temperature = 1;
+}
+
+void GameCocktail::temperatureReset()
+{
+	this->temperature = 1;
 }

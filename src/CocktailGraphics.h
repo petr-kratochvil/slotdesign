@@ -12,17 +12,23 @@ public:
 
 	~CocktailGraphics()
 	{
-		delete this->swingBrush;
-		delete this->swingPen;
+		delete this->swingBrushBasic;
+		delete this->swingBrushWin;
+		delete this->swingPenBasic;
+		delete this->swingPenWin;
 	}
 	void paint(HDC hdc);
 	void init();
+
 private:
 	void loadSymbols();
 	void initValueWidgets();
 	void updateValueWidgets();
-	Gdiplus::LinearGradientBrush* swingBrush;
-	Gdiplus::Pen* swingPen;
+	void setStartButtonCaption();
+	Gdiplus::LinearGradientBrush* swingBrushBasic;
+	Gdiplus::LinearGradientBrush* swingBrushWin;
+	Gdiplus::Pen* swingPenBasic;
+	Gdiplus::Pen* swingPenWin;
 };
 
 
