@@ -21,6 +21,7 @@ public:
 	std::string getRSVersion() const;
 	int getTemperature() const { return this->temperature; }
 	bool isSwingMode() const { return this->modeSwing; }
+	bool isFreeSpinMode() {	return this->modeFS; }
 	int getFreeSpinsRemaining() { return this->remainingFScount; }
 
 private:
