@@ -10,7 +10,7 @@ void CocktailGraphics::init()
 	this->swingBrushWin = new Gdiplus::LinearGradientBrush(Gdiplus::Point(0, 2*(this->symbolH)), Gdiplus::Point(2*this->symbolW, 0*this->symbolH-5)
 							, Gdiplus::Color(0xff,0x66, 0x00), Gdiplus::Color(0xff, 0xff, 0x0));
 	this->swingBrushWin->TranslateTransform(this->offsetX-this->highlightMargin/2, this->offsetY-this->highlightMargin);
-	this->swingPenBasic = new Gdiplus::Pen(this->swingBrushBasic, 14);
+	this->swingPenBasic = new Gdiplus::Pen(this->swingBrushBasic, 10);
 	this->swingPenBasic->SetLineJoin(Gdiplus::LineJoinRound);
 	this->swingPenWin = new Gdiplus::Pen(this->swingBrushWin, 14);
 	this->swingPenWin->SetLineJoin(Gdiplus::LineJoinRound);
