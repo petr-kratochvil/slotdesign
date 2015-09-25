@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\src\Cocktail.cpp" />
     <ClCompile Include="..\src\Game.cpp" />
     <ClCompile Include="..\src\InputLoader.cpp" />
     <ClCompile Include="..\src\Main.cpp" />

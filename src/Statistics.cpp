@@ -78,21 +78,23 @@ int StatItem::getCount() const
 void StatItem::printFinalFormatted() const
 {
 	fwprintf(this->fwCommon, L"<h2>%s</h2>\n", this->itemDesc);
-	fwprintf(this->fwCommon, L"<table border=1 cellpadding=3 cellspacing=0><tr><td></td><td><i>Value</i></td><td><i>%% of spin price</i></td></tr>"
+	fwprintf(this->fwCommon, L"<table border=1 cellpadding=4 cellspacing=0><tr><td></td><td><i>Value</i></td><td><i>%% of spin price</i></td></tr>"
 				L"<tr><td>Count:</td><td>%d</td></tr>\n", this->count);
 	fwprintf(this->fwCommon, L"<tr><td>Sum:</td><td>%llu</td></tr>\n", this->sumData);
 	double avg = this->getAvg();
 	double stddev = sqrt(this->getVar());
 	double pctbase = Settings::bet;
 	double stderror = stddev / sqrt(double(this->count));
-	fwprintf(this->fwCommon, L"<tr><td>Avg:</td><td>%10.3f</td><td><b>%10.3f %%</b></td></tr>\n", avg, 100.0 * avg / pctbase);
-	fwprintf(this->fwCommon, L"<tr><td>Std. dev.:</td><td>%10.3f</td><td>%10.3f %%</td></tr>\n", stddev, 100.0 * stddev / pctbase);
-	fwprintf(this->fwCommon, L"<tr><td>Std. err.:</td><td>%10.3f</td><td>%10.3f %%</td></tr>\n", stderror, 100.0 * stderror / pctbase);
+	fwprintf(this->fwCommon, L"<tr><td>Avg:</td><td>%10.3f</td><td><b>%10.2f %%</b></td></tr>\n", avg, 100.0 * avg / pctbase);
+	fwprintf(this->fwCommon, L"<tr><td>Std. dev.:</td><td>%10.3f</td><td>%10.2f %%</td></tr>\n", stddev, 100.0 * stddev / pctbase);
+	fwprintf(this->fwCommon, L"<tr><td>Std. err.:</td><td>%10.3f</td><td>%10.2f %%</td></tr>\n", stderror, 100.0 * stderror / pctbase);
 	// magic number from normal distribution
 	double rad = 1.96 * stderror;
-	fwprintf(this->fwCommon, L"<tr><td>95%% conf. interval:</td><td>&nbsp;</td><td><b>%10.3f %% - %10.3f %%</b></td></tr>\n", 100.0*(avg-rad)/pctbase, 100.0*(avg+rad)/pctbase);
+	fwprintf(this->fwCommon, L"<tr><td>95%% conf. interval:</td><td>%10.3f - %10.3f</td><td><b>%10.2f %% - %10.2f %%</b></td></tr>\n"
+			, avg-rad, avg+rad, 100.0*(avg-rad)/pctbase, 100.0*(avg+rad)/pctbase);
 	rad = 2.575 * stderror;
-	fwprintf(this->fwCommon, L"<tr><td>99%% conf. interval:</td><td>&nbsp;</td><td>%10.3f %% - %10.3f %%</td></tr></table>\n", 100.0*(avg-rad)/pctbase, 100.0*(avg+rad)/pctbase);
+	fwprintf(this->fwCommon, L"<tr><td>99%% conf. interval:</td><td>%10.3f - %10.3f</td><td>%10.2f %% - %10.2f %%</td></tr></table>\n"
+			, avg-rad, avg+rad, 100.0*(avg-rad)/pctbase, 100.0*(avg+rad)/pctbase);
 }
 
 void StatItem::printFinalFormattedBegin(const char* fileName)

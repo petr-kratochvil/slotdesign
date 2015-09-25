@@ -7,21 +7,28 @@
 
 class GameCocktail : public Game
 {
+	enum GameMode {
+		Basic,
+		Begin,
+		InProcess,
+		End
+	};
 	ReelSet reelSetMain;
 	WinCalculator winCalc;
-	StatItem statBasic, statTotal;
+	StatItem statBasic, statTotal, statZero, statFS, statSwing;
 	int temperature;
-	bool modeFS;	// next spin is part of Freespin series
-	bool modeSwing;	// next spin is a respin caused by the swing
+	GameMode modeFS;	// next spin is part of Freespin series
+	GameMode modeSwing;	// next spin is a respin caused by the swing
 	int remainingFScount; // count of remaining free spins in a FS series
+	int partialWin; // part of the one-spin win (sum of subsequent respins)
 
 public:
 	GameCocktail();
 	void load();
 	std::string getRSVersion() const;
 	int getTemperature() const { return this->temperature; }
-	bool isSwingMode() const { return this->modeSwing; }
-	bool isFreeSpinMode() {	return this->modeFS; }
+	bool isSwingMode() const { return this->modeSwing == Begin; }
+	bool isFreeSpinMode() {	return this->modeFS != Basic; }
 	int getFreeSpinsRemaining() { return this->remainingFScount; }
 
 private:

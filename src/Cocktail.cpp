@@ -6,13 +6,20 @@ GameCocktail::GameCocktail()
 	, reelSetMain(5, 3)
 	, statBasic("statBasic", L"Základní symboly")
 	, statTotal("statTotal", L"Celkem")
+	, statZero("statZero", L"Nulové otáčky")
+	, statFS("statFS", L"Free spiny")
+	, statSwing("statSwing", L"Houpačka")
 	, temperature(1)
-	, modeFS(false)
-	, modeSwing(false)
+	, modeFS(Basic)
+	, modeSwing(Basic)
 	, remainingFScount(0)
+	, partialWin(0)
 {
 	this->stats.push_back(&this->statBasic);
 	this->stats.push_back(&this->statTotal);
+	this->stats.push_back(&this->statZero);
+	this->stats.push_back(&this->statFS);
+	this->stats.push_back(&this->statSwing);
 }
 
 void GameCocktail::load()
@@ -37,23 +44,53 @@ void GameCocktail::updateStats()
 {
 	Window* pHighlight = NULL;
 	if (this->isInteractive)
-	{
+	{	
 		this->highlightReset();
 		pHighlight = &this->highlight;
 	}
 	int winBasic = this->winCalc.crissCrossWin(this->window, pHighlight) * this->temperature;
 	int lastWinAmount = winBasic;
 	
-	this->statBasic.addData(winBasic);
-	this->statTotal.addData(lastWinAmount);
-	this->addNewWin(lastWinAmount, this->modeSwing || this->modeFS);
+	if ((this->modeSwing != End) && (this->modeFS != End) && (this->modeFS != InProcess))
+		this->statBasic.addData(winBasic);
+
+	int FSwin = this->partialWin * (this->modeFS == End?1:0);	
+	int swingwin = this->partialWin * ((this->modeSwing == End) && (this->modeFS == Basic)?1:0);
+
+	this->partialWin += lastWinAmount;
+
+	if (
+		((this->modeSwing == End) && (this->modeFS == Basic))
+		|| ((this->modeFS == End))
+		|| (((this->modeFS == Basic)) && (this->modeSwing == Basic))
+		)
+	{
+		this->statTotal.addData(this->partialWin);
+		this->statFS.addData(FSwin);
+		this->statSwing.addData(swingwin);
+		if (this->partialWin == 0)
+			this->statZero.addData(1);
+		else
+			this->statZero.addData(0);
+		this->partialWin = 0;
+	}
+
+	this->addNewWin(lastWinAmount, (this->modeSwing == End) || (this->modeFS == InProcess) || (this->modeFS == End));
 }
 
 void GameCocktail::spin()
 {
-	if (!this->modeSwing)
+	if (this->modeSwing == End)
+		this->modeSwing = Basic;
+
+	if (this->modeFS == End)
+		this->modeFS = Basic;
+	if (this->modeFS == Begin)
+		this->modeFS = InProcess;
+
+	if (this->modeSwing == Basic)
 	{
-		if (this->modeFS)
+		if (this->modeFS != Basic)
 			this->remainingFScount--;
 		this->reelSetMain.spin(&this->window);
 		this->windowReady = true;
@@ -78,21 +115,22 @@ void GameCocktail::spin()
 				}
 			}
 			if (replaceSomeReel)
-				this->modeSwing = true;
+				this->modeSwing = Begin;
 		}
 		else
-			this->modeSwing = false;
+			this->modeSwing = Basic;
 		if ((this->getLastWinAmount() > 0) && (!this->isFreeSpinMode()))
 			this->temperatureUp();
 		else
 			this->temperatureReset();
 		if ((this->window.getSymbol(0, 1) == 8) && (this->window.getSymbol(4, 1) == 8))
 		{
-			this->modeFS = true;
+			if (this->modeFS == Basic)
+				this->modeFS = Begin;
 			this->remainingFScount += 10;
 		}
-		if (this->remainingFScount <= 0)
-			this->modeFS = false;
+		if ((this->modeFS == InProcess) && (this->remainingFScount <= 0) && (this->modeSwing != Begin))
+			this->modeFS = End;
 	}
 	else
 	{
@@ -116,7 +154,9 @@ void GameCocktail::spin()
 					this->window.setSymbol(i, j, newWindow.getSymbol(i, j));
 			}
 		}
-		this->modeSwing = false;
+		this->modeSwing = End;
+		if ((this->modeFS == InProcess) && (this->remainingFScount <= 0))
+			this->modeFS = End;
 	}
 }
 
