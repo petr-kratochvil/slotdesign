@@ -8,8 +8,7 @@
 class GameCocktail : public Game
 {
 	enum GameMode {
-		Basic,
-		Begin,
+		No,
 		InProcess,
 		End
 	};
@@ -22,13 +21,19 @@ class GameCocktail : public Game
 	int remainingFScount; // count of remaining free spins in a FS series
 	int partialWin; // part of the one-spin win (sum of subsequent respins)
 
+	// returns true if there is at least one reel to spin because od the swing
+	// i.e. the swing symbol does not form a 5-in-a-line win
+	bool isSwingApplicable();
+	// spins the specific reels to complete the swing
+	void GameCocktail::applySwing();
+
 public:
 	GameCocktail();
 	void load();
 	std::string getRSVersion() const;
 	int getTemperature() const { return this->temperature; }
-	bool isSwingMode() const { return this->modeSwing == Begin; }
-	bool isFreeSpinMode() {	return this->modeFS != Basic; }
+	bool isSwingMode() const { return this->modeSwing == InProcess; }
+	bool isFreeSpinMode() {	return this->modeFS == InProcess; }
 	int getFreeSpinsRemaining() { return this->remainingFScount; }
 
 private:
