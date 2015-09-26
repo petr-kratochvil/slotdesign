@@ -18,7 +18,7 @@ GameCocktail::GameCocktail()
 	this->stats.push_back(&this->statBasic);
 	this->stats.push_back(&this->statTotal);
 	this->stats.push_back(&this->statZero);
-	this->stats.push_back(&this	->statFS);
+	this->stats.push_back(&this->statFS);
 	this->stats.push_back(&this->statSwing);
 }
 
@@ -50,7 +50,7 @@ void GameCocktail::updateStats()
 	}
 	int winBasic = this->winCalc.crissCrossWin(this->window, pHighlight) * this->temperature;
 	
-	if ((this->modeSwing != End) && (this->modeFS == No))
+	if ((this->modeSwing != End) && ((this->modeFS == No) || (this->modeFS == BeginsNext)))
 		this->statBasic.addData(winBasic);
 
 	int FSwin = this->partialWin * (this->modeFS == End?1:0);	
@@ -130,6 +130,8 @@ void GameCocktail::spin()
 	if (this->modeSwing == End)
 		this->modeSwing = No;
 
+	if (this->modeFS == BeginsNext)
+		this->modeFS = InProcess;
 	if (this->modeFS == End)
 		this->modeFS = No;
 
@@ -152,16 +154,16 @@ void GameCocktail::spin()
 			this->modeSwing = No;
 
 		// Temperature
-		if ((this->getLastWinAmount() > 0) && (!this->isFreeSpinMode()))
+	/*	if ((this->getLastWinAmount() > 0) && (!this->isFreeSpinMode()))
 			this->temperatureUp();
 		else
-			this->temperatureReset();
+			this->temperatureReset();*/
 
 		// Free spins
 		if ((this->window.getSymbol(0, 1) == 8) && (this->window.getSymbol(4, 1) == 8))
 		{
 			if (this->modeFS == No)
-				this->modeFS = InProcess;
+				this->modeFS = BeginsNext;
 			this->remainingFScount += 10;
 		}
 		if ((this->modeFS == InProcess) && (this->remainingFScount <= 0) && (this->modeSwing != InProcess))

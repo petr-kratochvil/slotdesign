@@ -9,6 +9,7 @@ class GameCocktail : public Game
 {
 	enum GameMode {
 		No,
+		BeginsNext,
 		InProcess,
 		End
 	};
