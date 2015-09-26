@@ -60,10 +60,14 @@ void GameCocktail::updateStats()
 		this->statBasicThermo.addData(winBasic - winBasic / this->temperature);
 	}
 
-	int FSwin = this->partialWin * (this->modeFS == End?1:0);	
-	int swingwin = winBasic * ((this->modeSwing == End) && (this->modeFS == No)?1:0);
-
 	this->partialWin += winBasic;
+
+static int fsStartWin = 0;
+	if (this->modeFS == BeginsNext)
+		fsStartWin = winBasic;
+
+	int FSwin = (this->partialWin - fsStartWin) * (this->modeFS == End?1:0);	
+	int swingwin = winBasic * (((this->modeSwing == End) && (this->modeFS == No))?1:0);
 
 	if (
 		((this->modeSwing == End) && (this->modeFS == No)) // End of swing
