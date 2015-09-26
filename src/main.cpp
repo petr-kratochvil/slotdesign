@@ -9,7 +9,7 @@ int main()
 	game->load();
 	game->isInteractive = false;
 
-	long long spinCount = 1e6;
+	long long spinCount = 1e7;
 
 	printf("Probiha simulace 10^%d otacek, verze valce %s:\n"
 			, int(ceil(log(double(spinCount))/log(10.0)))

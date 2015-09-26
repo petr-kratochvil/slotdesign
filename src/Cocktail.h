@@ -15,7 +15,7 @@ class GameCocktail : public Game
 	};
 	ReelSet reelSetMain;
 	WinCalculator winCalc;
-	StatItem statBasic, statTotal, statZero, statFS, statSwing;
+	StatItem statBasic, statTotal, statZero, statFS, statSwing, statBasicThermo, statSwingThermo;
 	int temperature;
 	GameMode modeFS;	// next spin is part of Freespin series
 	GameMode modeSwing;	// next spin is a respin caused by the swing

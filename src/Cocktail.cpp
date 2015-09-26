@@ -9,6 +9,8 @@ GameCocktail::GameCocktail()
 	, statZero("statZero", L"Nulové otáčky")
 	, statFS("statFS", L"Free spiny")
 	, statSwing("statSwing", L"Houpačka")
+	, statBasicThermo("statBasicThermo", L"Teploměr základ")
+	, statSwingThermo("statSwingThermo", L"Teploměr houpačka")
 	, temperature(1)
 	, modeFS(No)
 	, modeSwing(No)
@@ -20,6 +22,8 @@ GameCocktail::GameCocktail()
 	this->stats.push_back(&this->statZero);
 	this->stats.push_back(&this->statFS);
 	this->stats.push_back(&this->statSwing);
+	this->stats.push_back(&this->statBasicThermo);
+	this->stats.push_back(&this->statSwingThermo);
 }
 
 void GameCocktail::load()
@@ -51,7 +55,10 @@ void GameCocktail::updateStats()
 	int winBasic = this->winCalc.crissCrossWin(this->window, pHighlight) * this->temperature;
 	
 	if ((this->modeSwing != End) && ((this->modeFS == No) || (this->modeFS == BeginsNext)))
-		this->statBasic.addData(winBasic);
+	{
+		this->statBasic.addData(winBasic / this->temperature);
+		this->statBasicThermo.addData(winBasic - winBasic / this->temperature);
+	}
 
 	int FSwin = this->partialWin * (this->modeFS == End?1:0);	
 	int swingwin = winBasic * ((this->modeSwing == End) && (this->modeFS == No)?1:0);
@@ -66,7 +73,8 @@ void GameCocktail::updateStats()
 	{
 		this->statTotal.addData(this->partialWin);
 		this->statFS.addData(FSwin);
-		this->statSwing.addData(swingwin);
+		this->statSwing.addData(swingwin / this->temperature);
+		this->statSwingThermo.addData(swingwin - swingwin / this->temperature);
 		if (this->partialWin == 0)
 			this->statZero.addData(1);
 		else
@@ -152,12 +160,12 @@ void GameCocktail::spin()
 		}
 		else
 			this->modeSwing = No;
-
+			
 		// Temperature
-	/*	if ((this->getLastWinAmount() > 0) && (!this->isFreeSpinMode()))
+		if ((this->getLastWinAmount() > 0) && (!this->isFreeSpinMode()))
 			this->temperatureUp();
 		else
-			this->temperatureReset();*/
+			this->temperatureReset();
 
 		// Free spins
 		if ((this->window.getSymbol(0, 1) == 8) && (this->window.getSymbol(4, 1) == 8))
