@@ -6,6 +6,7 @@
 // Global settings of constants
 // This should probably became part of class Game,
 // but as long as we are simulating one game at a time, it can stay simly here.
+// test
 class Settings
 {
 public:
