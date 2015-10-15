@@ -1,6 +1,8 @@
 #ifndef SETTINGS_HPP
 #define SETTINGS_HPP
 
+#include <algorithm>
+
 #undef max
 
 // Global settings of constants
