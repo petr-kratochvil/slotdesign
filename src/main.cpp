@@ -3,6 +3,9 @@
 #include "Cocktail.h"
 #include "Random.h"
 
+
+// test2
+
 int main()
 {
 	Game *game = new GameCocktail();

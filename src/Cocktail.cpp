@@ -182,6 +182,7 @@ void GameCocktail::spin()
 			this->modeFS = End;
 	}
 	// swing or FS-swing mode
+	//test2
 	else
 	{
 		this->applySwing();
