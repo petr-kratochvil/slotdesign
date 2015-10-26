@@ -1,5 +1,5 @@
 ﻿#include "Cocktail.h"
-
+//test Commit
 GameCocktail::GameCocktail()
 	: Game(9, 5, 3, "Cocktail", "0")
 	, winCalc(9, 5, 3)
